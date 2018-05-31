@@ -1,0 +1,32 @@
+image: node:8
+
+cache:
+  paths:
+    - node_modules/ # Node modules and dependencies
+test:
+  stage: test
+  script:
+    - npm i npm@latest -g
+    - npm install
+    - npm run build
+    - npm run lint
+  only:
+    - master
+
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - npm install
+  - npm i @webcomponents/webcomponentsjs
+  - npm i file:./packages/fhir-period
+  - npm run build
+  - npm i -g webpack
+  - webpack --config ./webpack.config.js
+  - cp -r * .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

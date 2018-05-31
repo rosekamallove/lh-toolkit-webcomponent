@@ -1,6 +1,10 @@
 # LibreHealth Toolkit Web Components
 
+
 > :warning: These components are still a work in progress. Elements are NOT available on NPM Registry. We are working on the remaining elements and publish them to the NPM registry once we have a first working version. :warning:
+
+[![pipeline status](https://gitlab.com/librehealth/lh-toolkit-webcomponents/badges/master/pipeline.svg)](https://gitlab.com/librehealth/lh-toolkit-webcomponents/commits/master)
+
 
 The LibreHealth Toolkit Web Components implement [FHIR Resources](http://hl7.org/fhir) and GET/POST data using FHIR payload structures using [web components](https://developer.mozilla.org/en-US/docs/Web/Web_Components). We also have custom elements that are used by other elements and are then used by elements that implement FHIR Resources.
 
@@ -94,7 +98,7 @@ To compile the component SASS run:
 ## Useful Links
 
 - [All Components](packages/)
-- [Demos](https://librehealth.github.io/toolkit/lh-toolkit-webcomponents/index.html)
+- [Demos](https://librehealth.github.io/lh-toolkit-webcomponents/index.html)
 - [Contributing](CONTRIBUTING.md)
 
 ## Browser Support
