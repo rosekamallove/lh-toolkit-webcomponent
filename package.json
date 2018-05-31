@@ -1,0 +1,23 @@
+{
+  "name": "lh-toolkit-webcomponents",
+  "description": "The FHIR webcomponents based on HTML custom elements",
+  "license": "MPL-2.0",
+  "scripts": {
+    "start": "polymer serve",
+    "build": "polymer build",
+    "lint": "polymer lint",
+    "test": "polymer test",
+    "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "dependencies": {
+    "@lh-toolkit/fhir-period": "file:./packages/fhir-period",
+    "moment": "2.18.1"
+  },
+  "devDependencies": {
+    "polymer-cli": "^1.7.1",
+    "wct-browser-legacy": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=8.0"
+  }
+}

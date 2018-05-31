@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>fhir-period</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script type="module" src="../../node_modules/@polymer/polymer/polymer-legacy.js"></script>
+    <script type="module" src="../../node_modules/@polymer/polymer/lib/elements/dom-bind.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-period/fhir-period.js"></script>
+    <script type="module"></script>
+
+</head>
+<body>
+<test-fixture id="DefaultView">
+    <template>
+        <fhir-period></fhir-period>
+    </template>
+</test-fixture>
+
+<test-fixture id="DefaultViewWithData">
+    <template>
+        <dom-bind>
+            <template>
+                <fhir-period period=[[period]]></fhir-period>
+            </template>
+        </dom-bind>
+    </template>
+</test-fixture>
+
+<test-fixture id="EndTimeView">
+    <template>
+        <dom-bind>
+            <template>
+                <fhir-period end period=[[period]]></fhir-period>
+            </template>
+        </dom-bind>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import patient from '../testResources/patient2.js';
+    import moment from 'moment';
+
+    suite('fhir-period attribute tests', function () {
+        test('default view with current datetime should be shown', function () {
+            let fhirPeriod = fixture('DefaultView');
+            let startTime = fhirPeriod.shadowRoot.querySelector('.startField').value;
+            assert.equal(startTime, moment().format('YYYY-MM-DDTHH:mm:ss'));
+        });
+        test('default view should NOT show endField', function () {
+            let fhirPeriod = fixture('DefaultView');
+            assert.equal(fhirPeriod.querySelector('.endField'), null);
+        });
+        test('default view with data should show correct datetime', function (done) {
+            let fhirPeriod = fixture('DefaultViewWithData');
+            fhirPeriod.set('period', JSON.stringify(patient.address[0].period));
+            flush(function () {
+                let startTime = document.querySelector('fhir-period').shadowRoot.querySelector('.startField').value;
+                assert.equal(startTime, '1974-12-25T00:00:00');
+                done();
+            });
+        });
+        test('default view with data should NOT show endField', function (done) {
+            let fhirPeriod = fixture('DefaultViewWithData');
+            fhirPeriod.set('period', JSON.stringify(patient.address[0].period));
+            flush(function () {
+                assert.equal(document.querySelector('fhir-period').shadowRoot.querySelector('.endField'), null);
+                done();
+            });
+        });
+        test('end time view with data should show correct datetime in endField', function (done) {
+            let fhirPeriod = fixture('EndTimeView');
+            fhirPeriod.set('period', JSON.stringify(patient.address[0].period));
+            flush(function () {
+                let endTime = document.querySelector('fhir-period').shadowRoot.querySelector('.endField').value;
+                assert.equal(endTime, '2018-01-01T00:00:00');
+                done();
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
