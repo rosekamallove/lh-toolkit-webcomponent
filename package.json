@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@lh-toolkit/fhir-period": "file:./packages/fhir-period",
+    "@lh-toolkit/fhir-human-name": "file:./packages/fhir-human-name",
+    "@material/mwc-textfield": "file:./material-components-web-components/packages/textfield",
+    "@material/mwc-base": "file:./material-components-web-components/packages/base",
     "moment": "2.18.1"
   },
   "devDependencies": {

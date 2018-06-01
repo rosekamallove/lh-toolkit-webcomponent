@@ -1,0 +1,133 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-human-name</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-human-name/fhir-human-name.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElemnt">
+    <template>
+        <fhir-human-name url="/load_patient_data"></fhir-human-name>
+    </template>
+</test-fixture>
+
+<test-fixture id="MiddleName">
+    <template>
+        <fhir-human-name mName url="/load_patient_data"></fhir-human-name>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import patient2 from '../../test/testResources/patient2.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var name;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient2)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+        suite('fhir-human-name tests', function () {
+            setup(function () {
+
+            });
+
+            test('Firstname should be loaded from given name field', function (done) {
+                var name = fixture('DefaultElemnt');
+                name.addEventListener('iron-ajax-response', function () {
+                    var firstName = name.shadowRoot.querySelector('.fName').value;
+                    assert.equal(firstName, 'Hồng,Nam');
+                    assert.notEqual(firstName, 'Trần');
+                    assert.notEqual(firstName, 'Hồng');
+                    done();
+                });
+            });
+
+            test('Middlename should be shown in its own field if true', function (done) {
+                var name = fixture('MiddleName');
+                name.addEventListener('iron-ajax-response', function () {
+                    var middleName = name.shadowRoot.querySelector('.mName').value;
+                    if (name.mName) {
+                        assert.notEqual(middleName, 'Hồng,Nam');
+                    } else {
+                        assert.equal(middleName, 'Hồng,Nam');
+                    }
+                    done();
+                });
+            });
+            test('Lastname should be loaded from family name field', function (done) {
+                var name = fixture('DefaultElemnt');
+                name.addEventListener('iron-ajax-response', function () {
+                    var lastName = name.shadowRoot.querySelector('.lName').value;
+                    assert.equal(lastName, 'Trần');
+                    assert.notEqual(lastName, 'Nam');
+                    assert.notEqual(lastName, 'Hồng');
+                    done();
+                });
+            });
+            test('Use should be loaded from given use field', function (done) {
+                var name = fixture('DefaultElemnt');
+                name.addEventListener('iron-ajax-response', function () {
+                    var use = name.shadowRoot.querySelector('.useField').value;
+                    assert.equal(use, 'usual');
+                    assert.notEqual(use, 'Nam');
+                    assert.notEqual(use, 'Hồng');
+                    done();
+                });
+            });
+            test('Suffix should be loaded from suffix of name field', function (done) {
+                var name = fixture('DefaultElemnt');
+                name.addEventListener('iron-ajax-response', function () {
+                    var suffix = name.shadowRoot.querySelector('.suffixField').value;
+                    assert.equal(suffix, '');
+                    assert.notEqual(suffix, 'Jr');
+                    assert.notEqual(suffix, 'Sr');
+                    done();
+                });
+            });
+            test('Prefix should be loaded from prefix name field', function (done) {
+                var name = fixture('DefaultElemnt');
+                name.addEventListener('iron-ajax-response', function () {
+                    var prefix = name.shadowRoot.querySelector('.prefixField').value;
+                    assert.equal(prefix, '');
+                    assert.notEqual(prefix, 'Jr');
+                    assert.notEqual(prefix, 'Sr');
+                    done();
+                });
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

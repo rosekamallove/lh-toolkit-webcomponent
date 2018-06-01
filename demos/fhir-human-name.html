@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-human-name>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-human-name/fhir-human-name.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element</h1>
+<fhir-human-name url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-human-name>
+</p>
+<p>
+<h1>Default element with middle name</h1>
+<fhir-human-name mName url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-human-name>
+</p>
+<p>
+<h1>Default element with period</h1>
+<fhir-human-name periodField url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-human-name>
+</p>
+</body>
+</html>
