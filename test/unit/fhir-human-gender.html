@@ -1,0 +1,94 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-human-gender</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-human-gender/fhir-human-gender.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-human-gender url="/load_patient_data"></fhir-human-gender>
+    </template>
+</test-fixture>
+
+
+<script type="module">
+    import patient2 from '../../test/testResources/patient2.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var humanGender;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient2)
+                ]
+            );
+        });
+        suite('fhir-human-gender tests', function () {
+            setup(function () {
+                humanGender = fixture('DefaultElement');
+            });
+            test('Correct gender male is checked ', function (done) {
+                humanGender.addEventListener('iron-ajax-response', function () {
+                    var gender = humanGender.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                    assert.equal(gender, true);
+                    assert.notEqual(gender, false);
+                    done();
+                });
+            });
+            test('Female option in gender not checked ', function (done) {
+                humanGender.addEventListener('iron-ajax-response', function () {
+                    var gender1 = humanGender.shadowRoot.querySelectorAll('mwc-radio')[1].checked;
+                    assert.equal(gender1, false);
+                    assert.notEqual(gender1, undefined);
+                    done();
+                });
+            });
+            test('Other option in gender not checked ', function (done) {
+                humanGender.addEventListener('iron-ajax-response', function () {
+                    var gender2 = humanGender.shadowRoot.querySelectorAll('mwc-radio')[2].checked;
+                    assert.equal(gender2, false);
+                    assert.notEqual(gender2, undefined);
+                    done();
+                });
+            });
+            test('Unknown option in gender not checked ', function (done) {
+                humanGender.addEventListener('iron-ajax-response', function () {
+                    var gender3 = humanGender.shadowRoot.querySelectorAll('mwc-radio')[3].checked;
+                    assert.equal(gender3, false);
+                    assert.notEqual(gender3, undefined);
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
