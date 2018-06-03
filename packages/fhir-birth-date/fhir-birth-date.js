@@ -9,7 +9,7 @@
  * In typical use, just use `<fhir-birth-date url=""></fhir-birth-date>`
  * @customElement
  * @polymer
- * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-decease-status.html
+ * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-birth-date.html
  *
  */
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';
