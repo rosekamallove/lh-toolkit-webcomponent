@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-decease-status>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-decease-status/fhir-decease-status.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-decease-status></fhir-decease-status>
+</p>
+<p>
+<p>
+<h1>Default element without passing url with periodField</h1>
+<fhir-decease-status periodField></fhir-decease-status>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed - patient data has decease:false and hence not checked below</h1>
+<fhir-decease-status url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-decease-status>
+</p>
+</body>
+</html>

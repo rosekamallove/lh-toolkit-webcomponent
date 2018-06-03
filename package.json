@@ -13,6 +13,7 @@
     "@lh-toolkit/fhir-period": "file:./packages/fhir-period",
     "@lh-toolkit/fhir-human-name": "file:./packages/fhir-human-name",
     "@lh-toolkit/fhir-active-status": "file:./packages/fhir-active-status",
+    "@lh-toolkit/fhir-decease-status": "file:./packages/fhir-decease-status",
     "@material/mwc-textfield": "file:./material-components-web-components/packages/textfield",
     "@material/mwc-formfield": "file:./material-components-web-components/packages/formfield",
     "@material/mwc-checkbox": "file:./material-components-web-components/packages/checkbox",
