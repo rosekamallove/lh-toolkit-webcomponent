@@ -15,6 +15,7 @@
     "@lh-toolkit/fhir-active-status": "file:./packages/fhir-active-status",
     "@lh-toolkit/fhir-decease-status": "file:./packages/fhir-decease-status",
     "@lh-toolkit/fhir-human-gender": "file:./packages/fhir-human-gender",
+    "@lh-toolkit/fhir-birth-date": "file:./packages/fhir-birth-date",
     "@material/mwc-textfield": "file:./material-components-web-components/packages/textfield",
     "@material/mwc-formfield": "file:./material-components-web-components/packages/formfield",
     "@material/mwc-checkbox": "file:./material-components-web-components/packages/checkbox",

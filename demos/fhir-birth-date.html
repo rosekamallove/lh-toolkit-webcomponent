@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-birth-date>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-birth-date/fhir-birth-date.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-birth-date></fhir-birth-date>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed for patient 2</h1>
+<fhir-birth-date url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-birth-date>
+</p>
+</body>
+</html>

@@ -29,7 +29,7 @@ class FhirDeceaseStatus extends LitElement {
             url: String
         }
     }
-    /**default value of properties set in constructor*/
+
     constructor() {
         super();
         this.deceaseStatus = true;
@@ -62,5 +62,4 @@ class FhirDeceaseStatus extends LitElement {
 `;
     }
 }
-
 window.customElements.define('fhir-decease-status', FhirDeceaseStatus);
