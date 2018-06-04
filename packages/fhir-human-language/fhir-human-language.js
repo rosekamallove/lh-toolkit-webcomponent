@@ -13,8 +13,9 @@
  *
  */
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-textfield/mwc-textfield.js';
-import '@material/mwc-switch/mwc-switch.js'
+import '@material/mwc-checkbox/mwc-checkbox.js'
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirHumanLanguage extends LitElement {
@@ -72,7 +73,7 @@ class FhirHumanLanguage extends LitElement {
      <div>
      <label>COMMUNICATION:</label>
      ${langField ? html`<mwc-textfield outlined class="langField" label="Language"></mwc-textfield>` : ''}
-     ${prefField ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-switch id ="pref" class="prefField" value="true"></mwc-switch></mwc-formfield>` : ''}
+     ${prefField ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox id ="pref" class="prefField" value="true"></mwc-checkbox></mwc-formfield>` : ''}
      </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
      
