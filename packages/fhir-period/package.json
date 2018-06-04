@@ -11,7 +11,8 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.1"
+    "@polymer/lit-element": "^0.5.1",
+    "moment": "2.18.1"
   },
   "publishConfig": {
     "access": "public"

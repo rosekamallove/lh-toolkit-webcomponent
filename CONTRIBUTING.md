@@ -5,11 +5,11 @@ https://gitlab.com/librehealth/lsc/community-governance/blob/master/CODE-OF-COND
 and welcoming environment for contributors.
 
 ## Logistics
-### Communicating with the Polymer team
+### Communicating with the LibreHealth team
 Beyond this Gitlab repo, we have a variety of communication channels:
 * [Forums](https://forums.librehealth.io/)
 * [Chat](https://chat.librehealth.io/channel/dev)
-* [Twitter](https://twitter.com/polymer)
+* [Twitter](https://twitter.com/LibreHealthIO)
 
 ### The Webcomponents Repository
 The LibreHealth Toolkit will be providing the re-usable HTML elements that can communicate with a FHIR server to enable
@@ -102,13 +102,13 @@ Navigate to:
 ### Running lh-toolkit-webcomponents element unit tests
 
 To run the element unit tests, you need a global install of `web-component-tester` or `polymer-cli` (or both). This can
-be done using `npm i -g polymer-cli`
+be done using `npm i -g polymer-cli`. Install yarn and lerna using - `npm i -g yarn lerna`
 
 1. Clone the element repo.
 
 1. Install the dependencies.
 
-       bower install
+       lerna bootstrap --use-workspaces
 
 1. Run the tests:
 

@@ -4,6 +4,7 @@ node_modules
 /coverage
 .DS_Store
 /lerna-debug.log
+/yarn.lock
 /gh-pages
 *.iml
 
