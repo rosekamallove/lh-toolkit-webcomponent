@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-marital-status>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-marital-status/fhir-marital-status.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-marital-status></fhir-marital-status>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed-patient2. As patient2 doesnt have data regarding marital status, this component is removed from page. Its a behaviour given to component.</h1>
+<fhir-active-status url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-active-status>
+</p>
+</body>
+</html>

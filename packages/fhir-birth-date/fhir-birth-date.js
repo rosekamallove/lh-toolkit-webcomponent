@@ -5,7 +5,7 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-birth-date>` adds checkbox to the page. Uses input tupe date in mm/dd/yyyy format
+ * `<fhir-birth-date>` adds input date to the page. Uses input tupe date in mm/dd/yyyy format
  * In typical use, just use `<fhir-birth-date url=""></fhir-birth-date>`
  * @customElement
  * @polymer
