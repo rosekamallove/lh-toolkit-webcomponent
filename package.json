@@ -38,6 +38,7 @@
     "@lh-toolkit/fhir-person-identifier": "file:./packages/fhir-person-identifier",
     "@lh-toolkit/fhir-human-address": "file:./packages/fhir-human-address",
     "@lh-toolkit/fhir-human-language": "file:./packages/fhir-human-language",
+    "@lh-toolkit/fhir-human-contact": "file:./packages/fhir-human-contact",
     "@material/mwc-textfield": "file:./material-components-web-components/packages/textfield",
     "@material/mwc-formfield": "file:./material-components-web-components/packages/formfield",
     "@material/mwc-checkbox": "file:./material-components-web-components/packages/checkbox",

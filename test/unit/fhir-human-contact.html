@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-human-contact</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-human-contact/fhir-human-contact.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-human-contact url="/load_patient_data"></fhir-human-contact>
+    </template>
+</test-fixture>
+
+
+
+<script type="module">
+    import patient2 from '../../test/testResources/patient2.js';
+    suite('<iron-ajax>', function() {
+        var ajax;
+        var request;
+        var server;
+        var contact;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET',/\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient2)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+    suite('fhir-human-contact tests', function () {
+        setup(function () {
+            contact = fixture('DefaultElement');
+        });
+
+        test('System field displayed correctly', function (done) {
+            contact.addEventListener('iron-ajax-response', function () {
+                var use = contact.shadowRoot.querySelector('.systemField').value;
+                assert.equal(use, "phone");
+                assert.notEqual(use, "734 483 8464");
+                done();
+            });
+        });
+
+        test('UseField displayed correctly', function (done) {
+            contact.addEventListener('iron-ajax-response', function () {
+                var type = contact.shadowRoot.querySelector('.useField').value;
+                assert.equal(type, "home");
+                assert.notEqual(type, "734 483 8464");
+                assert.notEqual(type, "phone");
+                    done();
+                });
+            });
+        test('Contact Number is displayed correctly', function (done) {
+            contact.addEventListener('iron-ajax-response', function () {
+                var cont = contact.shadowRoot.querySelector('.contNumb').value;
+                assert.equal(cont, "734 483 8464");
+                assert.notEqual(cont, "phone");
+                assert.notEqual(cont, "both");
+                assert.notEqual(cont, "home");
+                done();
+            });
+        });
+        test('Rank is displayed correctly', function (done) {
+
+            contact.addEventListener('iron-ajax-response', function () {
+                var rank = contact.shadowRoot.querySelector('.rankVal').value;
+                assert.equal(rank, "1");
+                assert.notEqual(rank, "2");
+                assert.notEqual(rank, "both");
+                assert.notEqual(rank, "phone");
+                done();
+            });
+        });
+    });
+    });
+</script>
+</body>
+</html>
