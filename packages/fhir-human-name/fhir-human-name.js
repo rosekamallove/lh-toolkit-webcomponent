@@ -18,7 +18,7 @@ import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirHumanName extends LitElement {
-   /**function to check if object is undefined. If undefined show blank else returns obj value*/
+    /**function to check if object is undefined. If undefined show blank else returns obj value*/
     static undefinedToBlank(obj) {
         if (obj == undefined) {
             return '';
@@ -45,10 +45,13 @@ class FhirHumanName extends LitElement {
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
             periodField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Array
         }
     }
-/**default value of properties set in constructor*/
+
+    /**default value of properties set in constructor*/
     constructor() {
         super();
         this.useField = true;
@@ -58,45 +61,64 @@ class FhirHumanName extends LitElement {
         this.mName = false;
         this.lName = true;
         this.periodField = false;
+        this.value = [];
     }
-/**_didRender() delivers only after _render*/
+
+    _setValue() {
+        let data;
+        if (typeof(this.value) == "string") {
+            data = JSON.parse(this.value);
+        } else {
+            data = this.value;
+        }
+        if (data.length != 0) {
+            var i = 0;
+            for (let val of data) {
+                var child = this.shadowRoot.childNodes[1];
+                if (i > 0) {
+                    child = this.shadowRoot.childNodes[1].cloneNode(true);
+                    this.shadowRoot.appendChild(child);
+                }
+                child.querySelectorAll('.useField')[0].value = data[i].use;
+                child.querySelectorAll('.suffixField')[0].value = FhirHumanName.undefinedToBlank(data[i].suffix);
+                child.querySelectorAll('.prefixField')[0].value = FhirHumanName.undefinedToBlank(data[i].prefix);
+                child.querySelectorAll('.fName')[0].value = FhirHumanName.undefinedToBlank(data[i].given);
+                if (child.querySelectorAll('.mName').length != 0) {
+                    child.querySelectorAll('.fName')[0].value = data[i].given[0];
+                    child.querySelectorAll('.mName')[0].value = FhirHumanName.undefinedToBlank(data[i].given[1]);
+                }
+                child.querySelectorAll('.lName')[0].value = FhirHumanName.undefinedToBlank(data[i].family);
+                if (child.querySelectorAll('.periodField').length != 0
+                    && data[i].period != undefined)
+                    child.querySelectorAll('.periodField')[0].period = JSON.stringify(data[i].period);
+                i++;
+            }
+        }
+    }
+
+    /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.name != undefined) {
-                var i = 0;
-                for (let val of e.detail.response.name) {
-                    if (i > 0) {
-                        var child = e.target.parentNode.childNodes[1].cloneNode(true);
-                        e.target.parentNode.appendChild(child);
-                    }
-                    e.target.parentNode.querySelectorAll('.useField')[i].value = e.detail.response.name[i].use;
-                    e.target.parentNode.querySelectorAll('.suffixField')[i].value = FhirHumanName.undefinedToBlank(e.detail.response.name[i].suffix);
-                    e.target.parentNode.querySelectorAll('.prefixField')[i].value = FhirHumanName.undefinedToBlank(e.detail.response.name[i].prefix);
-                    e.target.parentNode.querySelectorAll('.fName')[i].value = FhirHumanName.undefinedToBlank(e.detail.response.name[i].given);
-                    if (e.target.parentNode.querySelectorAll('.mName').length != 0) {
-                        e.target.parentNode.querySelectorAll('.fName')[i].value = e.detail.response.name[i].given[0];
-                        e.target.parentNode.querySelectorAll('.mName')[i].value = FhirHumanName.undefinedToBlank(e.detail.response.name[i].given[1]);
-                    }
-                    e.target.parentNode.querySelectorAll('.lName')[i].value = FhirHumanName.undefinedToBlank(e.detail.response.name[i].family);
-                    if (e.target.parentNode.querySelectorAll('.periodField').length != 0
-                        && e.detail.response.name[i].period != undefined)
-                        e.target.parentNode.querySelectorAll('.periodField')[i].period = JSON.stringify(e.detail.response.name[i].period);
-                    i++;
-                }
+                this.parentNode.host.value = e.detail.response.name;
+                this.parentNode.host._setValue();
             }
             else if (e.detail.response.name == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url && this.value) {
+            this._setValue();
+        }
     }
 
-    _render({useField, suffixField, fName, mName, lName, periodField, url, prefixField}) {
+    _render({useField, suffixField, fName, mName, lName, periodField, url, prefixField, value}) {
         return html`
-   <div> 
-   <label>NAME:</label> 
+   <div>
+   <label>NAME:</label>
    ${useField ? html`
      <label>Use:</label>
-     <select class="useField">
+     <select class="useField" on-change="${e => this.value.use = e.target.value}">
          <option value="usual">Usual</option>
          <option value="official">Official</option>
          <option value="temp">Temporary</option>
@@ -105,13 +127,13 @@ class FhirHumanName extends LitElement {
          <option value="old">Old</option>
          <option value="maiden">Maiden</option>
      </select>` : ''}
-     ${prefixField ? html`<mwc-textfield outlined class="prefixField" id="prefix" label="Prefix"></mwc-textfield>` : ''}
-     ${fName ? html`<mwc-textfield outlined class="fName" id="firstname" label="First Name:"></mwc-textfield>` : ''}
-     ${mName ? html`<mwc-textfield outlined class="mName" id="middlename" label="Middle Name:"></mwc-textfield>` : ''}
-     ${lName ? html`<mwc-textfield outlined class="lName" id="lastname" label="Last Name:"></mwc-textfield>` : ''}
+     ${prefixField ? html`<mwc-textfield outlined class="prefixField" on-input="${e => this.value.prefix = e.target._input.value}" id="prefix" label="Prefix"></mwc-textfield>` : ''}
+     ${fName ? html`<mwc-textfield outlined class="fName" on-input="${e => this.value.given = e.target._input.value}" label="First Name:"></mwc-textfield>` : ''}
+     ${mName ? html`<mwc-textfield outlined class="mName" on-input="${e => this.value.given = e.target._input.value}" label="Middle Name:"></mwc-textfield>` : ''}
+     ${lName ? html`<mwc-textfield outlined class="lName" on-input="${e => this.value.family = e.target._input.value}" label="Last Name:"></mwc-textfield>` : ''}
      ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}
-     ${suffixField ? html`<mwc-textfield outlined class="suffixField" id="suffix" label="Suffix"></mwc-textfield>` : ''}
-         </div> 
+     ${suffixField ? html`<mwc-textfield outlined class="suffixField" on-input="${e => this.value.suffix = e.target._input.value}" label="Suffix"></mwc-textfield>` : ''}
+         </div>
          <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `;
     }

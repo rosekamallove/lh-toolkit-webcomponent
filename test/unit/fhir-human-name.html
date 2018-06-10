@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script type="module" src="../../packages/fhir-human-name/fhir-human-name.js"></script>
 </head>
 <body>
-<test-fixture id="DefaultElemnt">
+<test-fixture id="DefaultElement">
     <template>
         <fhir-human-name url="/load_patient_data"></fhir-human-name>
     </template>
@@ -32,6 +23,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <fhir-human-name mName url="/load_patient_data"></fhir-human-name>
     </template>
 </test-fixture>
+
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-human-name id="fhirName" value="[[names]]"></fhir-human-name>
+        </template>
+    </test-fixture>
+</dom-bind>
+
 
 <script type="module">
     import patient2 from '../../test/testResources/patient2.js';
@@ -57,15 +57,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         teardown(function () {
             server.restore();
         });
+
         suite('fhir-human-name tests', function () {
-            setup(function () {
-
-            });
-
             test('Firstname should be loaded from given name field', function (done) {
-                var name = fixture('DefaultElemnt');
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
-                    var firstName = name.shadowRoot.querySelector('.fName').value;
+                    let firstName = name.shadowRoot.querySelector('.fName').value;
                     assert.equal(firstName, 'Hồng,Nam');
                     assert.notEqual(firstName, 'Trần');
                     assert.notEqual(firstName, 'Hồng');
@@ -74,9 +71,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             });
 
             test('Middlename should be shown in its own field if true', function (done) {
-                var name = fixture('MiddleName');
+                let name = fixture('MiddleName');
                 name.addEventListener('iron-ajax-response', function () {
-                    var middleName = name.shadowRoot.querySelector('.mName').value;
+                    let middleName = name.shadowRoot.querySelector('.mName').value;
                     if (name.mName) {
                         assert.notEqual(middleName, 'Hồng,Nam');
                     } else {
@@ -86,9 +83,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 });
             });
             test('Lastname should be loaded from family name field', function (done) {
-                var name = fixture('DefaultElemnt');
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
-                    var lastName = name.shadowRoot.querySelector('.lName').value;
+                    let lastName = name.shadowRoot.querySelector('.lName').value;
                     assert.equal(lastName, 'Trần');
                     assert.notEqual(lastName, 'Nam');
                     assert.notEqual(lastName, 'Hồng');
@@ -96,9 +93,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 });
             });
             test('Use should be loaded from given use field', function (done) {
-                var name = fixture('DefaultElemnt');
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
-                    var use = name.shadowRoot.querySelector('.useField').value;
+                    let use = name.shadowRoot.querySelector('.useField').value;
                     assert.equal(use, 'usual');
                     assert.notEqual(use, 'Nam');
                     assert.notEqual(use, 'Hồng');
@@ -106,9 +103,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 });
             });
             test('Suffix should be loaded from suffix of name field', function (done) {
-                var name = fixture('DefaultElemnt');
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
-                    var suffix = name.shadowRoot.querySelector('.suffixField').value;
+                    let suffix = name.shadowRoot.querySelector('.suffixField').value;
                     assert.equal(suffix, '');
                     assert.notEqual(suffix, 'Jr');
                     assert.notEqual(suffix, 'Sr');
@@ -116,12 +113,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 });
             });
             test('Prefix should be loaded from prefix name field', function (done) {
-                var name = fixture('DefaultElemnt');
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
-                    var prefix = name.shadowRoot.querySelector('.prefixField').value;
+                    let prefix = name.shadowRoot.querySelector('.prefixField').value;
                     assert.equal(prefix, '');
                     assert.notEqual(prefix, 'Jr');
                     assert.notEqual(prefix, 'Sr');
+                    done();
+                });
+            });
+
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('names', JSON.stringify(patient2.name));
+                flush(function () {
+                    let family = document.getElementById('fhirName').shadowRoot.querySelectorAll('.lName')[0].value;
+                    assert.equal(family, "Trần");
+                    assert.notEqual(family, "Hồng");
+                    assert.notEqual(family, "Nam");
                     done();
                 });
             });
