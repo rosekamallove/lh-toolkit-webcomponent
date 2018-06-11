@@ -21,8 +21,8 @@ import moment from 'moment';
 class FhirPeriod extends LitElement {
     static get properties() {
         return {
-            /** The period Object with start and end properties should be in the two fields. If no period is passed, the current datetime is default */
-            period: Object,
+            /** The period Object with start and end properties should be in the two fields. If no value is passed, the current datetime is default */
+            value: Object,
             /** Whether to show the start input field. Default: true */
             start: Boolean,
             /** Whether to show the end input field. Default: false */
@@ -32,18 +32,30 @@ class FhirPeriod extends LitElement {
 
     constructor() {
         super()
-        this.period = '{"start":"' + moment().toISOString() + '", "end": "' + moment().toISOString() + '"}';
+        this.value = '{"start":"' + moment().toISOString() + '", "end": "' + moment().toISOString() + '"}';
         this.start = true;
         this.end = false;
     }
 
-    _render({period, start, end}) {
-        if (JSON.parse(period).start != undefined) {
-            var startDate = moment(JSON.parse(period).start).format('YYYY-MM-DDTHH:mm:ss');
+    _render({value, start, end}) {
+        if (value != undefined) {
+            if (typeof(value) === "string") { // value passed via html as string
+                if (JSON.parse(value).start != undefined) {
+                    var startDate = moment(JSON.parse(value).start).format('YYYY-MM-DDTHH:mm:ss');
+                }
+                if (JSON.parse(value).end != undefined) {
+                    var endDate = moment(JSON.parse(value).end).format('YYYY-MM-DDTHH:mm:ss');
+                }
+            } else if (typeof(value) == "object") { // value passed via js as object
+                if (value.start != undefined) {
+                    var startDate = moment(value.start).format('YYYY-MM-DDTHH:mm:ss');
+                }
+                if (value.end != undefined) {
+                    var endDate = moment(value.end).format('YYYY-MM-DDTHH:mm:ss');
+                }
+            }
         }
-        if (JSON.parse(period).end != undefined) {
-            var endDate = moment(JSON.parse(period).end).format('YYYY-MM-DDTHH:mm:ss');
-        }
+
         return html`
             ${start ? html`Start:<input class="startField" type="datetime-local" value="${startDate}">` : ''}
             ${end ? html`End:<input class="endField" type="datetime-local" value="${endDate}">` : ''}
