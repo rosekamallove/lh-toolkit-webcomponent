@@ -1,14 +1,25 @@
 image: node:8
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+test:
+  stage: test
+  script:
+  - npm i -g npm@latest
+  #should run `polymer test` once configured with SauceLabs
+  only:
+    - master
+
 pages:
   stage: deploy
   script:
-  - mkdir .public
   - npm i -g npm@latest
+  - npm i -g polymer-cli
   - npm i -g yarn lerna
   - lerna bootstrap --use-workspaces
-  - cp -r * .public
-  - mv .public public
+  - polymer build --js-transform-import-meta
+  - mv build/default public
   artifacts:
     paths:
     - public

@@ -1,9 +1,23 @@
 {
-  "entrypoint": "",
+  "entrypoint": "index.html",
   "extraDependencies": [
     "node_modules/@webcomponents/webcomponentsjs/*.js",
     "!node_modules/@webcomponents/webcomponentsjs/gulpfile.js",
     "node_modules/@webcomponents/webcomponentsjs/bundles/*.js"
+  ],
+  "fragments": [
+    "index.html",
+    "demos/fhir-active-status.html",
+    "demos/fhir-birth-date.html",
+    "demos/fhir-decease-status.html",
+    "demos/fhir-human-address.html",
+    "demos/fhir-human-contact.html",
+    "demos/fhir-human-gender.html",
+    "demos/fhir-human-language.html",
+    "demos/fhir-human-name.html",
+    "demos/fhir-marital-status.html",
+    "demos/fhir-period.html",
+    "demos/fhir-person-identifier.html"
   ],
   "builds": [
     {
@@ -14,40 +28,6 @@
       ],
       "js": {
         "minify": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
-    },
-    {
-      "name": "es6-bundled",
-      "browserCapabilities": [
-        "es2015"
-      ],
-      "js": {
-        "minify": true,
-        "transformModulesToAmd": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
-    },
-    {
-      "name": "es5-bundled",
-      "js": {
-        "minify": true,
-        "compile": true,
-        "transformModulesToAmd": true
       },
       "css": {
         "minify": true
