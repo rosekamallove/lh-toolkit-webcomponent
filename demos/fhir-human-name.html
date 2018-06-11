@@ -10,8 +10,13 @@
 </head>
 <body>
 <p>
-<h1>Default element without passing url</h1>
-<fhir-human-name></fhir-human-name>
+<h1>Default element when url is not passed</h1>
+<fhir-human-name url="http://hapi.fhir.org/baseDstu3/Patient/2"></fhir-human-name>
+</p>
+<p>
+<h1>Default element without passing url and passing json manually</h1>
+<fhir-human-name
+        value='[{"use":"usual","family":"Trần","given":["Hồng","Nam"]},{"use":"nickname","given":["Mai"]},{"use":"maiden","family":"Nguyễn","given":["Thị","Mùi"],"period":{"end":"2002"}}]'></fhir-human-name>
 </p>
 <p>
 <p>
