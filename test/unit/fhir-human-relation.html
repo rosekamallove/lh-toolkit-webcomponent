@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-human-relation</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-human-relation/fhir-human-relation.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-human-relation url="/load_patient_data"></fhir-human-relation>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-human-relation id="fhirRelation" value="[[relations]]"></fhir-human-relation>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import patient2 from '../../test/testResources/patient2.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var relation;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient2)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-human-relation tests', function () {
+            setup(function () {
+                relation = fixture('DefaultElement');
+            });
+
+            test('Relation Type is correctly displayed', function (done) {
+                relation.addEventListener('iron-ajax-response', function () {
+                    var select = relation.shadowRoot.querySelector('.relationType').value;
+                    assert.equal(select, "N");
+                    assert.notEqual(select, "CP");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('relations', JSON.stringify(patient2.contact));
+                flush(function () {
+                    let cont = document.getElementById('fhirRelation').shadowRoot.querySelectorAll('.relationType')[0].value;
+                    assert.equal(cont, "N");
+                    assert.notEqual(cont, "B");
+                    assert.notEqual(cont, "1");
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
