@@ -15,6 +15,7 @@
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import moment from 'moment';
 
 class FhirBirthDate extends LitElement {
     static get properties() {
@@ -22,30 +23,43 @@ class FhirBirthDate extends LitElement {
             /**birthDate is used to show persons date of birth. Use this property to show/hide. Default: true */
             birthDate: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Object
         }
     }
 
     constructor() {
         super();
         this.birthDate = true;
+        this.value = {};
+    }
+
+    _setValue() {
+        if (this.value.length != 0) {
+            this.shadowRoot.getElementById('date').value = moment(this.value).format('YYYY-MM-DD') ;
+        }
     }
 
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.birthDate != undefined) {
-                e.target.parentNode.getElementById('date').value = e.detail.response.birthDate;
+                this.parentNode.host.value = e.detail.response.birthDate;
+                this.parentNode.host._setValue();
             }
             else if (e.detail.response.birthDate == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url && this.value) {
+            this._setValue();
+        }
     }
 
-    _render({birthDate, url}) {
+    _render({birthDate, url, value}) {
         return html`
        ${birthDate ? html`<mwc-formfield class="birthDate" alignEnd label="DATE OF BIRTH:">
-         <input id="date" type="date">
+         <input id="date" type="date" on-input="${e => this.value.birthDate = e.target.value}">
        </mwc-formfield>` : ''}
        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
     `;
