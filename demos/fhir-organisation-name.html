@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-organisation-name>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-organisation-name/fhir-organisation-name.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-organisation-name></fhir-organisation-name>
+</p>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-organisation-name value="IU Health"></fhir-organisation-name>
+</p>
+<p>
+<h1>Default element when url is passed</h1>
+<fhir-organisation-name url="http://hapi.fhir.org/baseDstu3/Organization/6969bcac-687e-4c63-b9b4-9c22352829de"></fhir-organisation-name>
+</p>
+</body>
+</html>
