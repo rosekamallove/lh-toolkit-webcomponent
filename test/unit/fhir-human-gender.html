@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +18,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <fhir-human-gender url="/load_patient_data"></fhir-human-gender>
     </template>
 </test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-human-gender id="fhirGender" value="[[genders]]"></fhir-human-gender>
+        </template>
+    </test-fixture>
+</dom-bind>
+
 
 
 <script type="module">
@@ -83,6 +82,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     var gender3 = humanGender.shadowRoot.querySelectorAll('mwc-radio')[3].checked;
                     assert.equal(gender3, false);
                     assert.notEqual(gender3, undefined);
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('genders', patient2.gender);
+                flush(function () {
+                    let gend = document.getElementById('fhirGender').shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                    assert.equal(gend, true);
+                    assert.notEqual(gend, false);
                     done();
                 });
             });
