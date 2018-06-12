@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-human-certification</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-human-certification/fhir-human-certification.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-human-certification url="/load_patient_data"></fhir-human-certification>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-human-certification id="fhirCertificate" value="[[qualifications]]"></fhir-human-certification>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import practitioner from '../../test/testResources/practitioner.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var certificate;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(practitioner)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-human-certification tests', function () {
+            setup(function () {
+                certificate = fixture('DefaultElement');
+            });
+            test('Qualification code is selected correct ', function (done) {
+                certificate.addEventListener('iron-ajax-response', function () {
+                    var code = certificate.shadowRoot.querySelector('.qualificationSelect').value;
+                    assert.equal(code, "MMG");
+                    assert.notEqual(code, "MS");
+                    done();
+                });
+            });
+            test('System Identifier is correct ', function (done) {
+                certificate.addEventListener('iron-ajax-response', function () {
+                    var system = certificate.shadowRoot.querySelector('.systemIdentifier').value;
+                    assert.equal(system, "urn:oid:2.16.840.1.113883.2.9.2.50503.4.15");
+                    assert.notEqual(system, "urn:oid:2.16.840.");
+                    done();
+                });
+            });
+            test('Qualification Identifier is correct ', function (done) {
+                certificate.addEventListener('iron-ajax-response', function () {
+                    var qual = certificate.shadowRoot.querySelector('.qualificationIdentifier').value;
+                    assert.equal(qual, "301_EX113");
+                    assert.notEqual(qual, "314675ERF");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('qualifications', JSON.stringify(practitioner.qualification));
+                flush(function () {
+                    let family = document.getElementById('fhirCertificate').shadowRoot.querySelectorAll('.qualificationIdentifier')[0].value;
+                    assert.equal(family, "301_EX113");
+                    assert.notEqual(family, "MMG");
+                    assert.notEqual(family, "urn:oid:2.16.840.1.113883.2.9.2.50503.4.15");
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
