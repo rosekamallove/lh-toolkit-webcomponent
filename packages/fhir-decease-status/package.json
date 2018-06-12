@@ -15,6 +15,7 @@
     "@material/mwc-checkbox": "file:../../material-components-web-components/packages/checkbox",
     "@material/mwc-base": "file:../../material-components-web-components/packages/base",
     "@material/mwc-formfield": "file:../../material-components-web-components/packages/formfield",
+    "@lh-toolkit/fhir-period": "^0.0.1",
     "@polymer/iron-ajax": "^3.0.0-pre.19"
   },
   "publishConfig": {
