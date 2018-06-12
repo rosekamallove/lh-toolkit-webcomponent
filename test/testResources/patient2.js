@@ -83,6 +83,7 @@ export default {
     "gender": "male",
     "birthDate": "2000-02-10",
     "deceasedBoolean": false,
+    "communication": [{"language":"English", "preferred":"true" }],
     "address": [
         {
             "use": "home",
