@@ -6,7 +6,7 @@
  */
 /**
  * `<fhir-person-identifier>` adds select option and two mwc-textfields to page. Uses mwc-textfield and iron-ajax
- * In typical use, just use `<fhir-decease-status url=""></fhir-decease-status>`
+ * In typical use, just use `<fhir-person-identifier url=""></fhir-person-identifier>`
  * @customElement
  * @polymer
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-person-identifier.html
@@ -39,7 +39,9 @@ class FhirPersonIdentifier extends LitElement {
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
             periodField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Object
         }
     }
 
@@ -49,42 +51,60 @@ class FhirPersonIdentifier extends LitElement {
         this.systemIdentifier = true;
         this.identifierField = true;
         this.periodField = false;
+        this.value = {};
+    }
+
+    _setValue() {
+        let data;
+        if (typeof(this.value) == "string") {
+            data = JSON.parse(this.value);
+        } else {
+            data = this.value;
+        }
+        if (data.length != undefined) {
+            var i = 0;
+            for (let identifier of data) {
+                var child = this.shadowRoot.childNodes[1];
+                if (i > 0) {
+                    var child = this.shadowRoot.childNodes[1].cloneNode(true);
+                    this.shadowRoot.appendChild(child);
+                }
+                child.querySelectorAll('.useField')[0].value = FhirPersonIdentifier.undefinedToBlank(data[i].use);
+                child.querySelectorAll('.systemIdentifier')[0].value = FhirPersonIdentifier.undefinedToBlank(data[i].system);
+                child.querySelectorAll('.identifierField')[0].value = FhirPersonIdentifier.undefinedToBlank(data[i].value);
+                i++;
+            }
+        }
     }
 
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.identifier != undefined) {
-                var i = 0;
-                for (let identifier of e.detail.response.identifier) {
-                    if (i > 0) {
-                        var child = e.target.parentNode.childNodes[1].cloneNode(true);
-                        e.target.parentNode.appendChild(child);
-                    }
-                    e.target.parentNode.querySelectorAll('.useField')[i].value = FhirPersonIdentifier.undefinedToBlank(e.detail.response.identifier[i].use);
-                    e.target.parentNode.querySelectorAll('.systemIdentifier')[i].value = FhirPersonIdentifier.undefinedToBlank(e.detail.response.identifier[i].system);
-                    e.target.parentNode.querySelectorAll('.identifierField')[i].value = FhirPersonIdentifier.undefinedToBlank(e.detail.response.identifier[i].value);
-                    i++;
-                }
+                this.parentNode.host.value = e.detail.response.identifier;
+                this.parentNode.host._setValue();
             }
             else if (e.detail.response.identifier == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url) {
+            this._setValue();
+        }
     }
 
-    _render({useField, systemIdentifier, identifierField, periodField, url}) {
+    _render({useField, systemIdentifier, identifierField, periodField, url, value}) {
         return html`
 <div>
 <label>IDENTIFIER:</label>
     ${useField ? html`
-    Use:<select class="useField">
+    Use:<select class="useField" on-change="${e => this.value.use = e.target.value}">
         <option value="usual">Usual</option>
         <option value="official">Official</option>
         <option value="temp">Temporary</option>
         <option value="secondary">Secondary</option>
     </select>` : ''}
-    ${systemIdentifier ? html`<mwc-textfield outlined class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
-    ${identifierField ? html`<mwc-textfield outlined class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
+    ${systemIdentifier ? html`<mwc-textfield outlined on-change="${e => this.value.system = e.target.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
+    ${identifierField ? html`<mwc-textfield outlined on-change="${e => this.value.value = e.target.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
     ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}
 </div>
 <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
