@@ -30,7 +30,7 @@ class FhirLocationDescription extends LitElement {
 
     static get properties() {
         return {
-            /**describeField is used to describe the location. Use this property to show/hide. Default: true */
+            /**describeField is to display the description of location. Use this property to show/hide. Default: true */
             describeField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
