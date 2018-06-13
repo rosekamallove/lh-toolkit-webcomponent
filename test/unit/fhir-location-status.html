@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-location-status</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-location-status/fhir-location-status.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-location-status url="/load_patient_data"></fhir-location-status>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-location-status id="fhirLocation" value="[[status]]"></fhir-location-status>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import location from '../../test/testResources/location.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var status;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(location)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-location-status tests', function () {
+            setup(function () {
+                status = fixture('DefaultElement');
+            });
+            test('Status of location is correct ', function (done) {
+                status.addEventListener('iron-ajax-response', function () {
+                    var loc = status.shadowRoot.querySelectorAll('.statusField')[0].value;
+                    assert.equal(loc, "active");
+                    assert.notEqual(loc, "suspended");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('status', location.status);
+                flush(function () {
+                    let typ = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.statusField')[0].value;
+                    assert.equal(typ, "active");
+                    assert.notEqual(typ, "inactive");
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
