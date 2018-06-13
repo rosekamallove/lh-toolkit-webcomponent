@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-location-mode</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-location-mode/fhir-location-mode.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-location-mode url="/load_patient_data"></fhir-location-mode>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-location-mode id="fhirLocation" value="[[mode]]"></fhir-location-mode>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import location from '../../test/testResources/location.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var locMode;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(location)
+                ]
+            );
+        });
+        suite('fhir-location-mode tests', function () {
+            setup(function () {
+                locMode = fixture('DefaultElement');
+            });
+            test('Instance mode id checked', function (done) {
+                locMode.addEventListener('iron-ajax-response', function () {
+                    var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                    assert.equal(mode, true);
+                    assert.notEqual(mode, false);
+                    done();
+                });
+            });
+            test('Kind mode not checked ', function (done) {
+                locMode.addEventListener('iron-ajax-response', function () {
+                    var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[1].checked;
+                    assert.equal(mode, false);
+                    assert.notEqual(mode, true);
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('mode', location.mode);
+                flush(function () {
+                    let mode = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                    assert.equal(mode, true);
+                    assert.notEqual(mode, false);
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
