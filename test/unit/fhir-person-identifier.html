@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +18,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <fhir-person-identifier url="/load_patient_data"></fhir-person-identifier>
     </template>
 </test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-person-identifier id="fhirIdentifier" value="[[identifiers]]"></fhir-person-identifier>
+        </template>
+    </test-fixture>
+</dom-bind>
 
 
 <script type="module">
@@ -83,6 +81,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     assert.notEqual(idf, "secondary");
                     assert.notEqual(idf, "412345");
                     assert.notEqual(idf, "urn:lumiradx:mpi");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('identifiers', JSON.stringify(patient81036.identifier));
+                flush(function () {
+                    let cont = document.getElementById('fhirIdentifier').shadowRoot.querySelectorAll('.systemIdentifier')[0].value;
+                    assert.equal(cont, "urn:lumiradx:consult");
+                    assert.notEqual(cont, "LDX12345");
+                    assert.notEqual(cont, "13456");
                     done();
                 });
             });
