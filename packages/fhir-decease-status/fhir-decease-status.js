@@ -26,7 +26,9 @@ class FhirDeceaseStatus extends LitElement {
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
             periodField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Object
         }
     }
 
@@ -34,28 +36,51 @@ class FhirDeceaseStatus extends LitElement {
         super();
         this.deceaseStatus = true;
         this.periodField = false;
+        this.value = {};
     }
 
+    _setValue() {
+        let data;
+
+        if (typeof(this.value) == "string") {
+            data = JSON.parse(this.value)
+        }
+        else {
+            data = this.value;
+        }
+        if (typeof(data) == "object" && data.length != undefined) {
+            if (data) {
+                this.shadowRoot.getElementById('decease').checked = true;
+            }
+            else {
+                this.shadowRoot.getElementById('decease').checked = false;
+            }
+        }
+        else if (typeof(data) == "boolean" && data == true) {
+            this.shadowRoot.getElementById('decease').checked = true;
+        }
+    }
+
+    /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.active != undefined) {
-                if (e.detail.response.active == true) {
-                    e.target.parentNode.getElementById('decease').checked = true;
-                }
-                else if (e.detail.response.active == false) {
-                    e.target.parentNode.getElementById('decease').checked = false;
-                }
+            if (e.detail.response.deceasedBoolean != undefined) {
+                this.parentNode.host.value = e.detail.response.deceasedBoolean;
+                this.parentNode.host._setValue();
             }
-            else if (e.detail.response.active == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+            else if (e.detail.response.deceasedBoolean == undefined) {
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url) {
+            this._setValue();
+        }
     }
 
-    _render({deceaseStatus, periodField, url}) {
+    _render({deceaseStatus, periodField, url, value}) {
         return html`
-      ${deceaseStatus ? html`<mwc-formfield class="deceaseStatus" alignEnd label="DECEASED STATUS:">
-         <mwc-checkbox id="decease" value = "true"></mwc-checkbox>
+      ${deceaseStatus ? html`<mwc-formfield  class="deceaseStatus" alignEnd label="DECEASED STATUS:">
+         <mwc-checkbox id="decease" value = "true" on-click="${e => this.value.deceasedBoolean = e.target.value}"></mwc-checkbox>
       </mwc-formfield>` : ''}
       ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}     
           <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
