@@ -17,6 +17,13 @@
         <fhir-human-language url="/load_patient_data"></fhir-human-language>
     </template>
 </test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-human-language id="fhirLanguage" value="[[languages]]"></fhir-human-language>
+        </template>
+    </test-fixture>
+</dom-bind>
 
 
 <script type="module">
@@ -49,11 +56,29 @@
                 language = fixture('DefaultElement');
             });
 
-            test('Language field removed from page as no input received from data ', function (done) {
+            test('Language field displays correct value', function (done) {
                 language.addEventListener('iron-ajax-response', function () {
-                    var lang = language.childNodes.length;
-                    assert.equal(lang, "0");
-                    assert.notEqual(lang, "1");
+                    var lang = language.shadowRoot.querySelectorAll('.langField')[0].value;
+                    assert.equal(lang, "English");
+                    assert.notEqual(lang, "");
+                    done();
+                });
+            });
+            test('Preferred field displays correct value', function (done) {
+                language.addEventListener('iron-ajax-response', function () {
+                    var pref = language.shadowRoot.querySelectorAll('.prefField')[0].checked;
+                    assert.equal(pref, true);
+                    assert.notEqual(pref, "");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('languages', JSON.stringify(patient2.communication));
+                flush(function () {
+                    let cont = document.getElementById('fhirLanguage').shadowRoot.querySelectorAll('.langField')[0].value;
+                    assert.equal(cont, "English");
+                    assert.notEqual(cont, true);
+                    assert.notEqual(cont, "12345");
                     done();
                 });
             });
