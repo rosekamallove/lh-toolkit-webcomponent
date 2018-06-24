@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-location-description</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-location-description/fhir-location-description.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-location-description url="/load_patient_data"></fhir-location-description>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-location-description id="fhirLocation" value="[[describe]]"></fhir-location-description>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import location from '../../test/testResources/location.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var text;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(location)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-location-description tests', function () {
+            setup(function () {
+                text = fixture('DefaultElement');
+            });
+            test('Description of location is correct ', function (done) {
+                text.addEventListener('iron-ajax-response', function () {
+                    var val = text.shadowRoot.querySelector('.describeField').value;
+                    assert.equal(val, "Second floor of the Old South Wing, formerly in use by Psychiatry");
+                    assert.notEqual(val, "The Night");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('describe', location.description);
+                flush(function () {
+                    let val = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.describeField')[0].value;
+                    assert.equal(val, "Second floor of the Old South Wing, formerly in use by Psychiatry");
+                    assert.notEqual(val, "The Night");
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
