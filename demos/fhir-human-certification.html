@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-human-certification>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-human-certification/fhir-human-certification.js"></script>
+</head>
+<body>
+<p>
+<h1>Default Element Without url</h1>
+<fhir-human-certification></fhir-human-certification>
+</p>
+<p>
+<h1>Default Element Without url and with JSON passed</h1>
+<fhir-human-certification value='[{"identifier": [{"system": "urn:oid:2.16.840.1.113883.2.9.2.50503.4.15","value": "301_EX113"}],"code": {"coding": [{"system": "urn:oid:2.16.840.1.113883.2.9.5.1.111","code": "MMG","display": "Medico di Medicina Generale"}]}}]'></fhir-human-certification>
+</p>
+<p>
+<h1>Default Element With url</h1>
+<fhir-human-certification url = "http://hapi.fhir.org/baseDstu3/Practitioner/4146083"></fhir-human-certification>
+</p>
+</body>
+</html>
