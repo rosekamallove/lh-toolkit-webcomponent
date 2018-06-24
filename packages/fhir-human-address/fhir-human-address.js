@@ -45,7 +45,9 @@ class FhirHumanAddress extends LitElement {
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
             periodField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Array
         }
     }
 
@@ -58,53 +60,71 @@ class FhirHumanAddress extends LitElement {
         this.cityField = true;
         this.districtField = true;
         this.periodField = false;
+        this.value = [];
+    }
+
+    _setValue() {
+        let data;
+        if (typeof(this.value) == "string") {
+            data = JSON.parse(this.value);
+        } else {
+            data = this.value;
+        }
+        if (data.length != 0) {
+            var i = 0;
+            for (let address of data) {
+                var child = this.shadowRoot.childNodes[1];
+                if (i > 0) {
+                    child = this.shadowRoot.childNodes[1].cloneNode(true);
+                    this.shadowRoot.appendChild(child);
+                }
+                child.querySelectorAll('.useSelect')[0].value = data[i].use;
+                child.querySelectorAll('.typeSelect')[0].value = data[i].type;
+                child.querySelectorAll('.add1Field')[0].value = FhirHumanAddress.undefinedToBlank(data[i].text);
+                child.querySelectorAll('.add2Field')[0].value = FhirHumanAddress.undefinedToBlank(data[i].line);
+                child.querySelectorAll('.cityField')[0].value = FhirHumanAddress.undefinedToBlank(data[i].city);
+                child.querySelectorAll('.districtField')[0].value = FhirHumanAddress.undefinedToBlank(data[i].district);
+                i++;
+            }
+        }
     }
 
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.address != undefined) {
-                var i = 0;
-                for (let address of e.detail.response.address) {
-                    if (i > 0) {
-                        var child = e.target.parentNode.childNodes[1].cloneNode(true);
-                        e.target.parentNode.appendChild(child);
-                    }
-                    e.target.parentNode.querySelectorAll('.useSelect')[i].value = e.detail.response.address[0].use;
-                    e.target.parentNode.querySelectorAll('.typeSelect')[i].value = e.detail.response.address[0].type;
-                    e.target.parentNode.querySelectorAll('.add1Field')[i].value = FhirHumanAddress.undefinedToBlank(e.detail.response.address[0].text);
-                    e.target.parentNode.querySelectorAll('.add2Field')[i].value = FhirHumanAddress.undefinedToBlank(e.detail.response.address[0].line);
-                    e.target.parentNode.querySelectorAll('.cityField')[i].value = FhirHumanAddress.undefinedToBlank(e.detail.response.address[0].city);
-                    e.target.parentNode.querySelectorAll('.districtField')[i].value = FhirHumanAddress.undefinedToBlank(e.detail.response.address[0].district);
-                    i++;
-                }
+                this.parentNode.host.value = e.detail.response.address;
+                this.parentNode.host._setValue();
             }
             else if (e.detail.response.address == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url) {
+            this._setValue();
+        }
     }
 
-    _render({useSelect, typeSelect, add1Field, add2Field, cityField, districtField, periodField, url}) {
+    _render({useSelect, typeSelect, add1Field, add2Field, cityField, districtField, periodField, url, value}) {
         return html`
      <div> 
      <label>ADDRESS</label><br>
      ${useSelect ? html`
-     Use:<select class="useSelect">
+     Use:<select class="useSelect" on-change="${e => this.value.use = e.target.value}">
          <option value="home">Home</option>
          <option value="work">Work</option>
          <option value="temp">Temporary</option>
          <option value="old">Old</option>
      </select>` : ''}
      ${typeSelect ? html`
-     Type:<select class="typeSelect">
+     Type:<select class="typeSelect" on-change="${e => this.value.type = e.target.value}">
          <option value="postal">Postal</option>
          <option value="physical">Physical</option>
          <option value="both">Both</option>
      </select>` : ''}
-     ${add1Field ? html`<mwc-textfield outlined class="add1Field" id="address1" label="Address Line1:"></mwc-textfield>` : ''}
-     ${add2Field ? html`<mwc-textfield outlined class="add2Field"  id="address2" label="Address Line2:"></mwc-textfield>` : ''}
-     ${cityField ? html`<mwc-textfield outlined class="cityField" id="city" label="City:"></mwc-textfield>` : ''}
-     ${districtField ? html`<mwc-textfield outlined class="districtField" id="district" label="District:"></mwc-textfield><br>` : ''}
+     ${add1Field ? html`<mwc-textfield outlined class="add1Field" label="Address Line1:" on-input="${e => this.value.text = e.target._input.value}"></mwc-textfield>` : ''}
+     ${add2Field ? html`<mwc-textfield outlined class="add2Field" label="Address Line2:" on-input="${e => this.value.line = e.target._input.value}"></mwc-textfield>` : ''}
+     ${cityField ? html`<mwc-textfield outlined class="cityField" label="City:" on-input="${e => this.value.city = e.target._input.value}"></mwc-textfield>` : ''}
+     ${districtField ? html`<mwc-textfield outlined class="districtField" label="District:" on-input="${e => this.value.district = e.target._input.value}"></mwc-textfield><br>` : ''}
      ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      </div>
          <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
