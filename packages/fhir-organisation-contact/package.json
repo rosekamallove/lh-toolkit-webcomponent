@@ -1,0 +1,20 @@
+{
+  "name": "@lh-toolkit/fhir-organisation-contact",
+  "version": "0.0.1",
+  "description": "The custom element for FHIR Period type with start and end datetime properties",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/librehealth/toolkit/lh-toolkit-webcomponents.git"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@polymer/lit-element": "^0.5.1",
+    "moment": "2.18.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
