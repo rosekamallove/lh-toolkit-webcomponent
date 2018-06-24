@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +18,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <fhir-birth-date url="/load_patient_data"></fhir-birth-date>
     </template>
 </test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-birth-date id="fhirBirth" value="[[births]]"></fhir-birth-date>
+        </template>
+    </test-fixture>
+</dom-bind>
 
 
 <script type="module">
@@ -72,6 +70,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     var dob = birthDate.shadowRoot.getElementById('date').value;
                     assert.equal(dob, "2000-02-10");
                     assert.notEqual(dob, "02-10-2000");
+                    done();
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('births', JSON.stringify(patient2.birthDate));
+                flush(function () {
+                    let cont = document.getElementById('fhirBirth').shadowRoot.getElementById('date').value;
+                    assert.equal(cont, "2000-02-10");
+                    assert.notEqual(cont, "02-10-2000");
                     done();
                 });
             });
