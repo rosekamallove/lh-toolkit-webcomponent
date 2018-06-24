@@ -23,48 +23,62 @@ class FhirHumanGender extends LitElement {
             /**genderVal is used to gender of person from given options. Use this property to show/hide. Default: true */
             genderVal: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Object
         }
     }
+
     /**default value of properties set in constructor*/
     constructor() {
         super();
         this.genderVal = true;
+        this.value = {};
 
     }
 
-    _didRender() {
-        this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if(e.detail.response.gender != undefined)
-            {
+    _setValue() {
+        if (this.value.length != undefined) {
+            var child = this.shadowRoot.childNodes[1];
             var i = 0;
             while (true) {
-                if (e.target.parentNode.querySelectorAll("mwc-radio")[i].value == e.detail.response.gender) {
-                    e.target.parentNode.querySelectorAll("mwc-radio")[i].checked = true;
-
+                if (this.shadowRoot.querySelectorAll("mwc-radio")[i].value == this.value) {
+                    console.log(this.value)
+                    this.shadowRoot.querySelectorAll("mwc-radio")[i].checked = true;
                     break;
                 }
                 i++;
             }
-            }
-            else if(e.detail.response.gender != undefined)
-            {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
-            }
-        });
+        }
     }
 
-    _render({genderVal, url}) {
+
+    _didRender() {
+        this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
+            if (e.detail.response.gender != undefined) {
+                this.parentNode.host.value = e.detail.response.gender;
+                this.parentNode.host._setValue();
+            }
+            else if (e.detail.response.gender == undefined) {
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            }
+        });
+        if (!this.url) {
+            this._setValue();
+        }
+    }
+
+    _render({genderVal, url, value}) {
         return html`
         <div class="genderVal">
         <label>GENDER:</label>
-       ${genderVal ? html`<mwc-formfield label="Male"><mwc-radio name="gender" id="male" value="male"></mwc-radio></mwc-formfield>
-         <mwc-formfield label="Female"><mwc-radio name="gender" id="female" value="female"></mwc-radio></mwc-formfield>
-         <mwc-formfield label="Other"><mwc-radio name="gender" id="other" value="other"></mwc-radio> </mwc-formfield>             
-         <mwc-formfield label="Unknown"><mwc-radio name="gender" id="unknown" value="unknown"></mwc-radio></mwc-formfield>` : ''}
-       </div>
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
-       
+         ${genderVal ? html`<mwc-formfield id="genderField">
+         Male:<mwc-radio value="male" on-click="${e => this.value.gender = e.target.value}"></mwc-radio>
+         Female:<mwc-radio label="Female" value="female" on-click="${e => this.value.gender = e.target.value}"></mwc-radio>
+         Other:<mwc-radio value="other" on-click="${e => this.value.gender = e.target.value}"></mwc-radio>            
+         Unknown:<mwc-radio value="unknown" on-click="${e => this.value.gender = e.target.value}"></mwc-radio></mwc-formfield>` : ''}
+        </div>
+        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `;
     }
 }
