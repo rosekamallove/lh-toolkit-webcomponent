@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-location-status>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-location-status/fhir-location-status.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-location-status></fhir-location-status>
+</p>
+<p>
+<h1>Default element without passing url but with JSON</h1>
+<fhir-location-status value="suspended"></fhir-location-status>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed - location has status as active</h1>
+<fhir-location-status url="http://hapi.fhir.org/baseDstu3/Location/1316595"></fhir-location-status>
+</p>
+</body>
+</html>
