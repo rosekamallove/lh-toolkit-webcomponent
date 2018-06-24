@@ -41,7 +41,9 @@ class FhirHumanContact extends LitElement {
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
             periodField: Boolean,
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            /**value is used to take the input value of each field*/
+            value: Array
         }
     }
 
@@ -52,36 +54,54 @@ class FhirHumanContact extends LitElement {
         this.contNumb = true;
         this.rankVal = true;
         this.periodField = false;
+        this.value = [];
+    }
+
+    _setValue() {
+        let data;
+        if (typeof(this.value) == "string") {
+            data = JSON.parse(this.value);
+        } else {
+            data = this.value;
+        }
+        if (data.length != undefined) {
+            var i = 0;
+            for (let telecom of data) {
+                var child = this.shadowRoot.childNodes[1];
+                if (i > 0) {
+                    var child = this.shadowRoot.childNodes[1].cloneNode(true);
+                    this.shadowRoot.appendChild(child);
+                }
+                child.querySelectorAll('.systemField')[0].value = data[i].system;
+                child.querySelectorAll('.useField')[0].value = data[i].use;
+                child.querySelectorAll('.contNumb')[0].value = FhirHumanContact.undefinedToBlank(data[i].value);
+                child.querySelectorAll('.rankVal')[0].value = FhirHumanContact.undefinedToBlank(data[i].rank);
+                i++;
+            }
+        }
     }
 
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.telecom != undefined) {
-                var i = 0;
-                for (let telecom of e.detail.response.telecom) {
-                    if (i > 0) {
-                        var child = e.target.parentNode.childNodes[1].cloneNode(true);
-                        e.target.parentNode.appendChild(child);
-                    }
-                    e.target.parentNode.querySelectorAll('.systemField')[i].value = e.detail.response.telecom[i].system;
-                    e.target.parentNode.querySelectorAll('.useField')[i].value = e.detail.response.telecom[i].use;
-                    e.target.parentNode.querySelectorAll('.contNumb')[i].value = FhirHumanContact.undefinedToBlank(e.detail.response.telecom[i].value);
-                    e.target.parentNode.querySelectorAll('.rankVal')[i].value = FhirHumanContact.undefinedToBlank(e.detail.response.telecom[i].rank);
-                    i++;
-                }
+                this.parentNode.host.value = e.detail.response.telecom;
+                this.parentNode.host._setValue();
             }
             else if (e.detail.response.telecom == undefined) {
-                e.target.parentNode.removeChild(e.target.parentNode.childNodes[1]);
+                this.parentNode.removeChild(this.parentNode.childNodes[1]);
             }
         });
+        if (!this.url) {
+            this._setValue();
+        }
     }
 
-    _render({systemField, useField, contNumb, rankVal, periodField, url}) {
+    _render({systemField, useField, contNumb, rankVal, periodField, url, value}) {
         return html`
      <div>
      <label>TELECOM DETAILS:</label>
      ${systemField ? html`
-     System:<select class="systemField">
+     System:<select class="systemField" on-change="${e => this.value.system = e.target.value}">
          <option value="phone">Phone</option>
          <option value="fax">Fax</option>
          <option value="email">Email</option>
@@ -91,15 +111,15 @@ class FhirHumanContact extends LitElement {
          <option value="other">Other</option>` : ''}
      ${useField ? html`
      </select>
-     Use:<select class="useField">
+     Use:<select class="useField" on-change="${e => this.value.use = e.target.value}">
          <option value="home">Home</option>
          <option value="work">Work</option>
          <option value="temp">Temp</option>
          <option value="home">Old</option>
          <option value="mobile">Mobile</option>
      </select>` : ''}
-     ${contNumb ? html`<mwc-textfield outlined class="contNumb" id="contact" label="ContactNumber:"></mwc-textfield>` : ''}
-     ${rankVal ? html`<mwc-textfield outlined class="rankVal" id="rank" label="Rank:"></mwc-textfield>` : ''}
+     ${contNumb ? html`<mwc-textfield outlined class="contNumb" on-input="${e => this.value.value = e.target._input.value}" label="ContactNumber:"></mwc-textfield>` : ''}
+     ${rankVal ? html`<mwc-textfield outlined class="rankVal" on-input="${e => this.value.rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
      ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      </div>
          <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
