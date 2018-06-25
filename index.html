@@ -1,33 +1,42 @@
 <!doctype html>
 <html>
 <head>
-  <title>LibreHealth FHIR Web Components Catalog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibreHealth FHIR Web Components Catalog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="demos/demo-styles.css">
 </head>
 <body>
   <!-- TODO: automate adding the element demos links -->
+  <header>
+      <span class="demo-catalog-logo"><img  src="demos/512px-Librehealth-o.svg.png"></span>
+      <span class="demo-heading">FHIR Web Components Catalog</span>
+  </header>
+  <div class="lh-main">
   <h2>Click on the element links below to see the demos. Please add a link below once you have added a new element demo</h2>
   <ul>
-    <li><a href="demos/fhir-period.html">fhir-period</a> </li>
-    <li><a href="demos/fhir-human-name.html">fhir-human-name</a> </li>
+    <!-- Ordered in alphabetical order -->
     <li><a href="demos/fhir-active-status.html">fhir-active-status</a> </li>
-    <li><a href="demos/fhir-decease-status.html">fhir-decease-status</a> </li>
-    <li><a href="demos/fhir-human-gender.html">fhir-human-gender</a> </li>
     <li><a href="demos/fhir-birth-date.html">fhir-birth-date</a> </li>
-	<li><a href="demos/fhir-marital-status.html">fhir-marital-status</a> </li>
-    <li><a href="demos/fhir-person-identifier.html">fhir-person-identifier</a> </li>
+    <li><a href="demos/fhir-decease-status.html">fhir-decease-status</a> </li>
     <li><a href="demos/fhir-human-address.html">fhir-human-address</a> </li>
-    <li><a href="demos/fhir-human-language.html">fhir-human-language</a> </li>
-    <li><a href="demos/fhir-human-contact.html">fhir-human-contact</a> </li>
-    <li><a href="demos/fhir-human-relation.html">fhir-human-relation</a> </li>
     <li><a href="demos/fhir-human-certification.html">fhir-human-certification</a> </li>
-    <li><a href="demos/fhir-organisation-contact.html">fhir-organisation-conatct</a> </li>
-    <li><a href="demos/fhir-organisation-name.html">fhir-organisation-name</a> </li>
-    <li><a href="demos/fhir-location-mode.html">fhir-location-mode</a> </li>
+    <li><a href="demos/fhir-human-contact.html">fhir-human-contact</a> </li>
+    <li><a href="demos/fhir-human-gender.html">fhir-human-gender</a> </li>
+    <li><a href="demos/fhir-human-language.html">fhir-human-language</a> </li>
+    <li><a href="demos/fhir-human-name.html">fhir-human-name</a> </li>
+    <li><a href="demos/fhir-human-relation.html">fhir-human-relation</a> </li>
     <li><a href="demos/fhir-location-description.html">fhir-location-description</a> </li>
+    <li><a href="demos/fhir-location-mode.html">fhir-location-mode</a> </li>
     <li><a href="demos/fhir-location-operationalstatus.html">fhir-location-operationalstatus</a> </li>
     <li><a href="demos/fhir-location-status.html">fhir-location-status</a> </li>
+    <li><a href="demos/fhir-marital-status.html">fhir-marital-status</a> </li>
+    <li><a href="demos/fhir-organisation-contact.html">fhir-organisation-conatct</a> </li>
+    <li><a href="demos/fhir-organisation-name.html">fhir-organisation-name</a> </li>
+    <li><a href="demos/fhir-period.html">fhir-period</a> </li>
+    <li><a href="demos/fhir-person-identifier.html">fhir-person-identifier</a> </li>
   </ul>
-  <h6>*If you don't see the elements after clicking on the link, you probably forgot to do: <code>npm install</code></h6>
+  <h6>*If you don't see the elements after clicking on the link, you probably forgot
+      to do: <code>lerna bootstrap --use-workspaces</code></h6>
+  </div>
 </body>
 </html>

@@ -1,0 +1,81 @@
+header {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+    -webkit-font-smoothing: antialiased;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    letter-spacing: 0.02em;
+    color: #f68d10;
+    min-height: 64px;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    background-color: #4286f4;
+}
+
+.demo-catalog-logo {
+    height: 74px;
+    width: 256px;
+    display: inline-block;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.demo-heading {
+    padding-bottom: 2px;
+}
+
+.lh-main {
+    margin-top: 68px;
+    padding: 16px;
+    overflow: hidden;
+}
+
+h2 {
+    color: white;
+    font-size: 14px;
+    padding: 5px;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+li {
+   box-sizing: border-box;
+}
+
+li > a:hover {
+    color: #f68d10;
+    background-color: #fff5e0;
+}
+
+li > a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #818181;
+    background-color: white;
+    width: 97%;
+    padding: 12px 20px;
+    margin-right: 10px;
+    display: flex;
+}
+
+h6, code {
+    font-size: 12px;
+}
