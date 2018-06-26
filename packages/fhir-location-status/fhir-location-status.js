@@ -21,53 +21,44 @@ class FhirLocationStatus extends LitElement {
     static get properties() {
         return {
             /**statusField is a selectable option for location status. Use this property to show/hide. Default: true */
-            statusField: Boolean,
+            statusField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Array
+            value: String
         }
     }
 
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.statusField = true;
-        this.value = {};
-    }
-
-    _setValue() {
-        if (this.value.length != undefined) {
-            this.shadowRoot.childNodes[1].querySelectorAll('.statusField')[0].value = this.value;
-        }
+        this.statusField = 'true';
+        this.value = '';
     }
 
     /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.status != undefined) {
-                this.parentNode.host.value = e.detail.response.status;
-                this.parentNode.host._setValue();
+            var status = this.parentNode.host;
+            if(e.detail.response.status !== undefined) {
+                status.value = e.detail.response.status;
             }
-            else if (e.detail.response.status == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#div'));
             }
         });
-        if (!this.url && this.value) {
-            this._setValue();
-        }
     }
 
     _render({statusField, url, value}) {
         return html`
-   <div>
+   <div id="div">
    <label>NAME:</label>
-   ${statusField ? html`
+   ${statusField !== 'false' ? html`
      <label>Type:</label>
-     <select class="statusField" on-change="${e => this.value.status = e.target.value}">
-         <option value="active">Active</option>
-         <option value="suspended">Suspended</option>
+     <select class="statusField" value="${this.value}" on-change="${e => this.value = e.target.value}">
          <option value="inactive">Inactive</option>
+         <option value="suspended">Suspended</option>
+         <option value="active">Active</option>
      </select>` : ''}
      </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>

@@ -56,43 +56,51 @@
                 contact = fixture('DefaultElement');
             });
 
-            test('System field displayed correctly', function (done) {
-                contact.addEventListener('iron-ajax-response', function () {
-                    var use = contact.shadowRoot.querySelector('.systemField').value;
-                    assert.equal(use, "phone");
-                    assert.notEqual(use, "734 483 8464");
-                    done();
+            test('System field displayed correctly', function () {
+                contact.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var use = contact.shadowRoot.querySelector('.systemField').value;
+                        assert.equal(use, "phone");
+                        assert.notEqual(use, "734 483 8464");
+                        done();
+                    });
                 });
             });
 
-            test('UseField displayed correctly', function (done) {
-                contact.addEventListener('iron-ajax-response', function () {
-                    var type = contact.shadowRoot.querySelector('.useField').value;
-                    assert.equal(type, "home");
-                    assert.notEqual(type, "734 483 8464");
-                    assert.notEqual(type, "phone");
-                    done();
+            test('UseField displayed correctly', function () {
+                contact.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var type = contact.shadowRoot.querySelector('.useField').value;
+                        assert.equal(type, "home");
+                        assert.notEqual(type, "734 483 8464");
+                        assert.notEqual(type, "phone");
+                        done();
+                    });
                 });
             });
-            test('Contact Number is displayed correctly', function (done) {
-                contact.addEventListener('iron-ajax-response', function () {
-                    var cont = contact.shadowRoot.querySelector('.contNumb').value;
-                    assert.equal(cont, "734 483 8464");
-                    assert.notEqual(cont, "phone");
-                    assert.notEqual(cont, "both");
-                    assert.notEqual(cont, "home");
-                    done();
+            test('Contact Number is displayed correctly', function () {
+                contact.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var cont = contact.shadowRoot.querySelector('.contNumb').value;
+                        assert.equal(cont, "734 483 8464");
+                        assert.notEqual(cont, "phone");
+                        assert.notEqual(cont, "both");
+                        assert.notEqual(cont, "home");
+                        done();
+                    });
                 });
             });
-            test('Rank is displayed correctly', function (done) {
+            test('Rank is displayed correctly', function () {
 
-                contact.addEventListener('iron-ajax-response', function () {
-                    var rank = contact.shadowRoot.querySelector('.rankVal').value;
-                    assert.equal(rank, "1");
-                    assert.notEqual(rank, "2");
-                    assert.notEqual(rank, "both");
-                    assert.notEqual(rank, "phone");
-                    done();
+                contact.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var rank = contact.shadowRoot.querySelector('.rankVal').value;
+                        assert.equal(rank, "1");
+                        assert.notEqual(rank, "2");
+                        assert.notEqual(rank, "both");
+                        assert.notEqual(rank, "phone");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

@@ -22,69 +22,53 @@ class FhirDeceaseStatus extends LitElement {
     static get properties() {
         return {
             /**deceaseStatus is used to show death status of person true or false. Use this property to show/hide. Default: true */
-            deceaseStatus: Boolean,
+            deceaseStatus: String,
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
-            periodField: Boolean,
+            periodField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Object
+            value: Boolean
         }
     }
 
     constructor() {
         super();
-        this.deceaseStatus = true;
-        this.periodField = false;
-        this.value = {};
-    }
-
-    _setValue() {
-        let data;
-
-        if (typeof(this.value) == "string") {
-            data = JSON.parse(this.value)
-        }
-        else {
-            data = this.value;
-        }
-        if (typeof(data) == "object" && data.length != undefined) {
-            if (data) {
-                this.shadowRoot.getElementById('decease').checked = true;
-            }
-            else {
-                this.shadowRoot.getElementById('decease').checked = false;
-            }
-        }
-        else if (typeof(data) == "boolean" && data == true) {
-            this.shadowRoot.getElementById('decease').checked = true;
-        }
+        this.deceaseStatus = 'true';
+        this.periodField = 'false';
+        this.value = false;
     }
 
     /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.deceasedBoolean != undefined) {
-                this.parentNode.host.value = e.detail.response.deceasedBoolean;
-                this.parentNode.host._setValue();
+            var active = this.parentNode.host;
+            if (e.detail.response.deceasedBoolean !== undefined) {
+                if (e.detail.response.deceasedBoolean) {
+                    active.shadowRoot.querySelector('.decease').checked = true;
+
+                }
+                else if (!e.detail.response.deceasedBoolean) {
+                    active.shadowRoot.querySelector('.decease').checked = false;
+                }
             }
-            else if (e.detail.response.deceasedBoolean == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#div'));
             }
         });
-        if (!this.url) {
-            this._setValue();
-        }
     }
 
     _render({deceaseStatus, periodField, url, value}) {
         return html`
-      ${deceaseStatus ? html`<mwc-formfield  class="deceaseStatus" alignEnd label="DECEASED STATUS:">
-         <mwc-checkbox id="decease" value = "true" on-click="${e => this.value.deceasedBoolean = e.target.value}"></mwc-checkbox>
+      <div id="div">
+      ${deceaseStatus !== 'false' ? html`<mwc-formfield  class="deceaseStatus" alignEnd label="DECEASED STATUS:">
+      <mwc-checkbox class ="decease" checked="${this.value}" on-click="${e => this.value = e.target.value}"></mwc-checkbox>
       </mwc-formfield>` : ''}
-      ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}     
-          <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
+      ${periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}  
+      </div>   
+      <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
 `;
     }
 }
+
 window.customElements.define('fhir-decease-status', FhirDeceaseStatus);

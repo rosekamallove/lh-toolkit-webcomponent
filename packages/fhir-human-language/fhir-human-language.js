@@ -5,7 +5,7 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-human-language>` adds language used to communicate to page with a checkbox to show which one is preferred. Uses mwc-textfield, mwc-switch and iron-ajax
+ * `<fhir-human-language>` adds language used to communicate to page with a switch to show which one is preferred. Uses mwc-textfield, mwc-switch and iron-ajax
  * In typical use, just use `<fhir-human-language url=""></fhir-human-language>`
  * @customElement
  * @polymer
@@ -19,22 +19,12 @@ import '@material/mwc-checkbox/mwc-checkbox.js'
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirHumanLanguage extends LitElement {
-    /**function to check if object is undefined. If undefined show blank else returns obj value*/
-    static undefinedToBlank(obj) {
-        if (obj == undefined) {
-            return '';
-        }
-        else {
-            return obj;
-        }
-    }
-
     static get properties() {
         return {
             /**langField is a field to display language. Use this property to show/hide. Default: true */
-            langField: Boolean,
+            langField: String,
             /**prefField is a switch to show if language is preferred or not. Use this property to show/hide. Default: true */
-            prefField: Boolean,
+            prefField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
@@ -45,66 +35,36 @@ class FhirHumanLanguage extends LitElement {
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.langField = true;
-        this.prefField = true;
-        this.value = [];
-    }
-
-    _setValue() {
-        let data;
-        if (typeof(this.value) == "string") {
-            data = JSON.parse(this.value);
-
-        } else {
-            data = this.value;
-        }
-        if (this.value.length != 0) {
-            var i = 0;
-            for (let identifier of data) {
-                var child = this.shadowRoot.childNodes[1];
-                if (i > 0) {
-                    var child = this.shadowRoot.childNodes[1].cloneNode(true);
-                    this.shadowRoot.appendChild(child);
-                }
-                child.querySelectorAll('.langField')[0].value = FhirHumanLanguage.undefinedToBlank(data[i].language);
-                if(data[i].preferred)
-                {
-
-                    child.querySelectorAll('.prefField')[0].checked = true;
-                }
-                i++;
-
-            }
-        }
-
+        this.langField = 'true';
+        this.prefField = 'true';
+        this.value = [{}];
     }
 
     /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.communication != undefined) {
-                this.parentNode.host.value = e.detail.response.communication;
-                this.parentNode.host._setValue();
+            var communication = this.parentNode.host;
+            if(e.detail.response.communication !== undefined) {
+                communication.value = e.detail.response.communication;
             }
-            else if (e.detail.response.communication == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#div'));
             }
         });
-        if (!this.url) {
-            this._setValue();
-        }
     }
-
     _render({langField, prefField, url, value}) {
-        return html`
-     <div>
+        if (typeof(value) == "string") {
+            this.value = JSON.parse(value);
+        }
+        return html`${this.value.map((i, index) => html`
+     <div id="div">
      <label>COMMUNICATION:</label>
-     ${langField ? html`<mwc-textfield outlined class="langField" label="Language" on-input="${e => this.value.language = e.target._input.value}"></mwc-textfield>` : ''}
-     ${prefField ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox class="prefField" on-input="${e => this.value.preferred = e.target.value}" value="true"></mwc-checkbox></mwc-formfield>` : ''}
+     ${langField !== 'false' ? html`<mwc-textfield outlined class="langField" value="${i.language}" label="Language" on-input="${e => this.value[index].language = e.target._input.value}"></mwc-textfield>` : ''}
+     ${prefField !== 'false' ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox class="prefField" on-input="${e => this.value[index].preferred = e.target.value}"></mwc-checkbox></mwc-formfield>` : ''}
      </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
      
-    `;
+    `)}`;
     }
 }
 

@@ -5,7 +5,7 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-birth-date>` adds input date to the page. Uses input tupe date in mm/dd/yyyy format
+ * `<fhir-birth-date>` adds input date to the page. Uses input type date in mm/dd/yyyy format
  * In typical use, just use `<fhir-birth-date url=""></fhir-birth-date>`
  * @customElement
  * @polymer
@@ -21,7 +21,7 @@ class FhirBirthDate extends LitElement {
     static get properties() {
         return {
             /**birthDate is used to show persons date of birth. Use this property to show/hide. Default: true */
-            birthDate: Boolean,
+            birthDate: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
@@ -31,36 +31,31 @@ class FhirBirthDate extends LitElement {
 
     constructor() {
         super();
-        this.birthDate = true;
+        this.birthDate = 'true';
         this.value = {};
     }
 
-    _setValue() {
-        if (this.value.length != 0) {
-            this.shadowRoot.getElementById('date').value = moment(this.value).format('YYYY-MM-DD') ;
-        }
-    }
-
+    /**_didRender() delivers only after _render*/
     _didRender() {
+
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.birthDate != undefined) {
-                this.parentNode.host.value = e.detail.response.birthDate;
-                this.parentNode.host._setValue();
+            var allergydate = this.parentNode.host;
+            if (e.detail.response.birthDate !== undefined) {
+                allergydate.value = moment(e.detail.response.birthDate).format('YYYY-MM-DD');
             }
-            else if (e.detail.response.birthDate == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#allergyDiv'));
             }
         });
-        if (!this.url && this.value) {
-            this._setValue();
-        }
     }
 
     _render({birthDate, url, value}) {
         return html`
-       ${birthDate ? html`<mwc-formfield class="birthDate" alignEnd label="DATE OF BIRTH:">
-         <input id="date" type="date" on-input="${e => this.value.birthDate = e.target.value}">
+       <div id="allergyDiv">
+       ${birthDate !== 'false' ? html`<mwc-formfield class="birthDate" alignEnd label="DATE OF BIRTH:">
+         <input id="date" type="date" value="${this.value}" on-input="${e => this.value.birthDate = e.target.value}">
        </mwc-formfield>` : ''}
+       </div>
        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
     `;
     }

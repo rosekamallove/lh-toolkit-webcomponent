@@ -21,7 +21,7 @@
 <dom-bind>
     <test-fixture id="SetValue">
         <template>
-            <fhir-birth-date id="fhirBirth" value="[[births]]"></fhir-birth-date>
+            <fhir-birth-date id="fhirBirth" value="[[date]]"></fhir-birth-date>
         </template>
     </test-fixture>
 </dom-bind>
@@ -57,33 +57,38 @@
                 birthDate = fixture('DefaultElement');
             });
 
-            test('Receives correct date of birth', function (done) {
-                birthDate.addEventListener('iron-ajax-response', function () {
-                    var dob = birthDate.shadowRoot.getElementById('date').value;
-                    assert.equal(dob, "2000-02-10");
-                    assert.notEqual(dob, "2000-08-10");
-                    done();
+            test('Receives correct date of birth', function () {
+                birthDate.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var dob = birthDate.shadowRoot.getElementById('date').value;
+                        assert.equal(dob, "2000-02-10");
+                        assert.notEqual(dob, "2000-08-10");
+                        done();
+                    });
                 });
             });
-            test('Receives correct date of birth format in mm/dd/yyyy', function (done) {
-                birthDate.addEventListener('iron-ajax-response', function () {
-                    var dob = birthDate.shadowRoot.getElementById('date').value;
-                    assert.equal(dob, "2000-02-10");
-                    assert.notEqual(dob, "02-10-2000");
-                    done();
+            test('Receives correct date of birth format in mm/dd/yyyy', function () {
+                birthDate.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var dob = birthDate.shadowRoot.getElementById('date').value;
+                        assert.equal(dob, "2000-02-10");
+                        assert.notEqual(dob, "02-10-2000");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {
-                document.querySelector('dom-bind').set('births', JSON.stringify(patient2.birthDate));
+                document.querySelector('dom-bind').set('date', patient2.birthDate);
                 flush(function () {
-                    let cont = document.getElementById('fhirBirth').shadowRoot.getElementById('date').value;
-                    assert.equal(cont, "2000-02-10");
-                    assert.notEqual(cont, "02-10-2000");
+                    let date = document.getElementById('fhirBirth').shadowRoot.querySelector('#date').value;
+                    assert.equal(date, "2000-02-10");
+                    assert.notEqual(date, "2000-08-10");
                     done();
                 });
             });
         });
-    });
+    })
+    ;
 </script>
 </body>
 </html>

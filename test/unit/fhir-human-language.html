@@ -56,20 +56,14 @@
                 language = fixture('DefaultElement');
             });
 
-            test('Language field displays correct value', function (done) {
-                language.addEventListener('iron-ajax-response', function () {
-                    var lang = language.shadowRoot.querySelectorAll('.langField')[0].value;
-                    assert.equal(lang, "English");
-                    assert.notEqual(lang, "");
-                    done();
-                });
-            });
-            test('Preferred field displays correct value', function (done) {
-                language.addEventListener('iron-ajax-response', function () {
-                    var pref = language.shadowRoot.querySelectorAll('.prefField')[0].checked;
-                    assert.equal(pref, true);
-                    assert.notEqual(pref, "");
-                    done();
+            test('Language field displays correct value', function () {
+                language.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var lang = language.shadowRoot.querySelectorAll('.langField')[0].value;
+                        assert.equal(lang, "English");
+                        assert.notEqual(lang, "");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

@@ -19,27 +19,18 @@ import '@lh-toolkit/fhir-period/fhir-period.js';
 
 class FhirHumanContact extends LitElement {
     /**function to check if object is undefined. If undefined show blank else returns obj value*/
-    static undefinedToBlank(obj) {
-        if (obj == undefined) {
-            return '';
-        }
-        else {
-            return obj;
-        }
-    }
-
     static get properties() {
         return {
             /**useField is a selectable option for use of contact. Use this property to show/hide. Default: true */
-            useField: Boolean,
+            useField: String,
             /**systemField is to select system of contact. Use this property to show/hide. Default: true */
-            systemField: Boolean,
+            systemField: String,
             /**contNumb is to display contact number. Use this property to show/hide. Default: true */
-            contNumb: Boolean,
+            contNumb: String,
             /**rankVal is to show ranking of preference of numbers. Use this property to show/hide. Default: true */
-            rankVal: Boolean,
+            rankVal: String,
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
-            periodField: Boolean,
+            periodField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
@@ -49,59 +40,36 @@ class FhirHumanContact extends LitElement {
 
     constructor() {
         super();
-        this.useField = true;
-        this.systemField = true;
-        this.contNumb = true;
-        this.rankVal = true;
-        this.periodField = false;
-        this.value = [];
+        this.useField = 'true';
+        this.systemField = 'true';
+        this.contNumb = 'true';
+        this.rankVal = 'true';
+        this.periodField = 'false';
+        this.value = [{}];
     }
 
-    _setValue() {
-        let data;
-        if (typeof(this.value) == "string") {
-            data = JSON.parse(this.value);
-        } else {
-            data = this.value;
-        }
-        if (data.length != undefined) {
-            var i = 0;
-            for (let telecom of data) {
-                var child = this.shadowRoot.childNodes[1];
-                if (i > 0) {
-                    var child = this.shadowRoot.childNodes[1].cloneNode(true);
-                    this.shadowRoot.appendChild(child);
-                }
-                child.querySelectorAll('.systemField')[0].value = data[i].system;
-                child.querySelectorAll('.useField')[0].value = data[i].use;
-                child.querySelectorAll('.contNumb')[0].value = FhirHumanContact.undefinedToBlank(data[i].value);
-                child.querySelectorAll('.rankVal')[0].value = FhirHumanContact.undefinedToBlank(data[i].rank);
-                i++;
-            }
-        }
-    }
-
+    /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.telecom != undefined) {
-                this.parentNode.host.value = e.detail.response.telecom;
-                this.parentNode.host._setValue();
+            var humanName = this.parentNode.host;
+            if (e.detail.response.telecom !== undefined) {
+                humanName.value = e.detail.response.telecom;
             }
-            else if (e.detail.response.telecom == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#humanNameDiv'));
             }
         });
-        if (!this.url) {
-            this._setValue();
-        }
     }
 
     _render({systemField, useField, contNumb, rankVal, periodField, url, value}) {
-        return html`
-     <div>
+        if (typeof(value) == "string") {
+            this.value = JSON.parse(value);
+        }
+        return html`${this.value.map((i, index) => html`
+     <div id="humanNameDiv">
      <label>TELECOM DETAILS:</label>
-     ${systemField ? html`
-     System:<select class="systemField" on-change="${e => this.value.system = e.target.value}">
+     ${systemField !== 'false' ? html`
+     System:<select class="systemField" value="${i.system}" on-change="${e => this.value[index].system = e.target.value}">
          <option value="phone">Phone</option>
          <option value="fax">Fax</option>
          <option value="email">Email</option>
@@ -109,21 +77,21 @@ class FhirHumanContact extends LitElement {
          <option value="url">URL</option>
          <option value="sms">SMS</option>
          <option value="other">Other</option>` : ''}
-     ${useField ? html`
+     ${useField !== 'false' ? html`
      </select>
-     Use:<select class="useField" on-change="${e => this.value.use = e.target.value}">
+     Use:<select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
          <option value="home">Home</option>
          <option value="work">Work</option>
          <option value="temp">Temp</option>
          <option value="home">Old</option>
          <option value="mobile">Mobile</option>
      </select>` : ''}
-     ${contNumb ? html`<mwc-textfield outlined class="contNumb" on-input="${e => this.value.value = e.target._input.value}" label="ContactNumber:"></mwc-textfield>` : ''}
-     ${rankVal ? html`<mwc-textfield outlined class="rankVal" on-input="${e => this.value.rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
-     ${periodField ? html`<fhir-period class="periodField"></fhir-period>` : ''}
+     ${contNumb !== 'false' ? html`<mwc-textfield outlined class="contNumb" value="${i.value}" on-input="${e => this.value[index].value = e.target._input.value}" label="ContactNumber:"></mwc-textfield>` : ''}
+     ${rankVal !== 'false' ? html`<mwc-textfield outlined class="rankVal" value="${i.rank}" on-input="${e => this.value[index].rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
+     ${periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      </div>
-         <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
-`;
+     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+`)}`;
     }
 }
 

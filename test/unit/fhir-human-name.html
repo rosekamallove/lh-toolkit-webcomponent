@@ -37,13 +37,7 @@
     import patient2 from '../../test/testResources/patient2.js';
 
     suite('<iron-ajax>', function () {
-        var ajax;
-        var request;
         var server;
-        var name;
-        var responseHeaders = {
-            json: {'Content-Type': 'application/json'}
-        };
         setup(function () {
             server = sinon.fakeServer.create();
             server.respondImmediately = true;
@@ -59,67 +53,79 @@
         });
 
         suite('fhir-human-name tests', function () {
-            test('Firstname should be loaded from given name field', function (done) {
+            test('Firstname should be loaded from given name field', function () {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function () {
-                    let firstName = name.shadowRoot.querySelector('.fName').value;
-                    assert.equal(firstName, 'Hồng,Nam');
-                    assert.notEqual(firstName, 'Trần');
-                    assert.notEqual(firstName, 'Hồng');
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let firstName = name.shadowRoot.querySelector('.fName').value;
+                        assert.equal(firstName, 'Hồng,Nam');
+                        assert.notEqual(firstName, 'Trần');
+                        assert.notEqual(firstName, 'Hồng');
+                        done();
+                    });
                 });
             });
 
-            test('Middlename should be shown in its own field if true', function (done) {
+            test('Middlename should be shown in its own field if true', function () {
                 let name = fixture('MiddleName');
-                name.addEventListener('iron-ajax-response', function () {
-                    let middleName = name.shadowRoot.querySelector('.mName').value;
-                    if (name.mName) {
-                        assert.notEqual(middleName, 'Hồng,Nam');
-                    } else {
-                        assert.equal(middleName, 'Hồng,Nam');
-                    }
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let middleName = name.shadowRoot.querySelector('.mName').value;
+                        if (name.mName) {
+                            assert.notEqual(middleName, 'Hồng,Nam');
+                        } else {
+                            assert.equal(middleName, 'Hồng,Nam');
+                        }
+                        done();
+                    });
                 });
             });
-            test('Lastname should be loaded from family name field', function (done) {
+            test('Lastname should be loaded from family name field', function () {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function () {
-                    let lastName = name.shadowRoot.querySelector('.lName').value;
-                    assert.equal(lastName, 'Trần');
-                    assert.notEqual(lastName, 'Nam');
-                    assert.notEqual(lastName, 'Hồng');
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let lastName = name.shadowRoot.querySelector('.lName').value;
+                        assert.equal(lastName, 'Trần');
+                        assert.notEqual(lastName, 'Nam');
+                        assert.notEqual(lastName, 'Hồng');
+                        done();
+                    });
                 });
             });
-            test('Use should be loaded from given use field', function (done) {
+            test('Use should be loaded from given use field', function () {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function () {
-                    let use = name.shadowRoot.querySelector('.useField').value;
-                    assert.equal(use, 'usual');
-                    assert.notEqual(use, 'Nam');
-                    assert.notEqual(use, 'Hồng');
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let use = name.shadowRoot.querySelector('.useField').value;
+                        assert.equal(use, 'usual');
+                        assert.notEqual(use, 'Nam');
+                        assert.notEqual(use, 'Hồng');
+                        done();
+                    });
                 });
             });
-            test('Suffix should be loaded from suffix of name field', function (done) {
+            test('Suffix should be loaded from suffix of name field', function () {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function () {
-                    let suffix = name.shadowRoot.querySelector('.suffixField').value;
-                    assert.equal(suffix, '');
-                    assert.notEqual(suffix, 'Jr');
-                    assert.notEqual(suffix, 'Sr');
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let suffix = name.shadowRoot.querySelector('.suffixField').value;
+                        assert.equal(suffix, '');
+                        assert.notEqual(suffix, 'Jr');
+                        assert.notEqual(suffix, 'Sr');
+                        done();
+                    });
                 });
             });
-            test('Prefix should be loaded from prefix name field', function (done) {
+            test('Prefix should be loaded from prefix name field', function () {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function () {
-                    let prefix = name.shadowRoot.querySelector('.prefixField').value;
-                    assert.equal(prefix, '');
-                    assert.notEqual(prefix, 'Jr');
-                    assert.notEqual(prefix, 'Sr');
-                    done();
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let prefix = name.shadowRoot.querySelector('.prefixField').value;
+                        assert.equal(prefix, '');
+                        assert.notEqual(prefix, 'Jr');
+                        assert.notEqual(prefix, 'Sr');
+                        done();
+                    });
                 });
             });
 

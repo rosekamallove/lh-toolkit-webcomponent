@@ -30,51 +30,41 @@ class FhirLocationDescription extends LitElement {
 
     static get properties() {
         return {
-            /**describeField is to display the description of location. Use this property to show/hide. Default: true */
-            describeField: Boolean,
+            /**describeField is a text for description of location. Use this property to show/hide. Default: true */
+            describeField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Object
+            value: String
         }
     }
 
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.describeField = true;
-        this.value = {};
+        this.describeField = 'true';
+        this.value = '';
     }
-
-    _setData() {
-        if (this.value.length != undefined) {
-
-            this.shadowRoot.childNodes[1].querySelector('.describeField').value = FhirLocationDescription.undefinedToBlank(this.value);
-        }
-    }
-
-
     /**_didRender() delivers only after _render*/
     _didRender() {
+
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.description != undefined) {
-                this.parentNode.host.value = e.detail.response.description;
-                this.parentNode.host._setData();
+
+            var location = this.parentNode.host;
+            if (e.detail.response.description !== undefined) {
+                location.value = e.detail.response.description;
             }
-            else if (e.detail.response.description == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#allergyDiv'));
             }
         });
-        if (!this.url && this.value) {
-            this._setData();
-        }
     }
 
     _render({describeField, url, value}) {
         return html`
-   <div> 
+   <div id="allergyDiv"> 
    <label>DESCRIPTION:</label> 
-     ${describeField ? html`<mwc-textfield outlined class="describeField" on-input="${e => this.value.description = e.target._input.value}"  label="Description"></mwc-textfield>` : ''}
+     ${describeField !== 'false' ? html`<mwc-textfield outlined value="${this.value}" class="describeField" on-input="${e => this.value = e.target._input.value}"  label="Description"></mwc-textfield>` : ''}
    </div> 
    <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `;

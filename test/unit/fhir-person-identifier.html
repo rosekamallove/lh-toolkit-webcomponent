@@ -56,32 +56,38 @@
             setup(function () {
                 myView = fixture('DefaultElement');
             });
-            test('Patient identifier is displayed correctly', function (done) {
-                myView.addEventListener('iron-ajax-response', function () {
-                    var idf1 = myView.shadowRoot.querySelector('.identifierField').value;
-                    assert.equal(idf1, "LDX12345");
-                    assert.notEqual(idf1, "412345");
-                    done();
+            test('Patient identifier is displayed correctly', function () {
+                myView.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var idf1 = myView.shadowRoot.querySelector('.identifierField').value;
+                        assert.equal(idf1, "LDX12345");
+                        assert.notEqual(idf1, "412345");
+                        done();
+                    });
                 });
             });
 
-            test('Patient system identifier is displayed correctly', function (done) {
-                myView.addEventListener('iron-ajax-response', function () {
-                    var idf = myView.shadowRoot.querySelector('.systemIdentifier').value;
-                    assert.equal(idf, "urn:lumiradx:consult");
-                    assert.notEqual(idf, "412345");
-                    assert.notEqual(idf, "urn:lumiradx:mpi");
-                    done();
+            test('Patient system identifier is displayed correctly', function () {
+                myView.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var idf = myView.shadowRoot.querySelector('.systemIdentifier').value;
+                        assert.equal(idf, "urn:lumiradx:consult");
+                        assert.notEqual(idf, "412345");
+                        assert.notEqual(idf, "urn:lumiradx:mpi");
+                        done();
+                    });
                 });
             });
-            test('Identifier use is displayed correctly', function (done) {
-                myView.addEventListener('iron-ajax-response', function () {
-                    var idf = myView.shadowRoot.querySelector('.useField').value;
-                    assert.equal(idf, "official");
-                    assert.notEqual(idf, "secondary");
-                    assert.notEqual(idf, "412345");
-                    assert.notEqual(idf, "urn:lumiradx:mpi");
-                    done();
+            test('Identifier use is displayed correctly', function () {
+                myView.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var idf = myView.shadowRoot.querySelector('.useField').value;
+                        assert.equal(idf, "official");
+                        assert.notEqual(idf, "secondary");
+                        assert.notEqual(idf, "412345");
+                        assert.notEqual(idf, "urn:lumiradx:mpi");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

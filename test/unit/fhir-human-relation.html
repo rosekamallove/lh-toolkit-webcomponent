@@ -57,12 +57,14 @@
                 relation = fixture('DefaultElement');
             });
 
-            test('Relation Type is correctly displayed', function (done) {
-                relation.addEventListener('iron-ajax-response', function () {
-                    var select = relation.shadowRoot.querySelector('.relationType').value;
-                    assert.equal(select, "N");
-                    assert.notEqual(select, "CP");
-                    done();
+            test('Relation Type is correctly displayed', function () {
+                relation.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var select = relation.shadowRoot.querySelector('.relationType').value;
+                        assert.equal(select, "N");
+                        assert.notEqual(select, "CP");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {
