@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>fhir-coding</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-coding/fhir-coding.js"></script>
+
+</head>
+<body>
+<test-fixture id="DefaultView">
+    <template>
+        <fhir-coding></fhir-coding>
+    </template>
+</test-fixture>
+
+<test-fixture id="AllFieldsView">
+    <template>
+        <fhir-coding showSystem="true" showVersion="true"
+                     showCode="true" showUserSelected="true"></fhir-coding>
+    </template>
+</test-fixture>
+
+<test-fixture id="NoFieldsView">
+    <template>
+        <fhir-coding showDisplay="false"></fhir-coding>
+    </template>
+</test-fixture>
+
+<test-fixture id="DisplayLabelView">
+    <template>
+        <fhir-coding labelOfDisplay='Service Type'></fhir-coding>
+    </template>
+</test-fixture>
+
+<test-fixture id="AllFieldsWithDataView">
+    <template>
+        <fhir-coding showSystem="true" showVersion="true"
+                     showCode="true" showUserSelected="true" value='{
+            "system": "http://hl7.org/fhir/service-type",
+            "code": "190",
+            "version": "2",
+            "display": "Paediatric Cardiology",
+            "userSelected": false
+        }'></fhir-coding>
+    </template>
+</test-fixture>
+
+<test-fixture id="AllFieldsWithAjaxView">
+    <template>
+        <fhir-coding showSystem="true" showVersion="true"
+                     showCode="true" showUserSelected="true"
+                     url='/schedule_url'
+                     jsonPath='["serviceCategory", "coding", 0]'></fhir-coding>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import schedule from '../testResources/schedule.js';
+
+    suite('<iron-ajax>', function () {
+        var server;
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/schedule_url.*/,
+                [200, {'Content-Type': 'application/json'}, JSON.stringify(schedule)]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-coding tests', function () {
+            test('default view should show displayField and NOT show systemField versionField codeField and userSelectedField',
+                    function () {
+                let fhirCoding = fixture('DefaultView');
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.displayField'), null);
+                assert.equal(fhirCoding.shadowRoot.querySelector('.systemField'), null);
+                assert.equal(fhirCoding.shadowRoot.querySelector('.versionField'), null);
+                assert.equal(fhirCoding.shadowRoot.querySelector('.codeField'), null);
+                assert.equal(fhirCoding.shadowRoot.querySelector('.userSelectedField'), null);
+            });
+
+            test('all fields view should show all the fields', function () {
+                let fhirCoding = fixture('AllFieldsView');
+                //Not checking "displayField" because it appears by default (already checked)
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.systemField'), null);
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.versionField'), null);
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.codeField'), null);
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.userSelectedField'), null);
+            });
+
+            test('no fields view should not show the display field either', function () {
+                let fhirCoding = fixture('AllFieldsView');
+                assert.notEqual(fhirCoding.shadowRoot.querySelector('.displayField'), null);
+                // Not checking the remaining fields as they are NOT rendered by default (already checked)
+            });
+
+            test('display label view should show the correct label for display', function () {
+                let fhirCoding = fixture('DisplayLabelView');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').label, 'Service Type');
+            });
+
+            test('all fields with data view should show the data correctly in the relevant fields', function () {
+                let fhirCoding = fixture('AllFieldsWithDataView');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').value, 'Paediatric Cardiology');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.systemField').value, 'http://hl7.org/fhir/service-type');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.versionField').value, '2');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.codeField').value, '190');
+                assert.equal(fhirCoding.shadowRoot.querySelector('.userSelectedField').value, false);
+            });
+
+
+            test('all fields with ajax view should populate the field according to the response', function (done) {
+                let fhirCoding = fixture('AllFieldsWithAjaxView');
+                fhirCoding.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').value,
+                            'Specialist Obstetrics & Gynaecology');
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.systemField').value,
+                            'http://hl7.org/fhir/service-category');
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.versionField').value, '');
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.codeField').value, '28');
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.userSelectedField').value, false);
+                        done();
+                    });
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>
