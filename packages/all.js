@@ -6,3 +6,4 @@
  */
 
 export {FhirPeriod} from '@lh-toolkit/fhir-period/fhir-period.js';
+export {FhirCoding} from '@lh-toolkit/fhir-coding/fhir-coding.js';

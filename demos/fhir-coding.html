@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <title><fhir-coding> demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-coding/fhir-coding.js"></script>
+</head>
+<body>
+<p>
+    <h1>Default element</h1>
+    <fhir-coding></fhir-coding>
+</p>
+<p>
+    <h1>Element with labelOfDisplay and coding value</h1>
+    <fhir-coding labelOfDisplay='Service Type' value='{
+                "system": "http://hl7.org/fhir/service-type",
+                "code": "190",
+                "version": "2",
+                "display": "Paediatric Cardiology",
+                "userSelected": false
+            }'></fhir-coding>
+</p>
+<p>
+    <h1>Element set to show all fields without coding value</h1>
+    <fhir-coding showSystem="true" showVersion="true"
+                 showCode="true" showUserSelected="true"></fhir-coding>
+</p>
+<p>
+    <h1>Element set to show all fields with coding value</h1>
+    <fhir-coding showSystem="true" showVersion="true"
+                 showCode="true" showUserSelected="true" value='{
+                "system": "http://hl7.org/fhir/service-type",
+                "code": "190",
+                "version": "2",
+                "display": "Paediatric Cardiology",
+                "userSelected": false
+            }'></fhir-coding>
+</p>
+<p>
+    <h1>Element populating input values using server response data</h1>
+    <fhir-coding showSystem="true" showVersion="true"
+                 showCode="true" showUserSelected="true"
+                 url='http://hapi.fhir.org/baseDstu3/Schedule/3242828'
+                 jsonPath='["serviceCategory", "coding", 0]'></fhir-coding>
+</p>
+</body>
+</html>
