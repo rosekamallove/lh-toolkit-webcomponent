@@ -5,7 +5,7 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-human-gender>` adds radio buttons to the page. Uses mwc-checkbox and iron-ajax
+ * `<fhir-human-gender>` adds radio buttons to the page. Uses mwc-radio and iron-ajax
  * In typical use, just use `<fhir-human-gender url=""></fhir-human-gender>`
  * @customElement
  * @polymer

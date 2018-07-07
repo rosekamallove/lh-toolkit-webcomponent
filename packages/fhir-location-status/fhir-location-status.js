@@ -5,8 +5,10 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-location-status>` adds status of the location to page. Uses select to choose options.
- * In typical use, just use `<fhir-organisation-type url=""></fhir-location-status>`
+ * `<fhir-location-status>` adds status of the location to page.
+ * This component is a coded concept and hence the value set is hardcoded as per FHIR standard-maturity level 3.
+ * Uses select to choose options.
+ * In typical use, just use `<fhir-location-status url=""></fhir-location-status>`
  * @customElement
  * @polymer
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-location-status.html
@@ -52,9 +54,8 @@ class FhirLocationStatus extends LitElement {
     _render({statusField, url, value}) {
         return html`
    <div id="div">
-   <label>NAME:</label>
    ${statusField !== 'false' ? html`
-     <label>Type:</label>
+     <label>Status:</label>
      <select class="statusField" value="${this.value}" on-change="${e => this.value = e.target.value}">
          <option value="inactive">Inactive</option>
          <option value="suspended">Suspended</option>

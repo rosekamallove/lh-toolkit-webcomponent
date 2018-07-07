@@ -5,7 +5,8 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-human-relation>` adds Type of relation. Uses select
+ * `<fhir-human-relation>` adds Type of relation, name gender, address and contact to the page.
+ * It uses select and other reusable components like fhir-human-name, fhir-human-address, fhir-human-contact.
  * In typical use, just use `<fhir-human-relation url=""></fhir-human-relation>`
  * @customElement
  * @polymer
@@ -24,9 +25,13 @@ class FhirHumanRelation extends LitElement {
         return {
             /**relationType is used to show type of relationship. Use this property to show/hide. Default: true */
             relationType: String,
+            /**nameField is used to show name of person. Use this property to show/hide. Default: true */
             nameField: String,
+            /**genderField is used to show gender of person. Use this property to show/hide. Default: true */
             genderField: String,
+            /**addressField is used to show address of relation. Use this property to show/hide. Default: true */
             addressField: String,
+            /**contactField is used to show telecom details. Use this property to show/hide. Default: true */
             contactField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
@@ -43,6 +48,7 @@ class FhirHumanRelation extends LitElement {
         this.genderField = 'true';
         this.addressField = 'true';
         this.contactField = 'true';
+        /**this.value contains an array which has been initialized as blank for the purpose of re-usability of components like fhir-human-name, fhir-human-address , fhir-human-contact*/
         this.value = [{relationship:[{coding:[{}]}],name: { given: []}, telecom: [{}], address: {line: []}}];
     }
 

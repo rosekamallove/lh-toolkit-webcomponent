@@ -41,14 +41,12 @@ class FhirActiveStatus extends LitElement {
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var active = this.parentNode.host;
-            if (e.detail.response.active !== undefined) {
-                if (e.detail.response.active) {
-                    active.shadowRoot.querySelector('.activeState').checked = true;
+            if (e.detail.response.active) {
+                active.shadowRoot.querySelector('.activeState').checked = true;
 
-                }
-                else if (!e.detail.response.active) {
-                    active.shadowRoot.querySelector('.activeState').checked = false;
-                }
+            }
+            else if (!e.detail.response.active) {
+                active.shadowRoot.querySelector('.activeState').checked = false;
             }
             else {
                 this.parentNode.removeChild(this.parentNode.querySelector('#activeDiv'));
@@ -57,9 +55,6 @@ class FhirActiveStatus extends LitElement {
     }
 
     _render({activeStatus, url, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
-        }
         return html`
        <div id="activeDiv">
        ${activeStatus !== 'false' ? html`<mwc-formfield class="activeStatus" alignEnd label="ACTIVE STATUS:">

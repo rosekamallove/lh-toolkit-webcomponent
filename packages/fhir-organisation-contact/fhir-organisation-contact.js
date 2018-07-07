@@ -5,7 +5,8 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-organisation-contact>` adds select option of purpose to page. Uses select and iron-ajax
+ * `<fhir-organisation-contact>` adds select option of purpose to page along with name address and contact details.
+ * Uses select and iron-ajax
  * In typical use, just use `<fhir-organisation contact url=""></fhir-organisation-contact>`
  * @customElement
  * @polymer
@@ -43,6 +44,7 @@ class FhirOrganisationContact extends LitElement {
         this.nameField = 'true';
         this.addressField = 'true';
         this.contactField = 'true';
+        /**this.value contains an array which has been initialized as blank for the purpose of re-usability of components like fhir-human-name, fhir-human-address , fhir-human-contact*/
         this.value = [{name: { given: []}, telecom: [{}], address: {line: []}}];
     }
 

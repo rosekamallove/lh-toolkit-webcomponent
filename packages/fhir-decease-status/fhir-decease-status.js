@@ -43,14 +43,12 @@ class FhirDeceaseStatus extends LitElement {
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var active = this.parentNode.host;
-            if (e.detail.response.deceasedBoolean !== undefined) {
-                if (e.detail.response.deceasedBoolean) {
-                    active.shadowRoot.querySelector('.decease').checked = true;
+            if (e.detail.response.deceasedBoolean) {
+                active.shadowRoot.querySelector('.decease').checked = true;
 
-                }
-                else if (!e.detail.response.deceasedBoolean) {
-                    active.shadowRoot.querySelector('.decease').checked = false;
-                }
+            }
+            else if (!e.detail.response.deceasedBoolean) {
+                active.shadowRoot.querySelector('.decease').checked = false;
             }
             else {
                 this.parentNode.removeChild(this.parentNode.querySelector('#div'));

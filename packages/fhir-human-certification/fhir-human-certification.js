@@ -5,7 +5,9 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-human-certification>` adds selection of qualification and identifier of qualification tothe page. Uses mwc-textfield and iron-ajax
+ * `<fhir-human-certification>` adds selection of qualification and identifier of qualification to the page.
+ * The list fo qualifications is hard coded from given example on FHIR-Maturity level 3
+ * Uses mwc-textfield and iron-ajax
  * In typical use, just use `<fhir-human-certification url=""></fhir-human-certification>`
  * @customElement
  * @polymer

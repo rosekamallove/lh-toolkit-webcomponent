@@ -6,6 +6,7 @@
  */
 /**
  * `<fhir-location-mode>` adds radio buttons. Uses mwc-radio and iron-ajax
+ * This component is a coded concept and hence the mode is hard-coded as per FHIR standards.
  * In typical use, just use `<fhir-location-mode url=""></fhir-location-mode>`
  * @customElement
  * @polymer

@@ -5,7 +5,7 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-human-language>` adds language used to communicate to page with a switch to show which one is preferred. Uses mwc-textfield, mwc-switch and iron-ajax
+ * `<fhir-human-language>` adds language used to communicate to the page with a checkbox to show which one is preferred. Uses mwc-textfield, mwc-checkbox and iron-ajax
  * In typical use, just use `<fhir-human-language url=""></fhir-human-language>`
  * @customElement
  * @polymer

@@ -25,14 +25,14 @@ class FhirBirthDate extends LitElement {
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Object
+            value: String
         }
     }
 
     constructor() {
         super();
         this.birthDate = 'true';
-        this.value = {};
+        this.value = '';
     }
 
     /**_didRender() delivers only after _render*/
@@ -53,7 +53,7 @@ class FhirBirthDate extends LitElement {
         return html`
        <div id="allergyDiv">
        ${birthDate !== 'false' ? html`<mwc-formfield class="birthDate" alignEnd label="DATE OF BIRTH:">
-         <input id="date" type="date" value="${this.value}" on-input="${e => this.value.birthDate = e.target.value}">
+         <input id="date" type="date" value="${this.value}" on-input="${e => this.value = e.target.value}">
        </mwc-formfield>` : ''}
        </div>
        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
