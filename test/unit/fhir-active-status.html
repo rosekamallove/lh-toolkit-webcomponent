@@ -55,12 +55,14 @@
             setup(function () {
                 active = fixture('DefaultElement');
             });
-            test('Active state for patient2 is false ', function (done) {
-                active.addEventListener('iron-ajax-response', function () {
-                    var status = active.shadowRoot.getElementById('active').checked;
-                    assert.equal(status, false);
-                    assert.notEqual(status, true);
-                    done();
+            test('Active state for patient2 is false ', function () {
+                active.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var status = active.shadowRoot.getElementById('active').checked;
+                        assert.equal(status, false);
+                        assert.notEqual(status, true);
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

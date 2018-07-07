@@ -56,12 +56,14 @@
             setup(function () {
                 orgname = fixture('DefaultElement');
             });
-            test('Name of organisation is correct ', function (done) {
-                orgname.addEventListener('iron-ajax-response', function () {
-                    var name = orgname.shadowRoot.querySelector('.nameField').value;
-                    assert.equal(name, "The Night's Watch");
-                    assert.notEqual(name, "The Night's");
-                    done();
+            test('Name of organisation is correct ', function () {
+                orgname.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var name = orgname.shadowRoot.querySelector('.nameField').value;
+                        assert.equal(name, "The Night's Watch");
+                        assert.notEqual(name, "The Night's");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

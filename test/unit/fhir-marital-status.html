@@ -57,20 +57,22 @@
                 maritalStatus = fixture('DefaultElement');
             });
 
-            test('Check if Childnode i.e., table of radio buttons is removed', function (done) {
-                maritalStatus.addEventListener('iron-ajax-response', function () {
-                    var childnodelen = maritalStatus.childNodes.length;
-                    assert.equal(childnodelen, "0");
-                    assert.notEqual(childnodelen, "1");
-                    done();
+            test('Check if Childnode i.e., table of radio buttons is removed', function () {
+                maritalStatus.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var childnodelen = maritalStatus.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                        assert.equal(childnodelen, true);
+                        assert.notEqual(childnodelen, false);
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('marriage', patient2.maritalStatus);
                 flush(function () {
                     let gend = document.getElementById('fhirMarital').shadowRoot.querySelectorAll('mwc-radio')[0].checked;
-                    assert.equal(gend, false);
-                    assert.notEqual(gend, true);
+                    assert.equal(gend, true);
+                    assert.notEqual(gend, false);
                     done();
                 });
             });

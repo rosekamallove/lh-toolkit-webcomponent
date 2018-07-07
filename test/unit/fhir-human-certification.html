@@ -56,36 +56,23 @@
             setup(function () {
                 certificate = fixture('DefaultElement');
             });
-            test('Qualification code is selected correct ', function (done) {
-                certificate.addEventListener('iron-ajax-response', function () {
-                    var code = certificate.shadowRoot.querySelector('.qualificationSelect').value;
-                    assert.equal(code, "MMG");
-                    assert.notEqual(code, "MS");
-                    done();
-                });
-            });
-            test('System Identifier is correct ', function (done) {
-                certificate.addEventListener('iron-ajax-response', function () {
-                    var system = certificate.shadowRoot.querySelector('.systemIdentifier').value;
-                    assert.equal(system, "urn:oid:2.16.840.1.113883.2.9.2.50503.4.15");
-                    assert.notEqual(system, "urn:oid:2.16.840.");
-                    done();
-                });
-            });
-            test('Qualification Identifier is correct ', function (done) {
-                certificate.addEventListener('iron-ajax-response', function () {
-                    var qual = certificate.shadowRoot.querySelector('.qualificationIdentifier').value;
-                    assert.equal(qual, "301_EX113");
-                    assert.notEqual(qual, "314675ERF");
-                    done();
+            test('Qualification code is selected correct ', function () {
+                certificate.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var code = certificate.shadowRoot.querySelector('.qualificationSelect').value;
+                        assert.equal(code, "MMG");
+                        assert.notEqual(code, "MS");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('qualifications', JSON.stringify(practitioner.qualification));
                 flush(function () {
-                    let family = document.getElementById('fhirCertificate').shadowRoot.querySelectorAll('.qualificationIdentifier')[0].value;
-                    assert.equal(family, "301_EX113");
-                    assert.notEqual(family, "MMG");
+                    let family = document.getElementById('fhirCertificate').shadowRoot.querySelector('.qualificationSelect').value;
+                    console.log(family)
+                    assert.equal(family, "MMG");
+                    assert.notEqual(family, "303_URN:SSS");
                     assert.notEqual(family, "urn:oid:2.16.840.1.113883.2.9.2.50503.4.15");
                     done();
                 });

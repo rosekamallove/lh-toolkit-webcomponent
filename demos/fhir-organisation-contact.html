@@ -15,11 +15,14 @@
 </p>
 <p>
 <h1>Default element without passing url with JSON passed</h1>
-<fhir-organisation-contact value='[{"purpose":"ADMIN"}]'></fhir-organisation-contact>
+<fhir-organisation-contact value='[{"purpose": "ADMIN",
+"name": { "family": "Vũ","given": ["Thị Hậu"]},
+"telecom": [{"system": "phone","value": "0973123456"}],
+"address": {"use": "home","type": "both","line": ["489 Láng"],"city": "Hà Nội","district": "Đống Đa","period": {"start": "1974-12-25"}}}]'></fhir-organisation-contact>
 </p>
 <p>
 <p>
-<h1>Default element when url is passed. This organization does not have contact purpose and gets removed from page.</h1>
+<h1>Default element when url is passed</h1>
 <fhir-organisation-contact url="http://hapi.fhir.org/baseDstu3/Organization/3142926"></fhir-organisation-contact>
 </p>
 </body>

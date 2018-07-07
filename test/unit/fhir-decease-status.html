@@ -27,7 +27,6 @@
 </dom-bind>
 
 
-
 <script type="module">
     import patient2 from '../../test/testResources/patient2.js';
 
@@ -58,18 +57,20 @@
                 decease = fixture('DefaultElement');
             });
 
-            test('Decease state of patient2 is false', function (done) {
-                decease.addEventListener('iron-ajax-response', function () {
-                    var deceased = decease.shadowRoot.getElementById('decease').checked;
-                    assert.equal(deceased, false);
-                    assert.notEqual(deceased, true);
-                    done();
+            test('Decease state of patient2 is false', function () {
+                decease.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var deceased = decease.shadowRoot.querySelector('.decease').checked;
+                        assert.equal(deceased, false);
+                        assert.notEqual(deceased, true);
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {
-                document.querySelector('dom-bind').set('deceases', JSON.stringify(patient2.deceasedBoolean));
+                document.querySelector('dom-bind').set('deceases', patient2.deceasedBoolean);
                 flush(function () {
-                    let cont = document.getElementById('fhirDecease').shadowRoot.getElementById('decease').checked;
+                    let cont = document.getElementById('fhirDecease').shadowRoot.querySelector('.decease').checked;
                     assert.equal(cont, false);
                     assert.notEqual(cont, true);
                     done();

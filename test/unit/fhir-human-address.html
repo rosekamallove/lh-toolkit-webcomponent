@@ -53,40 +53,47 @@
         });
 
         suite('fhir-human-address tests', function () {
-            test('use field displayed correctly', function (done) {
-                address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
-                    var use = address.shadowRoot.querySelector('.useSelect').value;
-                    assert.equal(use, "home");
-                    assert.notEqual(use, "official");
-                    done();
+            test('use field displayed correctly', function () {
+                flush(function () {
+                    address = fixture('DefaultElement');
+                    address.addEventListener('iron-ajax-response', function (done) {
+                        var use = address.shadowRoot.querySelector('.useSelect').value;
+                        assert.equal(use, "home");
+                        assert.notEqual(use, "official");
+                        done();
+                    });
                 });
             });
 
-            test('type of address displayed correctly', function (done) {
+            test('type of address displayed correctly', function () {
                 address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
-                    var type = address.shadowRoot.querySelector('.typeSelect').value;
-                    assert.equal(type, "both");
-                    assert.notEqual(type, "postal");
-                    assert.notEqual(type, "Heloo Bhavesh");
-                    done();
+                address.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var type = address.shadowRoot.querySelector('.typeSelect').value;
+                        assert.equal(type, "both");
+                        assert.notEqual(type, "postal");
+                        assert.notEqual(type, "Heloo Bhavesh");
+                        done();
+                    });
                 });
             });
-            test('Address line 1 is displayed correctly', function (done) {
+            test('Address line 1 is displayed correctly', function () {
                 address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
-                    var add1 = address.shadowRoot.querySelector('.add1Field').value;
-                    assert.equal(add1, "Heloo Bhavesh");
-                    assert.notEqual(add1, "secondary");
-                    assert.notEqual(add1, "both");
-                    assert.notEqual(add1, "type");
-                    done();
+                address.addEventListener('iron-ajax-response', function (done) {
+
+                    flush(function () {
+                        var add1 = address.shadowRoot.querySelector('.add1Field').value;
+                        assert.equal(add1, "Heloo Bhavesh");
+                        assert.notEqual(add1, "secondary");
+                        assert.notEqual(add1, "both");
+                        assert.notEqual(add1, "type");
+                        done();
+                    });
                 });
             });
-            test('Address line 2 is displayed correctly', function (done) {
+            test('Address line 2 is displayed correctly', function () {
                 address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
+                address.addEventListener('iron-ajax-response', function (done) {
                     var add2 = address.shadowRoot.querySelector('.add2Field').value;
                     assert.equal(add2, "489 Láng");
                     assert.notEqual(add2, "home");
@@ -95,9 +102,11 @@
                     done();
                 });
             });
-            test('city is displayed correctly', function (done) {
-                address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
+        });
+        test('city is displayed correctly', function () {
+            address = fixture('DefaultElement');
+            address.addEventListener('iron-ajax-response', function (done) {
+                flush(function () {
                     var city = address.shadowRoot.querySelector('.cityField').value;
                     assert.equal(city, "Hà Nội");
                     assert.notEqual(city, "Đống Đa");
@@ -106,9 +115,11 @@
                     done();
                 });
             });
-            test('district is displayed correctly', function (done) {
-                address = fixture('DefaultElement');
-                address.addEventListener('iron-ajax-response', function () {
+        });
+        test('district is displayed correctly', function () {
+            address = fixture('DefaultElement');
+            address.addEventListener('iron-ajax-response', function (done) {
+                flush(function () {
                     var district = address.shadowRoot.querySelector('.districtField').value;
                     assert.equal(district, "Đống Đa");
                     assert.notEqual(district, "Hà Nội");
@@ -117,20 +128,20 @@
                     done();
                 });
             });
-            test('To check if value sets correctly to each field', function (done) {
-                document.querySelector('dom-bind').set('addresses', JSON.stringify(patient2.address));
-                flush(function () {
-                    console.log(document.getElementById('fhirAddress').shadowRoot.querySelectorAll('.cityField')[0].value)
-                    let add = document.getElementById('fhirAddress').shadowRoot.querySelectorAll('.cityField')[0].value;
-                    assert.equal(add, "Hà Nội");
-                    assert.notEqual(add, "Đống Đa");
-                    assert.notEqual(add, "489 Láng");
-                    done();
-                });
+        });
+        test('To check if value sets correctly to each field', function (done) {
+            document.querySelector('dom-bind').set('addresses', JSON.stringify(patient2.address));
+            flush(function () {
+                console.log(document.getElementById('fhirAddress').shadowRoot.querySelectorAll('.cityField')[0].value)
+                let add = document.getElementById('fhirAddress').shadowRoot.querySelectorAll('.cityField')[0].value;
+                assert.equal(add, "Hà Nội");
+                assert.notEqual(add, "Đống Đa");
+                assert.notEqual(add, "489 Láng");
+                done();
             });
         });
-
     });
+
 </script>
 </body>
 </html>

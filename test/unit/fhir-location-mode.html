@@ -52,20 +52,24 @@
             setup(function () {
                 locMode = fixture('DefaultElement');
             });
-            test('Instance mode id checked', function (done) {
-                locMode.addEventListener('iron-ajax-response', function () {
-                    var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
-                    assert.equal(mode, true);
-                    assert.notEqual(mode, false);
-                    done();
+            test('Instance mode id checked', function () {
+                locMode.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
+                        assert.equal(mode, true);
+                        assert.notEqual(mode, false);
+                        done();
+                    });
                 });
             });
-            test('Kind mode not checked ', function (done) {
-                locMode.addEventListener('iron-ajax-response', function () {
-                    var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[1].checked;
-                    assert.equal(mode, false);
-                    assert.notEqual(mode, true);
-                    done();
+            test('Kind mode not checked ', function () {
+                locMode.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[1].checked;
+                        assert.equal(mode, false);
+                        assert.notEqual(mode, true);
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

@@ -18,24 +18,14 @@ import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirOrganisationName extends LitElement {
-    /**function to check if object is undefined. If undefined show blank else returns obj value*/
-    static undefinedToBlank(obj) {
-        if (obj == undefined) {
-            return '';
-        }
-        else {
-            return obj;
-        }
-    }
-
     static get properties() {
         return {
-            /**nameField is a selectable option for use of name. Use this property to show/hide. Default: true */
-            nameField: Boolean,
+            /**nameField is a textfield of org name. Use this property to show/hide. Default: true */
+            nameField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Object
+            value: String
         }
     }
 
@@ -43,39 +33,27 @@ class FhirOrganisationName extends LitElement {
     constructor() {
         super();
         this.nameField = true;
-        this.value = {};
+        this.value = '';
     }
-    _setData() {
-        if (this.value.length != undefined) {
-
-                this.shadowRoot.childNodes[1].querySelector('.nameField').value = FhirOrganisationName.undefinedToBlank(this.value);
-            }
-        }
-
-
     /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.name != undefined) {
-                this.parentNode.host.value = e.detail.response.name;
-                this.parentNode.host._setData();
+            var name = this.parentNode.host;
+            if(e.detail.response.name !== undefined) {
+                name.value = e.detail.response.name;
             }
-            else if (e.detail.response.name == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#nameDiv'));
             }
         });
-        if (!this.url) {
-            this._setData();
-        }
     }
-
     _render({nameField, url, value}) {
         return html`
-   <div> 
-   <label>NAME:</label> 
-     ${nameField ? html`<mwc-textfield outlined class="nameField" on-input="${e => this.value.name = e.target._input.value}"  label="Organization Name"></mwc-textfield>` : ''}
-   </div> 
-   <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+        <div id="nameDiv"> 
+        <label>NAME:</label> 
+        ${nameField !== 'false' ? html`<mwc-textfield outlined class="nameField" value="${this.value}" on-input="${e => this.value = e.target._input.value}"  label="Organization Name"></mwc-textfield>` : ''}
+        </div> 
+        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `;
     }
 }

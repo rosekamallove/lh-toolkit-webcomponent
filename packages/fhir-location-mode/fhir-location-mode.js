@@ -20,8 +20,8 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class FhirLocationMode extends LitElement {
     static get properties() {
         return {
-            /**locMode is used to display the modeof location. Use this property to show/hide. Default: true */
-            locMode: Boolean,
+            /**locMode is used to gender of person from given options. Use this property to show/hide. Default: true */
+            locMode: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
@@ -32,47 +32,31 @@ class FhirLocationMode extends LitElement {
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.locMode = true;
-        this.value = {};
+        this.locMode = 'true';
+        this.value = '';
 
     }
 
-    _setValue() {
-        if (this.value.length != undefined) {
-            var child = this.shadowRoot.childNodes[1];
-            var i = 0;
-            while (true) {
-                if (this.shadowRoot.querySelectorAll("mwc-radio")[i].value == this.value) {
-                    this.shadowRoot.querySelectorAll("mwc-radio")[i].checked = true;
-                    break;
-                }
-                i++;
-            }
-        }
-    }
-
+    /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.mode != undefined) {
-                this.parentNode.host.value = e.detail.response.mode;
-                this.parentNode.host._setValue();
+            var location = this.parentNode.host;
+            if (e.detail.response.mode !== undefined) {
+                location.value = e.detail.response.mode;
             }
-            else if (e.detail.response.mode == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#locMode'));
             }
         });
-        if (!this.url && this.value) {
-            this._setValue();
-        }
     }
 
     _render({locMode, url, value}) {
         return html`
-        <div class="locMode">
+        <div id="locMode">
         <label>MODE:</label>
-         ${locMode ? html`<mwc-formfield id="modeField">
-          Instance:<mwc-radio value="instance" on-click="${e => this.value.mode = e.target.value}"></mwc-radio>
-         Kind:<mwc-radio value="kind" on-click="${e => this.value.mode = e.target.value}"></mwc-radio>
+         ${locMode !== 'false' ? html`<mwc-formfield id="modeField">
+          Instance:<mwc-radio value="instance"  checked="${this.value == 'instance' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
+         Kind:<mwc-radio value="kind"  checked="${this.value == 'kind' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
          ` : ''}
         </div>
         <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>

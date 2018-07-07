@@ -1,7 +1,7 @@
 {
   "name": "@lh-toolkit/fhir-active-status",
   "version": "0.0.1",
-  "description": "The custom element for active status of human",
+  "description": "The custom element for FHIR active status.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

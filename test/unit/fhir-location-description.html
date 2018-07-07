@@ -56,12 +56,14 @@
             setup(function () {
                 text = fixture('DefaultElement');
             });
-            test('Description of location is correct ', function (done) {
-                text.addEventListener('iron-ajax-response', function () {
-                    var val = text.shadowRoot.querySelector('.describeField').value;
-                    assert.equal(val, "Second floor of the Old South Wing, formerly in use by Psychiatry");
-                    assert.notEqual(val, "The Night");
-                    done();
+            test('Description of location is correct ', function () {
+                text.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var val = text.shadowRoot.querySelector('.describeField').value;
+                        assert.equal(val, "Second floor of the Old South Wing, formerly in use by Psychiatry");
+                        assert.notEqual(val, "The Night");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

@@ -10,7 +10,8 @@
     <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
 
     <!-- Import the element to test -->
-    <script type="module" src="../../packages/fhir-location-operationalstatus/fhir-location-operationalstatus.js"></script>
+    <script type="module"
+            src="../../packages/fhir-location-operationalstatus/fhir-location-operationalstatus.js"></script>
 </head>
 <body>
 <test-fixture id="DefaultElement">
@@ -56,12 +57,14 @@
             setup(function () {
                 opstatus = fixture('DefaultElement');
             });
-            test('Type of organisation is correct ', function (done) {
-                opstatus.addEventListener('iron-ajax-response', function () {
-                    var type = opstatus.shadowRoot.querySelectorAll('.typeField')[0].value;
-                    assert.equal(type, "O");
-                    assert.notEqual(type, "I");
-                    done();
+            test('Type of organisation is correct ', function () {
+                opstatus.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var type = opstatus.shadowRoot.querySelectorAll('.typeField')[0].value;
+                        assert.equal(type, "O");
+                        assert.notEqual(type, "I");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

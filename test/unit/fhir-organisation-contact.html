@@ -57,12 +57,14 @@
                 organization = fixture('DefaultElement');
             });
 
-            test('Contact Type is correctly displayed', function (done) {
-                organization.addEventListener('iron-ajax-response', function () {
-                    var select = organization.shadowRoot.querySelectorAll('.purposeField')[0].value;
-                    assert.equal(select, "ADMIN");
-                    assert.notEqual(select, "CP");
-                    done();
+            test('Contact Type is correctly displayed', function () {
+                organization.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var select = organization.shadowRoot.querySelectorAll('.purposeField')[0].value;
+                        assert.equal(select, "ADMIN");
+                        assert.notEqual(select, "CP");
+                        done();
+                    });
                 });
             });
             test('To check if value sets correctly to each field', function (done) {

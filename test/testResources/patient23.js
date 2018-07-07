@@ -1,13 +1,8 @@
 export default {
     "resourceType": "Patient",
-    "id": "2",
     "meta": {
         "versionId": "10",
         "lastUpdated": "2018-05-24T19:48:30.719+00:00"
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Hồng Nam <b>TRẦN </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Address</td><td><span>489 Láng </span><br/><span>Hà Nội </span></td></tr><tr><td>Date of birth</td><td><span>25 December 1974</span></td></tr></tbody></table></div>"
     },
     "active": false,
     "name": [
@@ -37,7 +32,6 @@ export default {
             }
         }
     ],
-    "communication":[{"language":"English", "preferred":"true" }],
     "telecom": [
         {
             "system": "phone",
@@ -84,7 +78,6 @@ export default {
     "gender": "male",
     "birthDate": "2000-02-10",
     "deceasedBoolean": false,
-    "maritalStatus": "A",
     "address": [
         {
             "use": "home",
