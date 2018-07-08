@@ -60,6 +60,13 @@
     </template>
 </test-fixture>
 
+<test-fixture id="OnBlurView">
+    <template>
+        <fhir-coding showSystem="true" showVersion="true"
+                     showCode="true" showUserSelected="true"></fhir-coding>
+    </template>
+</test-fixture>
+
 <script type="module">
     import schedule from '../testResources/schedule.js';
 
@@ -131,6 +138,53 @@
                         done();
                     });
                 });
+            });
+
+            test('On blur view should update value property as the textfields focus out',
+                    function (done) {
+                let fhirCoding = fixture('OnBlurView');
+
+                let displayField = fhirCoding.shadowRoot.querySelector('.displayField');
+                let systemField = fhirCoding.shadowRoot.querySelector('.systemField');
+                let versionField = fhirCoding.shadowRoot.querySelector('.versionField');
+                let codeField = fhirCoding.shadowRoot.querySelector('.codeField');
+                let userSelectedField = fhirCoding.shadowRoot.querySelector('.userSelectedField');
+
+                displayField._input.value = "a";
+                systemField._input.value = "b";
+                versionField._input.value = "c";
+                codeField._input.value = "d";
+                userSelectedField._input.value = "e";
+
+                assert.notEqual(fhirCoding.value.display, "a");
+                assert.notEqual(fhirCoding.value.system, "b");
+                assert.notEqual(fhirCoding.value.version, "c");
+                assert.notEqual(fhirCoding.value.code, "d");
+                assert.notEqual(fhirCoding.value.userSelected, "d");
+
+                /* trigger blur on all textfields and finally on userSelectedField */
+                displayField.dispatchEvent(new Event('focus'));
+                displayField.dispatchEvent(new Event('blur'));
+                systemField.dispatchEvent(new Event('focus'));
+                systemField.dispatchEvent(new Event('blur'));
+                versionField.dispatchEvent(new Event('focus'));
+                versionField.dispatchEvent(new Event('blur'));
+                codeField.dispatchEvent(new Event('focus'));
+                codeField.dispatchEvent(new Event('blur'));
+                userSelectedField.dispatchEvent(new Event('focus'));
+
+                userSelectedField.addEventListener('blur', function (e) {
+                    setTimeout(function(){
+                        assert.equal(fhirCoding.value.display, "a");
+                        assert.equal(fhirCoding.value.system, "b");
+                        assert.equal(fhirCoding.value.version, "c");
+                        assert.equal(fhirCoding.value.code, "d");
+                        assert.equal(fhirCoding.value.userSelected, "e");
+                    }, 0); /* without timeout method, value gets asserted before updated */
+                    done();
+                }, true);
+
+                userSelectedField.dispatchEvent(new Event('blur'));
             });
         });
     });
