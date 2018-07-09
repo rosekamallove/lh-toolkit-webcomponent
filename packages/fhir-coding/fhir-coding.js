@@ -44,6 +44,8 @@ class FhirCoding extends LitElement {
 
     constructor() {
         super()
+        this.value = {};
+        this.ajaxRelated = {};
         this.showDisplay = "true";
         this.labelOfDisplay = "Display";
         this.showSystem = "false";
@@ -52,43 +54,47 @@ class FhirCoding extends LitElement {
         this.showUserSelected = "false";
     }
 
-    _render({value, url, jsonPath, showDisplay, labelOfDisplay, showSystem, showVersion, showCode,  showUserSelected}) {
-        let display, system, version, code, userSelected;
-        if (value != undefined) {
-            if (typeof(value) === "string") { // value passed via html
-                display = JSON.parse(value).display;
-                system = JSON.parse(value).system;
-                version = JSON.parse(value).version;
-                code = JSON.parse(value).code;
-                userSelected = JSON.parse(value).userSelected;
-            } else if (typeof(value) == "object") { // value passed via js or value set after ajax
-                display = value.display;
-                system = value.system;
-                version = value.version;
-                code = value.code;
-                userSelected = value.userSelected;
-            }
+    _deserializeValue(value, type) { // overrides
+        switch (type) {
+          case Object:
+            return JSON.parse(value);
+          default:
+            return value;
         }
+    }
 
+    _render({value, url, jsonPath, showDisplay, labelOfDisplay, showSystem, showVersion, showCode,
+            showUserSelected}) {
+        if (url != undefined && Object.keys(this.ajaxRelated).length === 0) {
+            return html`
+                <iron-ajax class="ajax" bubbles auto
+                    handle-as="json" url=${url}
+                    on-response=${e => this.handleResponse(e, jsonPath)}
+                    on-error=${e => this.handleErrorResponse(e)}></iron-ajax>
+                <div class="ajaxMessage">Awaiting server response...</div>
+            `;
+        }
         return html`
             ${showDisplay=="true" ? html `<mwc-textfield outlined class="displayField"
                 label=${labelOfDisplay}
-                value=${display}></mwc-textfield>` : ''}
+                value=${value.display}
+                on-blur=${e =>this.value["display"] = e.target._input.value}></mwc-textfield>` : ''}
             ${showSystem=="true" ? html `<mwc-textfield outlined class="systemField"
                 label="System"
-                value=${system}></mwc-textfield>` : ''}
+                value=${value.system}
+                on-blur=${e =>this.value["system"] = e.target._input.value}></mwc-textfield>` : ''}
             ${showVersion=="true" ? html `<mwc-textfield outlined class="versionField"
                 label="Version"
-                value=${version}></mwc-textfield>` : ''}
+                value=${value.version}
+                on-blur=${e =>this.value["version"] = e.target._input.value}></mwc-textfield>` : ''}
             ${showCode=="true" ? html `<mwc-textfield outlined class="codeField"
                 label="Code"
-                value=${code}></mwc-textfield>` : ''}
+                value=${value.code}
+                on-blur=${e =>this.value["code"] = e.target._input.value}></mwc-textfield>` : ''}
             ${showUserSelected=="true" ? html`<mwc-textfield outlined class="userSelectedField"
                 label="User Selected"
-                value=${userSelected}></mwc-textfield>` : ''}
-            ${(url != undefined) ? html `<iron-ajax class="ajax" bubbles auto
-                handle-as="json" url=${url}
-                on-response=${e => this.handleResponse(e, jsonPath)}></iron-ajax>` : '' }
+                value=${value.userSelected}
+                on-blur=${e =>this.value["userSelected"] = e.target._input.value}></mwc-textfield>` : ''}
         `;
     }
 
@@ -96,9 +102,19 @@ class FhirCoding extends LitElement {
         if (jsonPath != undefined) {
             let codingJson = this.getNestedObject(e.detail.response, JSON.parse(jsonPath));
             if ( codingJson != undefined) {
+                this.ajaxRelated["success"] = "true";
                 this.value = codingJson;
             }
         }
+    }
+
+    handleErrorResponse (e) {
+        let errorMessage = e.detail.error.message;
+        if (errorMessage == undefined || typeof(errorMessage) != "string") {
+            errorMessage = "Error occurred while retrieving server response";
+        }
+        console.log(this.ajaxRelated.errorMessage);
+        this._requestRender();
     }
 
     getNestedObject(jsonObject, keyArray ){
