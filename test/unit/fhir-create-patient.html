@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-create-patient</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.autotype.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-create-patient/fhir-create-patient.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-create-patient url="/load_patient_data"></fhir-create-patient>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import patient23 from '../../test/testResources/patient23.js';
+
+    suite('<iron-ajax>', function () {
+        var post;
+        var ajax;
+        var request;
+        var server;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('POST', /\/load_patient_data.*!/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient23)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-create-patient post tests', function () {
+            setup(function () {
+                post = fixture('DefaultElement');
+            });
+            test('typing in the value and posting is done correctly ', function (done) {
+                flush(function () {
+                    //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
+                    var field = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.prefixField');
+                    var inputField1 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.prefixField').shadowRoot.getElementById('text-field');
+                    $(inputField1).autotype('Sr');
+                    var inputField2 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.fName').shadowRoot.getElementById('text-field');
+                    $(inputField2).autotype('James');
+                    var inputField3 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.lName').shadowRoot.getElementById('text-field');
+                    $(inputField3).autotype('Bond');
+                    post.addEventListener('iron-ajax-request', function (e) {
+                        assert.equal(JSON.stringify(patient23.name), JSON.stringify(e.detail.options.body.name));
+                        done();
+                    });
+                    post.shadowRoot.getElementById('button').click();
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

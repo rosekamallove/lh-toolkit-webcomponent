@@ -7,29 +7,9 @@ export default {
     "active": false,
     "name": [
         {
-            "use": "usual",
-            "family": "Trần",
-            "given": [
-                "Hồng",
-                "Nam"
-            ]
-        },
-        {
-            "use": "nickname",
-            "given": [
-                "Mai"
-            ]
-        },
-        {
-            "use": "maiden",
-            "family": "Nguyễn",
-            "given": [
-                "Thị",
-                "Mùi"
-            ],
-            "period": {
-                "end": "2002"
-            }
+            "prefix": "Sr",
+            "given": "James",
+            "family": "Bond"
         }
     ],
     "telecom": [
