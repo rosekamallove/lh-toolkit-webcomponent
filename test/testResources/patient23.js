@@ -7,8 +7,10 @@ export default {
     "active": false,
     "name": [
         {
+            "given": [
+                "James"
+            ],
             "prefix": "Sr",
-            "given": "James",
             "family": "Bond"
         }
     ],

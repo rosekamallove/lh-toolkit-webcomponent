@@ -51,7 +51,7 @@ class FhirHumanName extends LitElement {
         this.mName = 'false';
         this.lName = 'true';
         this.periodField = 'false';
-        this.value = [{}];
+        this.value = [{given:[]}];
     }
 
     /**_didRender() delivers only after _render*/
@@ -72,9 +72,9 @@ class FhirHumanName extends LitElement {
             this.value = JSON.parse(value);
         }
         return html`${this.value.map((i, index) => html`
-     <div id="humanNameDiv">
-     <label>Name:</label>
-     ${useField !== 'false' ? html`
+   <div id="humanNameDiv">
+   <label>Name:</label>
+   ${useField !== 'false' ? html`
      <label>Use:</label>
      <select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
          <option value="usual">Usual</option>
@@ -85,9 +85,9 @@ class FhirHumanName extends LitElement {
          <option value="old">Old</option>
          <option value="maiden">Maiden</option>
      </select>` : ''}
-     ${prefixField !== 'false' ? html`<mwc-textfield outlined class="prefixField" value="${i.prefix}" on-input="${(e) => {this.value[index].prefix = e.target._input.value  }}" id="prefix" label="Prefix"></mwc-textfield>` : ''}
-     ${fName !== 'false' ? html`<mwc-textfield outlined class="fName" value="${i.given}" on-input="${e => this.value[index].given = e.target._input.value}" label="First Name:"></mwc-textfield>` : ''}
-     ${mName !== 'false' ? html`<mwc-textfield outlined class="mName" value="${i.given}" on-input="${e => this.value[index].given = e.target._input.value}" label="Middle Name:"></mwc-textfield>` : ''}
+     ${prefixField !== 'false' ? html`<mwc-textfield outlined class="prefixField" value="${i.prefix}" on-input="${e => this.value[index].prefix = e.target._input.value}" id="prefix" label="Prefix"></mwc-textfield>` : ''}
+     ${fName !== 'false' ? html`<mwc-textfield outlined class="fName" value="${mName !== 'false' ? i.given[0]:i.given}" on-input="${(e) => mName !== 'false' ? this.value[index].given[0] = e.target._input.value:this.value[index].given = e.target._input.value}" label="First Name:"></mwc-textfield>` : ''}
+     ${mName !== 'false' ? html`<mwc-textfield outlined class="mName" value="${i.given[1]}" on-input="${e => this.value[index].given[1]= e.target._input.value}" label="Middle Name:"></mwc-textfield>` : ''}
      ${lName !== 'false' ? html`<mwc-textfield outlined class="lName" value="${i.family}" on-input="${e => this.value[index].family = e.target._input.value}" label="Last Name:"></mwc-textfield>` : ''}
      ${periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      ${suffixField !== 'false' ? html`<mwc-textfield outlined class="suffixField" value="${i.suffix}" on-input="${e => this.value[index].suffix = e.target._input.value}" label="Suffix"></mwc-textfield>` : ''}

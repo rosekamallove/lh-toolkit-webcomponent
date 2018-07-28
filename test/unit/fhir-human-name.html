@@ -72,7 +72,7 @@
                     flush(function (done) {
                         let middleName = name.shadowRoot.querySelector('.mName').value;
                         if (name.mName) {
-                            assert.notEqual(middleName, 'Hồng,Nam');
+                            assert.notEqual(middleName, 'Nam');
                         } else {
                             assert.equal(middleName, 'Hồng,Nam');
                         }
