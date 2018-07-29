@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-practitioner-get</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-practitioner-get/fhir-practitioner-get.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-practitioner-get url="/load_data"></fhir-practitioner-get>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import practitioner from '../../test/testResources/practitioner.js';
+
+    suite('<iron-ajax>', function () {
+        var server;
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(practitioner)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-practitioner-gets tests', function () {
+            test(' Name fields get correct values', function () {
+                let name = fixture('DefaultElement');
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let lastName = name.shadowRoot.getElementById('practitionerName').shadowRoot.querySelector('.lName').value;
+                        assert.equal(lastName, 'Prandin');
+                        assert.notEqual(lastName, 'Trần');
+                        assert.notEqual(lastName, 'Hồng');
+                        done();
+                    });
+                });
+            });
+            test(' City Field gets correct values', function () {
+                let name = fixture('DefaultElement');
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let city = name.shadowRoot.getElementById('patientAddress').shadowRoot.querySelector('.cityField').value;
+                        assert.equal(city, 'Indy');
+                        assert.notEqual(city, 'Trần');
+                        assert.notEqual(city, 'Hồng');
+                        done();
+                    });
+                });
+            });
+
+        });
+    });
+
+</script>
+</body>
+</html>
