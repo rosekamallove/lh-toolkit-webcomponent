@@ -115,7 +115,7 @@ class FhirHumanCertification extends LitElement {
          <option value="RPH">Registered Pharmacist</option>
          <option value="MMG">Medico di Medicina Generale</option>
      </select>` : ''}
-     ${systemIdentifier !== 'false' ? html`<fhir-person-identifier useField="false" periodField="true" value="${i.identifier}" on-change="${e => this.value[index].identifier = e.target._input.value}"></fhir-person-identifier>` : ''}       
+     ${systemIdentifier !== 'false' ? html`<fhir-person-identifier useField="false" periodField="true" value="${i.identifier}" on-input="${e => this.value[index].identifier = e.target._input.value}"></fhir-person-identifier>` : ''}       
      </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `)}`;

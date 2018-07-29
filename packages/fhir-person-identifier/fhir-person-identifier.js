@@ -64,7 +64,7 @@ class FhirPersonIdentifier extends LitElement {
         }
         return html`${this.value.map((i, index) => html`
         <div id="div">
-        <label>IDENTIFIER:</label>
+         <label>Identifier:</label>
         ${useField !== 'false' ? html`
         Use:<select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
         <option value="usual">Usual</option>
@@ -72,9 +72,9 @@ class FhirPersonIdentifier extends LitElement {
         <option value="temp">Temporary</option>
         <option value="secondary">Secondary</option>
         </select>` : ''}
-        ${systemIdentifier !== 'false' ? html`<mwc-textfield outlined value="${i.system}" on-change="${e => this.value[index].system = e.target.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
-        ${identifierField !== 'false' ? html`<mwc-textfield outlined value="${i.value}" on-change="${e => this.value[index].value = e.target.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
-        ${periodField !== 'false' ? html`<fhir-period class="periodField" value="${i.period}" on-change="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
+        ${systemIdentifier !== 'false' ? html`<mwc-textfield outlined value="${i.system}" on-input="${e => this.value[index].system = e.target._input.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
+        ${identifierField !== 'false' ? html`<mwc-textfield outlined value="${i.value}" on-input="${e => this.value[index].value = e.target._input.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
+        ${periodField !== 'false' ? html`<fhir-period class="periodField" value="${i.period}" on-input="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
         </div>
         <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
      `)}`;
