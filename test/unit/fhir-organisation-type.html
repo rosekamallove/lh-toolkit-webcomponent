@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-organisation-type</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-organisation-type/fhir-organisation-type.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-organisation-type url="/load_patient_data"></fhir-organisation-type>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-organisation-type id="fhirOrg" value="[[orgs]]"></fhir-organisation-type>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import organisation from '../../test/testResources/organisation.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var organization;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(organisation)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-human-relation tests', function () {
+            setup(function () {
+                organization = fixture('DefaultElement');
+            });
+
+            test('Organization Type is correctly displayed', function () {
+                organization.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var select = organization.shadowRoot.querySelector('.typeField').value;
+                        assert.equal(select, "prov");
+                        assert.notEqual(select, "gov");
+                        done();
+                    });
+                });
+            });
+            test('Organization system uri is correctly displayed', function () {
+                organization.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+                        var system = organization.shadowRoot.querySelector('.systemField').value;
+                        assert.equal(system, "http://hl7.org/fhir/organization-type");
+                        assert.notEqual(system, "http://hl7.org/fhir/organization-org");
+                        done();
+                    });
+                });
+            });
+            test('To check if value sets correctly to each field', function (done) {
+                document.querySelector('dom-bind').set('orgs', JSON.stringify(organisation.type));
+                flush(function () {
+                    let system = document.getElementById('fhirOrg').shadowRoot.querySelector('.typeField').value;
+                    assert.equal(system, "prov");
+                    assert.notEqual(system, "http://hl7.org/fhir/organization-org");
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
