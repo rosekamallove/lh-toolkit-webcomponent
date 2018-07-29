@@ -26,6 +26,14 @@ export default{
             ]
         }
     ],
+    "address": [
+        {
+
+            "city": "Indy",
+            "district": "Indiana",
+
+        }
+    ],
     "qualification": [
         {
             "identifier": [
