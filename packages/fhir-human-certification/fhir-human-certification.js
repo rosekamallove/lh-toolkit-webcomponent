@@ -72,7 +72,7 @@ class FhirHumanCertification extends LitElement {
    <div id="humanNameDiv">
      <label>Qualification</label><br>
      ${qualificationSelect !== 'false' ? html`
-     Use:<select class="qualificationSelect" value="${i.code.coding[0].code}"  on-change="${e => this.value[index].code = e.target.value}">
+     Use:<select class="qualificationSelect" value="${i.code.coding[0].code}"  on-change="${e => this.value[index].code.coding[0].code = e.target.value}">
          <option value="AA">Associate of Arts</option>
          <option value="ABS">Associate of Applied Science</option>
          <option value="ABA">Associate of Business Administration</option>
