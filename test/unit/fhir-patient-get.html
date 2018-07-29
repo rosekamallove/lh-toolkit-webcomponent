@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-patient-get</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-patient-get/fhir-patient-get.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-patient-get url="/load_patient_data"></fhir-patient-get>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import patient81036 from '../../test/testResources/patient81036.js';
+
+    suite('<iron-ajax>', function () {
+        var server;
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patient81036)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-patient-gets tests', function () {
+            test(' Identifier Field get correct values', function () {
+                let name = fixture('DefaultElement');
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let identifier = name.shadowRoot.getElementById('patientId').shadowRoot.querySelectorAll('.systemIdentifier')[0].value;
+                        assert.equal(identifier, 'urn:lumiradx:consult');
+                        assert.notEqual(identifier, 'Trần');
+                        assert.notEqual(identifier, 'Hồng');
+                        done();
+                    });
+                });
+            });
+            test(' Name Field gets correct values', function () {
+                let name = fixture('DefaultElement');
+                name.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let firstName = name.shadowRoot.getElementById('patientName').shadowRoot.querySelectorAll('.lName')[0].value;
+                        assert.equal(firstName, 'Smith');
+                        assert.notEqual(firstName, 'Trần');
+                        assert.notEqual(firstName, 'Hồng');
+                        done();
+                    });
+                });
+            });
+
+        });
+    });
+
+</script>
+</body>
+</html>
