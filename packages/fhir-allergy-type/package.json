@@ -1,0 +1,21 @@
+{
+  "name": "@lh-toolkit/fhir-allergy-type",
+  "version": "0.0.1",
+  "description": "The custom element for FHIR allergy type",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/librehealth/toolkit/lh-toolkit-webcomponents.git"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@polymer/lit-element": "^0.5.1",
+    "@polymer/iron-ajax": "^3.0.0-pre.19"
+
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
