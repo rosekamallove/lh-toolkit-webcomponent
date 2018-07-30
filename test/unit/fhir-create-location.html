@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-create-location</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.autotype.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-create-location/fhir-create-location.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-create-location url="/load_data"></fhir-create-location>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import location from '../../test/testResources/location.js';
+
+    suite('<iron-ajax>', function () {
+        var post;
+        var ajax;
+        var request;
+        var server;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('POST', /\/load_data.*!/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(location)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-create-location post tests', function () {
+            setup(function () {
+                post = fixture('DefaultElement');
+            });
+            test('typing in the value and posting body is done correctly ', function (done) {
+                flush(function () {
+                    //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
+                    var inputField = post.shadowRoot.getElementById('locationDescription').shadowRoot.querySelector('.describeField').shadowRoot.getElementById('text-field');
+                    $(inputField).autotype('Second floor of the Old South Wing, formerly in use by Psychiatry');
+                    post.addEventListener('iron-ajax-request', function (e) {
+                        assert.equal(JSON.stringify(location.description), JSON.stringify(e.detail.options.body.description));
+
+                        done();
+                    });
+                    post.shadowRoot.getElementById('button').click();
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>
