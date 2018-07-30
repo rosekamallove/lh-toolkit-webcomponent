@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-allergy-category>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-allergy-category/fhir-allergy-category.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-allergy-category></fhir-allergy-category>
+</p>
+<p>
+<h1>Default element without passing url but with JSON</h1>
+<fhir-allergy-category value= "medication"></fhir-allergy-category>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed</h1>
+<fhir-allergy-category url="http://hapi.fhir.org/baseDstu3/AllergyIntolerance/1716183"></fhir-allergy-category>
+</p>
+</body>
+</html>
