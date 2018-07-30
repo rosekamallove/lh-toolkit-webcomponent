@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-location-get</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-location-get/fhir-location-get.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-location-get url="/load_data"></fhir-location-get>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import location from '../../test/testResources/location.js';
+
+    suite('<iron-ajax>', function () {
+        var server;
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(location)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-location-gets tests', function () {
+            test(' Name fields get correct values', function () {
+                let check = fixture('DefaultElement');
+                check.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let names = check.shadowRoot.getElementById('locationName').value;
+                        assert.equal(names, "South Wing, second floor");
+                        assert.notEqual(names, 'South');
+                        assert.notEqual(names, 'Second floor');
+                        done();
+                    });
+                });
+            });
+            test(' Identifier Field gets correct values', function () {
+                let check = fixture('DefaultElement');
+                check.addEventListener('iron-ajax-response', function (done) {
+                    flush(function (done) {
+                        let describe = check.shadowRoot.getElementById('locationationdescribe').value;
+                        assert.equal(describe, 'Second floor of the Old South Wing, formerly in use by Psychiatry');
+                        assert.notEqual(describe, 'Second floor of the Old South Wing');
+                        done();
+                    });
+                });
+            });
+
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-location-get>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-location-get/fhir-location-get.js"></script>
+</head>
+<body>
+<p>
+<h1>Organization Profile from URL:</h1>
+<fhir-location-get url="http://hapi.fhir.org/baseDstu3/Location/4313189"></fhir-location-get>
+</p>
+<p>
+<h1>Organization Profile from JSON Passed:</h1>
+<fhir-location-get value = '{
+  "resourceType": "Location",
+  "id": "1272674",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2018-03-19T19:07:39.510+00:00"
+  },
+  "name": "South Wing, second floor",
+  "description": "Second floor of the Old South Wing, formerly in use by Psychiatry",
+  "mode": "instance",
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "2328",
+      "use": "work"
+    },
+    {
+      "system": "fax",
+      "value": "2329",
+      "use": "work"
+    },
+    {
+      "system": "email",
+      "value": "second wing admissions"
+    },
+    {
+      "system": "url",
+      "value": "http://sampleorg.com/southwing",
+      "use": "work"
+    }
+  ],
+  "address": [{
+    "use": "work",
+    "text": [
+      "Galapagosweg 91, Building A"
+    ],
+    "city": "Den Burg",
+    "district": "NLD"
+  }]
+
+}'></fhir-location-get>
+</p>
+</body>
+</html>
