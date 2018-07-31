@@ -20,50 +20,46 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class FhirLocationOperationalstatus extends LitElement {
     static get properties() {
         return {
-            /**typeField is a selectable option type of operational status. Use this property to show/hide. Default: true */
-            typeField: Boolean,
+            /**typeField is a selectable option type of physical form of organisation. Use this property to show/hide. Default: true */
+            typeField: String,
+            /**systemField is a textfield to show system URI of organisation. Use this property to show/hide.*/
+            systemField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Array
+            value: Object
         }
     }
-
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.typeField = true;
+        this.typeField = 'true'
+        this.systemField = 'false';
         this.value = {};
-    }
-
-    _setValue() {
-        if (this.value.length != undefined) {
-            this.shadowRoot.childNodes[1].querySelectorAll('.typeField')[0].value = this.value;
-        }
     }
 
     /**_didRender() delivers only after _render*/
     _didRender() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-            if (e.detail.response.operationalStatus != undefined) {
-                this.parentNode.host.value = e.detail.response.operationalStatus;
-                this.parentNode.host._setValue();
+            var status = this.parentNode.host;
+            if(e.detail.response.operationalStatus !== undefined) {
+                status.value = e.detail.response.operationalStatus;
             }
-            else if (e.detail.response.operationalStatus == undefined) {
-                this.parentNode.removeChild(this.parentNode.childNodes[1]);
+            else {
+                this.parentNode.removeChild(this.parentNode.querySelector('#div'));
             }
         });
-        if (!this.url && this.value) {
-            this._setValue();
-        }
     }
 
-    _render({typeField, url, value}) {
+    _render({typeField, url, value, systemField}) {
+        if (typeof(value) == "string") {
+            this.value = JSON.parse(value);
+        }
         return html`
-   <div>
-   ${typeField ? html`
+   <div id="div">
+   ${typeField !== 'false' ? html`
      <label>Operational Status:</label>
-     <select class="typeField" on-change="${e => this.value.operationalStatus = e.target.value}">
+     <select class="typeField" value="${this.value.code}" on-change="${e => this.value.code = e.target.value}">
          <option value="C">Closed</option>
          <option value="H">Housekeeping</option>
          <option value="I">Isolated</option>
@@ -71,8 +67,9 @@ class FhirLocationOperationalstatus extends LitElement {
          <option value="O">Occupied</option>
          <option value="U">Unoccupied</option
      </select>` : ''}
-     </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+   ${systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" value="${this.value.system}" on-input="${e => this.value.system = e.target._input.value}"  label="System URI"></mwc-textfield>` : ''}
+   </div>
+   <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
     `;
     }
 }
