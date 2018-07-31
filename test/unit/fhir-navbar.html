@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-navbar</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-navbar/fhir-navbar.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-navbar url="/load_patient_data"></fhir-navbar>
+    </template>
+</test-fixture>
+<script type="module">
+    import xxx from '../../test/testResources/xxx.js';
+
+    suite('<iron-ajax>', function () {
+        var ajax;
+        var request;
+        var server;
+        var orgname;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_patient_data.*/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(xxx)
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-navbar tests', function () {
+            setup(function () {
+                orgname = fixture('DefaultElement');
+            });
+            test('Tocheck if selection redirects to correct page ', function () {
+                orgname.addEventListener('iron-ajax-response', function (done) {
+                    flush(function () {
+
+                        done();
+                    });
+                });
+            });
+            test('To check if button clicks redirects to correct page', function (done) {
+                document.querySelector('dom-bind').set('orgname', organisation.name);
+                flush(function () {
+
+                    done();
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
