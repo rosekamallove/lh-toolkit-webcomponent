@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-login</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.autotype.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-login/fhir-login.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-login url="https://toolkit.librehealth.io/master/ws/rest/v1/session"></fhir-login>
+    </template>
+</test-fixture>
+<script type="module">
+    suite('<iron-ajax>', function () {
+        var requests;
+        var server;
+        var active;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/load_data.*!/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    '{"sessionId":"CFDCD534A33F50F797743D61505AAF05","authenticated":true}'
+                ]
+            );
+        });
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-login tests', function () {
+            var active;
+            setup(function () {
+                active = fixture('DefaultElement');
+            });
+            //TO DO: WRITE TEST FOR REDIRECTION
+            test('window redirection takes place ', function (done) {
+                flush(function () {
+
+                });
+
+            });
+        });
+    });
+</script>
+</body>
+</html>
