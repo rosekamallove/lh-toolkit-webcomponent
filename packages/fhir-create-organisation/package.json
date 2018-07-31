@@ -1,0 +1,21 @@
+{
+  "name": "@lh-toolkit/fhir-create-organisation",
+  "version": "0.0.1",
+  "description": "The custom element helps to create a page for registering a organization",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/librehealth/toolkit/lh-toolkit-webcomponents.git"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@polymer/lit-element": "^0.5.1",
+    "@material/mwc-button": "file:../../material-components-web-components/packages/button",
+    "@polymer/iron-ajax": "^3.0.0-pre.19"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
