@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-allergy-assertdate>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-allergy-assertdate/fhir-allergy-assertdate.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-allergy-assertdate></fhir-allergy-assertdate>
+</p>
+<p>
+<h1>Default element without passing url With JSON</h1>
+<fhir-allergy-assertdate value="2002-07-30T15:00:34"></fhir-allergy-assertdate>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed</h1>
+<fhir-allergy-assertdate url="http://hapi.fhir.org/baseDstu3/AllergyIntolerance/1726380"></fhir-allergy-assertdate>
+</p>
+</body>
+</html>
