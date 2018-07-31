@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-organisation-type>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-organisation-type/fhir-organisation-type.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-organisation-type></fhir-organisation-type>
+</p>
+<p>
+<h1>Default element without passing url with JSON passed</h1>
+<fhir-organisation-type value='[{"coding": [ { "system": "http://hl7.org/fhir/organization-type", "code": "govt" } ] } ]'></fhir-organisation-type>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed</h1>
+<fhir-organisation-type url="http://hapi.fhir.org/baseDstu3/Organization/710440"></fhir-organisation-type>
+</p>
+</body>
+</html>
