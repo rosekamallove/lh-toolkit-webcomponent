@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-search</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.autotype.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-search/fhir-search.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-search url="/load_data"></fhir-search>
+    </template>
+</test-fixture>
+<script type="module">
+    import patientlist from '../../test/testResources/patientlist.js';
+    import organizationlist from '../../test/testResources/organizationlist.js';
+
+    suite('<iron-ajax>', function () {
+        var post;
+        var ajax;
+        var request;
+        var server;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/[load_data]([-a-zA-Z0-9:%_\+.~#?&//=]*)/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(patientlist)
+                ]
+            );
+        });
+
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-search post tests', function () {
+            setup(function () {
+                post = fixture('DefaultElement');
+            });
+            test('getting back similar human search names on typing, is done correctly', function (done) {
+                flush(function () {
+                    var field = post.shadowRoot.getElementById('searchField').shadowRoot.getElementById('text-field');
+                    $(field).autotype('Par');
+                    post.addEventListener('iron-ajax-response', function (e) {
+                        assert.equal(patientlist.entry.length, e.detail.response.entry.length);
+                        done();
+                    });
+
+                });
+            });
+
+        });
+    });
+    suite('<iron-ajax>', function () {
+        var post;
+        var ajax;
+        var request;
+        var server;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/[load_data]([-a-zA-Z0-9:%_\+.~#?&//=]*)/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(organizationlist)
+                ]
+            );
+        });
+
+        teardown(function () {
+            server.restore();
+        });
+        suite('fhir-search post tests', function () {
+            setup(function () {
+                post = fixture('DefaultElement');
+            });
+            test('getting back similar non human search names on typing, is done correctly', function (done) {
+                flush(function () {
+                    var field = post.shadowRoot.getElementById('searchField').shadowRoot.getElementById('text-field');
+                    $(field).autotype('Goo');
+                    post.addEventListener('iron-ajax-response', function (e) {
+                        assert.equal(organizationlist.entry.length, e.detail.response.entry.length);
+                        done();
+                    });
+
+                });
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
