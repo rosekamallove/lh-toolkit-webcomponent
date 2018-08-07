@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-practitioner-searchbox</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="../../test/testResources/jquery.autotype/jquery.autotype.js"></script>
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-searchbox/fhir-searchbox.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-searchbox url="http://hapi.fhir.org/baseDstu3/Organization"></fhir-searchbox>
+    </template>
+</test-fixture>
+<script type="module">
+    import organizationlist from '../../test/testResources/organizationlist.js';
+
+    suite('<iron-ajax>', function () {
+        var post;
+        var ajax;
+        var request;
+        var server;
+        var responseHeaders = {
+            json: {'Content-Type': 'application/json'}
+        };
+        setup(function () {
+            server = sinon.fakeServer.create();
+            server.respondImmediately = true;
+            server.respondWith('GET', /\/[load_data]([-a-zA-Z0-9:%_\+.~#?&//=]*)/,
+                [200,
+                    {'Content-Type': 'application/json'},
+                    JSON.stringify(organizationlist)
+                ]
+            );
+        });
+
+        teardown(function () {
+            server.restore();
+        });
+
+        suite('fhir-practitioner-searchbox post tests', function () {
+            setup(function () {
+                var post = fixture('DefaultElement');
+            });
+            test('getting back similar human search names on typing, is done correctly', function (done) {
+                flush(function () {
+                    //To do test as vadin grid doesnot get autotyped search results
+                        done();
+                    });
+
+                });
+            });
+
+        });
+
+</script>
+</body>
+</html>
