@@ -17,12 +17,14 @@ import {LitElement, html} from '@polymer/lit-element/lit-element.js';
 import '@material/mwc-button/mwc-button.js';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+
 class FhirLogin extends LitElement {
 
     static get properties() {
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: String,
+            relocateurl: String
         }
     }
 
@@ -32,9 +34,10 @@ class FhirLogin extends LitElement {
     }
 
     _didRender() {
+        FhirLogin.relocateurl = this.relocateurl;
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.authenticated) {
-                window.location.href = "../../index.html";
+                window.location.href = FhirLogin.relocateurl;
             }
             else {
                 if (e.target.parentNode.getElementById('username')._input.value != undefined) {
@@ -86,8 +89,6 @@ class FhirLogin extends LitElement {
             window.location.href = "../../index.html";
         }
     }
-
-
 }
 
 window.customElements.define('fhir-login', FhirLogin);
