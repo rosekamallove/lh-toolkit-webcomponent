@@ -53,25 +53,29 @@ class FhirLogin extends LitElement {
         --mdc-theme-primary: orange;
         --mdc-theme-on-secondary: white;
         --mdc-theme-secondary: orange;
-        margin-left:20px
+        margin: auto;
        }
        .card {
-       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+       margin: auto;
        width: 20%;
        border-radius: 5px;
-       background-color: #fff3e0;
        }
        .mid{
-       margin-left:20px;
+       margin: auto;
+       }
+       img{
+       display: block;
+       margin-left: auto;
+       margin-right: auto;
        }
        </style>
+       <img src="https://librehealth.io/img/logo.png" class="center"><br>
        <div class="card">
-       <img src="https://librehealth.io/img/logo.png" class="center" width="250px"><br>
        <mwc-textfield outlined  class="mid" id="username" label="Username"></mwc-textfield><br>
        <mwc-textfield outlined class="mid" id="password" label="Password" type="password"></mwc-textfield><br>  
        <mwc-button id="button" raised class="orange" on-click=${() => this.doLogin()}>Login</mwc-button>
        </div>
-        <iron-ajax bubbles id="ajax" url="${url}"></iron-ajax>
+       <iron-ajax bubbles id="ajax" url="${url}"></iron-ajax>
     `;
     }
 
