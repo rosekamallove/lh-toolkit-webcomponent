@@ -1,0 +1,27 @@
+# fhir-location-mode
+
+The fhir-location-mode adds radio buttons to the page to determine the mode of location as instance or kind. It is commonly used 
+ as a form field. It uses mwc-radio and iron-ajax. This component is a coded concept and hence the mode is hard-coded as per FHIR standards.
+
+### Functionality
+  Default : shows a non-checked mwc-radio field for `display`. 
+ ######a. GET:
+ * It has an mwc-radio which receives a value. `value` can be passed as a string.
+ * It can also receive value from a 'url' which can be passed as property "url". The `mode` key value is checked for  in key-value pair of data.
+  * If it does not receive any value, it shows blank.
+ * Setting `locMode` property as true or false can help show and hide this component.
+ ######b. SET:
+ * Typing in the value in textfield sets the value of the component used for posting purposes.
+
+### Properties of fhir-location-mode
+ * `value`:`String` - used to take the input value of each field.
+ * `url`:`String` - used to make AJAX call to FHIR resource. Default: null.
+ * `locMode`:`String` - is to show mode of location . Use this property to show/hide. Default: true.
+ ### License
+ Mozilla Public License, v. 2.0.
+ 
+ ### Typical Use:
+ * With url:
+ `<fhir-location-mode url=""></fhir-location-mode>`
+ * Without url:
+  `<fhir-location-mode></fhir-location-mode>`

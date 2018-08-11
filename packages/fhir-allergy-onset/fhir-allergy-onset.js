@@ -5,11 +5,11 @@
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 /**
- * `<fhir-allergy-assertdate>` adds allergy onset date to the page. Uses input type datetime in mm/dd/yyyy hh:mm:ss format
- * In typical use, just use `<fhir-allergy-assertdate url=""></fhir-allergy-assertdate>`
+ * `<fhir-allergy-onset>` adds allergy onset date to the page. Uses input type datetime in mm/dd/yyyy hh:mm:ss format
+ * In typical use, just use `<fhir-allergy-onset url=""></fhir-allergy-onset>`
  * @customElement
  * @polymer
- * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-assertdate.html
+ * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-onset.html
  *
  */
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';

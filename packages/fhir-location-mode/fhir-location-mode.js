@@ -21,12 +21,12 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class FhirLocationMode extends LitElement {
     static get properties() {
         return {
-            /**locMode is used to gender of person from given options. Use this property to show/hide. Default: true */
+            /**locMode is used to set the mode of location from given options. Use this property to show/hide. Default: true */
             locMode: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
             /**value is used to take the input value of each field*/
-            value: Object
+            value: String
         }
     }
 

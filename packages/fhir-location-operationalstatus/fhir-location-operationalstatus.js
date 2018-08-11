@@ -20,9 +20,9 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class FhirLocationOperationalstatus extends LitElement {
     static get properties() {
         return {
-            /**typeField is a selectable option type of physical form of organisation. Use this property to show/hide. Default: true */
+            /**typeField is a selectable option for operational status of location. Use this property to show/hide. Default: true */
             typeField: String,
-            /**systemField is a textfield to show system URI of organisation. Use this property to show/hide.*/
+            /**systemField is a textfield to show system URI of Location. Use this property to show/hide.*/
             systemField: String,
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: String,
