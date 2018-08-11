@@ -36,8 +36,10 @@ class FhirSearch extends LitElement {
             url: String,
             /**value is used to take the input value of field*/
             value: Object,
-            /**relocateurl is used to define url used to redirect on click of items in grid. Default: null */
-            relocateUrl: String
+            /**relocateurl is used to give url that is used for redirection on click of the button*/
+            relocateurl: String,
+            /**resourceType is used to determine which type of resource is being searched*/
+            resourceType: String
 
         }
     }
@@ -45,11 +47,11 @@ class FhirSearch extends LitElement {
     constructor() {
         super();
         this.value = {};
-        this.relocateUrl = "";
-
+        this.resourceType ="";
     }
 
     _didRender() {
+        FhirSearch.relocateurl = this.relocateurl;
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var grid = e.target.parentNode.querySelector('#table');
             var items = [];
@@ -77,11 +79,11 @@ class FhirSearch extends LitElement {
         });
         //Event Listener for active-item-changed in the grid and click used to redirect to the desired location.
         this.shadowRoot.getElementById('table').addEventListener('active-item-changed', function (e) {
-            window.location.href = this.relocateUrl + '?' + FhirSearch.resourceType + 'Id=' + e.detail.value.id;
+            window.location.href = FhirSearch.relocateurl + '?' + FhirSearch.resourceType + 'Id=' + e.detail.value.id;
         });
     }
 
-    _render({url, value, patientUrl}) {
+    _render({url, relocateurl}) {
         return html`
       <mwc-textfield outlined id="searchField" on-input="${e => this.makeQuery(e.target._input.value)}" label="Search"></mwc-textfield>
       <iron-ajax bubbles id="ajax" handle-as="json" url="${url}"></iron-ajax>
