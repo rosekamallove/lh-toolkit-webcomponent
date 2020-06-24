@@ -70,6 +70,7 @@
                 document.querySelector('dom-bind').set('allergy', allergy.type);
                 flush(function () {
                     let typ = document.getElementById('fhirAllergy').shadowRoot.querySelectorAll('.typeField')[0].value;
+                    console.log(typ)
                     assert.equal(typ, "allergy");
                     assert.notEqual(typ, "intolerance");
                     done();

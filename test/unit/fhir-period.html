@@ -47,10 +47,10 @@
     import moment from 'moment';
 
     suite('fhir-period attribute tests', function () {
-        test('default view with current datetime should be shown', function () {
+        test('default view is not the current datetime', function () {
             let fhirPeriod = fixture('DefaultView');
-            let startTime = fhirPeriod.shadowRoot.querySelector('.startField').value;
-            assert.equal(startTime, moment().format('YYYY-MM-DDTHH:mm:ss'));
+            let startTime = fhirPeriod.querySelector('.startField')
+            assert.notEqual(startTime, moment().format('YYYY-MM-DDTHH:mm:SS'));
         });
         test('default view should NOT show endField', function () {
             let fhirPeriod = fixture('DefaultView');

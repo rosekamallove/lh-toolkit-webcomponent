@@ -14,8 +14,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-create-patient.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
-import '@material/mwc-button/mwc-button.js';
+import {LitElement, html} from 'lit-element';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
 import '@lh-toolkit/fhir-birth-date/fhir-birth-date.js';
 import '@lh-toolkit/fhir-decease-status/fhir-decease-status.js';
@@ -26,6 +25,7 @@ import '@lh-toolkit/fhir-human-language/fhir-human-language.js';
 import '@lh-toolkit/fhir-human-name/fhir-human-name.js';
 import '@lh-toolkit/fhir-human-relation/fhir-human-relation.js';
 import '@lh-toolkit/fhir-marital-status/fhir-marital-status.js';
+import '@material/mwc-button/mwc-button.js'
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirCreatePatient extends LitElement {
@@ -33,11 +33,11 @@ class FhirCreatePatient extends LitElement {
     static get properties() {
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: {type: String}
         }
     }
 
-    _render({url}) {
+    render() {
         return html`
        <fhir-human-name id="patientName"></fhir-human-name>
        <fhir-active-status id="patientActive"></fhir-active-status>
@@ -49,8 +49,8 @@ class FhirCreatePatient extends LitElement {
        <fhir-human-address id="patientAddress"></fhir-human-address>
        <fhir-human-language id="patientLanguage"></fhir-human-language>
        <fhir-human-relation id="patientRelation"></fhir-human-relation>
-       <mwc-button id="button" raised on-click=${() => this.doPost()}>Submit</mwc-button>
-       <iron-ajax bubbles method ="POST" id="ajax" url="${url}" on-response="handleResponse"></iron-ajax>
+       <mwc-button id="button" raised @click=${() => this.doPost()}>Submit</mwc-button>
+       <iron-ajax bubbles method ="POST" id="ajax" .url="${this.url}" on-response="handleResponse"></iron-ajax>
     `;
     }
 

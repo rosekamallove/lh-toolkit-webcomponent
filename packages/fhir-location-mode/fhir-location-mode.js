@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-location-mode.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-radio/mwc-radio.js';
 import '@polymer/iron-ajax/iron-ajax.js';
@@ -22,11 +22,11 @@ class FhirLocationMode extends LitElement {
     static get properties() {
         return {
             /**locMode is used to set the mode of location from given options. Use this property to show/hide. Default: true */
-            locMode: String,
+            locMode: { type: String },
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: { type: String },
             /**value is used to take the input value of each field*/
-            value: String
+            value: { type: String }
         }
     }
 
@@ -38,8 +38,8 @@ class FhirLocationMode extends LitElement {
 
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var location = this.parentNode.host;
             if (e.detail.response.mode !== undefined) {
@@ -51,16 +51,17 @@ class FhirLocationMode extends LitElement {
         });
     }
 
-    _render({locMode, url, value}) {
+    render() {
         return html`
         <div id="locMode">
-        <label>MODE:</label>
-         ${locMode !== 'false' ? html`<mwc-formfield id="modeField">
-          Instance:<mwc-radio value="instance"  checked="${this.value == 'instance' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
-         Kind:<mwc-radio value="kind"  checked="${this.value == 'kind' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
+         ${this.locMode !== 'false' ? html`<mwc-formfield label= "MODE:" id="modeField" alignEnd>
+          Instance:<mwc-radio value="instance"  ?checked="${this.value == 'instance' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
+         Kind:<mwc-radio value="kind"  ?checked="${this.value == 'kind' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
+         </mwc-formfield>
          ` : ''}
+         
         </div>
-        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+        <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

@@ -11,7 +11,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.1",
+    "lit-element": "^2.3.1",
     "@material/mwc-textfield": "file:../../material-components-web-components/packages/textfield",
     "@material/mwc-base": "file:../../material-components-web-components/packages/base",
     "@vaadin/vaadin-grid": "5.1.0-alpha2",

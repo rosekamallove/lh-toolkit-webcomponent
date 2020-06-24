@@ -12,7 +12,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-human-gender.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-radio/mwc-radio.js';
 import '@polymer/iron-ajax/iron-ajax.js';
@@ -21,11 +21,11 @@ class FhirHumanGender extends LitElement {
     static get properties() {
         return {
             /**genderVal is used to gender of person from given options. Use this property to show/hide. Default: true */
-            genderVal: String,
+            genderVal:{type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: String
+            value: {type: String}
         }
     }
 
@@ -37,8 +37,8 @@ class FhirHumanGender extends LitElement {
 
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after updated*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var location = this.parentNode.host;
             if (e.detail.response.gender !== undefined) {
@@ -50,18 +50,18 @@ class FhirHumanGender extends LitElement {
         });
     }
 
-    _render({genderVal, url, value}) {
+    render() {
         return html`
         <div id="genderVal">
-        <label>GENDER:</label>
-         ${genderVal !== 'false' ? html`<mwc-formfield id="genderField">
-         Male:<mwc-radio value="male" checked="${this.value == 'male' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
-         Female:<mwc-radio value="female" checked="${this.value == 'female' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
-         Other:<mwc-radio value="other" checked="${this.value == 'other' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>            
-         Unknown:<mwc-radio value="unknown" checked="${this.value == 'unknown' ? true : false}" on-click="${e => this.value = e.target.value}"></mwc-radio>
+        ${this.genderVal !== 'false' ? html`
+        <mwc-formfield label="GENDER:" id="genderField" alignEnd>
+         Male:<mwc-radio  value="male" ?checked="${this.value == 'male' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
+         Female:<mwc-radio value="female" ?checked="${this.value == 'female' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
+         Other:<mwc-radio value="other" ?checked="${this.value == 'other' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>            
+         Unknown:<mwc-radio value="unknown" ?checked="${this.value == 'unknown' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
          </mwc-formfield>` : ''}
          </div>
-         <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+         <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

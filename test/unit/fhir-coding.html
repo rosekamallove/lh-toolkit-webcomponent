@@ -87,6 +87,7 @@
             test('default view should show displayField and NOT show systemField versionField codeField and userSelectedField',
                     function () {
                 let fhirCoding = fixture('DefaultView');
+                console.log(fhirCoding.shadowRoot.querySelector(".displayField"))
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.displayField'), null);
                 assert.equal(fhirCoding.shadowRoot.querySelector('.systemField'), null);
                 assert.equal(fhirCoding.shadowRoot.querySelector('.versionField'), null);

@@ -12,20 +12,34 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-verificationstatus.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-select';
+import '@material/mwc-formfield';
+import '@material/mwc-list/mwc-list-item';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+
+const jsonStringConverter = {
+    toAttribute(val) {
+        // convert the value to string so it can be used as an attribute value
+        return JSON.stringify(val);
+    },
+    fromAttribute(str) {
+        // convert the attribute value to a JS object to use it as a property
+        return JSON.parse(str);
+    }
+}
 
 class FhirAllergyVerificationstatus extends LitElement {
     static get properties() {
         return {
             /**typeField is a selectable option type of verification status of allergy. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField: { type: String },
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: { type: String },
             /**value is used to take the input value of each field*/
-            value: Array
+            value: { type: jsonStringConverter, reflect: true }
         }
     }
 
@@ -36,8 +50,8 @@ class FhirAllergyVerificationstatus extends LitElement {
         this.value = {};
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after _render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
 
@@ -51,20 +65,26 @@ class FhirAllergyVerificationstatus extends LitElement {
         });
     }
 
-    _render({typeField, url, value}) {
+    render() {
         return html`
    <div>
-   <label>VERIFICATION STATUS:</label>
-   ${typeField !== 'false' ? html`
-     <select class="typeField" value="${this.value}" on-change="${e => this.value.verificationStatus = e.target.value}">
-         <option value="confirmed">Confirmed</option>
-         <option value="unconfirmed">Unconfirmed</option>
-         <option value="refuted">Refuted</option>
-         <option value="entered-in-error">Entered-in-error</option>
-     </select>` : ''}
+   <mwc-formfield label ="VERIFICATION STATUS:" alignEnd>
+   ${this.typeField !== 'false' ? html`
+   <mwc-select outlined class="typeField" value="${this.value}" @change="${this.onChange}">
+        <mwc-list-item value="confirmed">Confirmed</mwc-list-item>
+        <mwc-list-item value="unconfirmed">Unconfirmed</mwc-list-item>
+        <mwc-list-item value="refuted">Refuted</mwc-list-item>
+        <mwc-list-item value="entered-in-error">Entered-in-error</mwc-list-item>
+</mwc-select>
+     ` : ''}
+     </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
+    }
+
+    onChange(e){
+        this.value = e.target.value;
     }
 }
 

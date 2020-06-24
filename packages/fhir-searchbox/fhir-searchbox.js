@@ -13,7 +13,7 @@
  *
  */
 
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js'
 import '@material/mwc-button/mwc-button.js';
 import '@polymer/iron-ajax/iron-ajax.js';
@@ -25,13 +25,13 @@ class FhirSearchbox extends LitElement {
     static get properties() {
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Object,
+            value: {type: Object},
             /**relocateurl is used to give url that is used for redirection on click of the button*/
-            relocateurl: String,
+            relocateurl: {type: String},
             /**resourceType is used to determine which type of resource is being searched*/
-            resourceType: String
+            resourceType: {type: String}
         }
     }
 
@@ -40,7 +40,7 @@ class FhirSearchbox extends LitElement {
         this.resourceType ="";
     }
 
-    _didRender() {
+    updated() {
 		FhirSearchbox.relocateurl = this.relocateurl;
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var items = [];
@@ -73,18 +73,18 @@ class FhirSearchbox extends LitElement {
     }
 
 
-    _render({url, relocateurl}) {
+    render() {
         return html`
     <style>
     vaadin-combo-box {
       width: 500px;
     }
      </style>
-     <vaadin-combo-box id="search" label=" Search" placeholder="Type.." on-filter-changed="${e => this.makeQuery(e.detail.value)}">
+     <vaadin-combo-box id="search" label=" Search" placeholder="Type.." @filter-changed="${e => this.makeQuery(e.detail.value)}">
      <template>[[item.label]]</template>
      </vaadin-combo-box>
      <mwc-button id="button" raised>Go</mwc-button>
-     <iron-ajax bubbles id="ajax" handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax bubbles id="ajax" handle-as="json" .url="${this.url}"></iron-ajax>
 `;
     }
 

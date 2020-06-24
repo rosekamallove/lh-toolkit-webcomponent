@@ -12,8 +12,9 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-organisation-name.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-formfield';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
@@ -21,11 +22,11 @@ class FhirOrganisationName extends LitElement {
     static get properties() {
         return {
             /**nameField is a textfield of org name. Use this property to show/hide. Default: true */
-            nameField: String,
+            nameField: {type:String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: String
+            value: {type: String}
         }
     }
 
@@ -35,8 +36,8 @@ class FhirOrganisationName extends LitElement {
         this.nameField = true;
         this.value = '';
     }
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var name = this.parentNode.host;
             if(e.detail.response.name !== undefined) {
@@ -47,13 +48,15 @@ class FhirOrganisationName extends LitElement {
             }
         });
     }
-    _render({nameField, url, value}) {
+    render() {
         return html`
         <div id="nameDiv"> 
-        <label>NAME:</label> 
-        ${nameField !== 'false' ? html`<mwc-textfield outlined class="nameField" value="${this.value}" on-input="${e => this.value = e.target._input.value}"  label="Organization Name"></mwc-textfield>` : ''}
+        <mwc-formfield label ="NAME:" alignEnd>
+        ${this.nameField !== 'false' ? html`<mwc-textfield outlined class="nameField" .value="${this.value}" @input="${e => this.value = e.target._input.value}"  label="Organization Name"></mwc-textfield>
+        ` : ''}
+        </mwc-formfield>  
         </div> 
-        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+        <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

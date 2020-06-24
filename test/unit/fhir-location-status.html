@@ -70,6 +70,7 @@
                 document.querySelector('dom-bind').set('status', location.status);
                 flush(function () {
                     let typ = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.statusField')[0].value;
+                    console.log(typ)
                     assert.equal(typ, "active");
                     assert.notEqual(typ, "inactive");
                     done();

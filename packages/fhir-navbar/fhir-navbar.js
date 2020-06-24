@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-navbar.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
@@ -28,24 +28,24 @@ import '@polymer/iron-selector/iron-selector.js';
 
 
 class FhirNavbar extends LitElement {
-    static get properties() {
-        return {
-            /*relocateHome is used to define path/url for relocation to home page*/
-            relocateHome: String,
-            /*relocateHome is used to define path/url for relocation to user account/profile page*/
-            relocateProfile: String
+  static get properties() {
+    return {
+      /*relocateHome is used to define path/url for relocation to home page*/
+      relocateHome: { type: String },
+      /*relocateHome is used to define path/url for relocation to user account/profile page*/
+      relocateProfile: { type: String }
 
-        }
     }
+  }
 
-    constructor() {
-        super();
-        this.relocateHome = "";
-        this.relocateProfile = "";
-    }
+  constructor() {
+    super();
+    this.relocateHome = "";
+    this.relocateProfile = "";
+  }
 
-    _render({}) {
-        return html`
+  render() {
+    return html`
  <style>
         :host {
           --app-primary-color: #ED820E;
@@ -140,22 +140,22 @@ class FhirNavbar extends LitElement {
               <li><a href="#">Path2</a></li>
               </ul>
               </div>
-              <paper-icon-button icon="home" on-click=${() => this.goHome()}></paper-icon-button>
-              <paper-icon-button icon="social:person" on-click=${() => this.goProfile()}></paper-icon-button>
+              <paper-icon-button icon="home" @click=${() => this.goHome()}></paper-icon-button>
+              <paper-icon-button icon="social:person" @click=${() => this.goProfile()}></paper-icon-button>
             </app-toolbar>
           </app-header>
         </app-header-layout>
       </app-drawer-layout>
     `;
-    }
+  }
 
-    goHome() {
-        window.location.href = this.relocateHome;
-    }
+  goHome() {
+    window.location.href = this.relocateHome;
+  }
 
-    goProfile() {
-        window.location.href = this.relocateProfile;
-    }
+  goProfile() {
+    window.location.href = this.relocateProfile;
+  }
 
 }
 

@@ -12,20 +12,32 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-clinicalstatus.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
-import '@lh-toolkit/fhir-period/fhir-period.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-formfield';
 import '@polymer/iron-ajax/iron-ajax.js';
 
+const jsonStringConverter = {
+    toAttribute(val) {
+        // convert the value to string so it can be used as an attribute value
+        return JSON.stringify(val);
+    },
+    fromAttribute(str) {
+        // convert the attribute value to a JS object to use it as a property
+        return JSON.parse(str);
+    }
+}
 class FhirAllergyClinicalstatus extends LitElement {
     static get properties() {
         return {
             /**typeField is a selectable option type of clinical status of allergy. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Array
+            value: {type: jsonStringConverter, reflect:true}
         }
     }
 
@@ -34,13 +46,13 @@ class FhirAllergyClinicalstatus extends LitElement {
         super();
         this.typeField = 'true';
         this.value = {};
+        
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated delivers only after render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-
             var allergy = this.parentNode.host;
             if (e.detail.response.clinicalStatus !== undefined) {
                 allergy.value = e.detail.response.clinicalStatus;
@@ -51,18 +63,19 @@ class FhirAllergyClinicalstatus extends LitElement {
         });
     }
 
-    _render({typeField, url, value}) {
+    render() {
         return html`
-   <div id="allergyDiv">
-   <label>CLINICAL STATUS:</label>
-   ${typeField !== 'false' ? html`
-     <select class="typeField" value="${this.value}" on-change="${e => this.value.clinicalStatus = e.target.value}">
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-         <option value="resolved">Resolved</option>
-     </select>` : ''}
-     </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+    <div id="allergyDiv">
+   <mwc-formfield label ="CLINICAL STATUS:" alignEnd>
+   ${this.typeField !== 'false' ? html`
+   <mwc-select outlined class="typeField" value="${this.value}" @change="${e => this.value = e.target.value}">
+        <mwc-list-item value="active">Active</mwc-list-item>
+        <mwc-list-item value="inactive">Inactive</mwc-list-item>
+        <mwc-list-item value="resolved">Resolved</mwc-list-item>
+    </mwc-select>` : ''}
+    </mwc-formfield> 
+    </div>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

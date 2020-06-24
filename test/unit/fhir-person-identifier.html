@@ -90,9 +90,9 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', function (done) {
+            test('To check if value sets correctly to each field', function () {
                 document.querySelector('dom-bind').set('identifiers', JSON.stringify(patient81036.identifier));
-                flush(function () {
+                flush(function (done) {
                     let cont = document.getElementById('fhirIdentifier').shadowRoot.querySelectorAll('.systemIdentifier')[0].value;
                     assert.equal(cont, "urn:lumiradx:consult");
                     assert.notEqual(cont, "LDX12345");

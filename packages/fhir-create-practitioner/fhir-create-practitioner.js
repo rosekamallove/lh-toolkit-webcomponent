@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-create-practitioner.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-button/mwc-button.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
 import '@lh-toolkit/fhir-birth-date/fhir-birth-date.js';
@@ -30,11 +30,11 @@ class FhirCreatePractitioner extends LitElement {
     static get properties(){
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String
+            url: {type: String}
         }
     }
 
-    _render({url}) {
+    render() {
         return html`
        <fhir-human-name id="practitionerName"></fhir-human-name>
        <fhir-human-certification id="practitionerCertification"></fhir-human-certification>
@@ -44,8 +44,8 @@ class FhirCreatePractitioner extends LitElement {
        <fhir-human-contact id="practitionerContact"></fhir-human-contact>
        <fhir-human-address id="practitionerAddress"></fhir-human-address>
        <fhir-human-language id="practitionerLanguage"></fhir-human-language>
-       <mwc-button id="button" raised on-click=${() => this.doPost()}>Submit</mwc-button>
-       <iron-ajax bubbles method ="POST" id="ajax" url="${url}" on-response="handleResponse"></iron-ajax>
+       <mwc-button id="button" raised @click=${() => this.doPost()}>Submit</mwc-button>
+       <iron-ajax bubbles method ="POST" id="ajax" .url="${this.url}" on-response="handleResponse"></iron-ajax>
     `;
     }
     doPost(){

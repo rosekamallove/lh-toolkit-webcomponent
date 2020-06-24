@@ -12,20 +12,29 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-marital-status.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-radio/mwc-radio.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
+/**converts between json and string attributes */
+const jsonStringConverter = {
+    toAttribute(val) {
+        return JSON.stringify(val);
+    },
+    fromAttribute(str) {
+        return JSON.parse(str);
+    }
+};
 class FhirMaritalStatus extends LitElement {
     static get properties() {
         return {
             /**tableResponsive has radio buttons which is used to show marital status of person. Use this property to show/hide. Default: true */
-            tableResponsive: String,
+            tableResponsive: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url:  {type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value:  {type: jsonStringConverter, reflect: true}
         }
     }
 
@@ -35,8 +44,8 @@ class FhirMaritalStatus extends LitElement {
         this.value = [];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var status = this.parentNode.host;
             if (e.detail.response.maritalStatus !== undefined) {
@@ -48,29 +57,31 @@ class FhirMaritalStatus extends LitElement {
         });
     }
 
-    _render({tableResponsive, url, value}) {
+    render() {
         return html`
-       ${tableResponsive !== 'false' ? html`<table class="tableResponsive">
-       <label>MARITAL STATUS:</label>
+       ${this.tableResponsive !== 'false' ? html`
+       <mwc-formfield label= "MARITAL STATUS:" alignEnd > 
+       <table class="tableResponsive">        
        <form>
        <tr>
-       <td><mwc-formfield label="Annulled"><mwc-radio id="annulled" on-click="${e => this.value = e.target.value}" value="A" checked="${this.value == 'A' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Divorced"><mwc-radio id="divorced" on-click="${e => this.value = e.target.value}" value="D" checked="${this.value == 'D' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Interlocutory"><mwc-radio id="interlocutory" on-click="${e => this.value = e.target.value}" value="I" checked="${this.value == 'I' ? true : false}"></mwc-radio></mwc-formfield></td>          
-       <td><mwc-formfield label="Legally Separated"><mwc-radio id="legallyseparated" on-click="${e => this.value = e.target.value}" value="L" checked="${this.value == 'L' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Widowed"><mwc-radio id="widowed" on-click="${e => this.value = e.target.value}" value="W" checked="${this.value == 'W' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Unmarried"><mwc-radio id="unmarried" on-click="${e => this.value = e.target.value}" value="U" checked="${this.value == 'U' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Annulled"><mwc-radio id="annulled" @click="${e => this.value = e.target.value}" value="A" checked="${this.value == 'A' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Divorced"><mwc-radio id="divorced" @click="${e => this.value = e.target.value}" value="D" checked="${this.value == 'D' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Interlocutory"><mwc-radio id="interlocutory" @click="${e => this.value = e.target.value}" value="I" checked="${this.value == 'I' ? true : false}"></mwc-radio></mwc-formfield></td>          
+       <td><mwc-formfield label="Legally Separated"><mwc-radio id="legallyseparated" @click="${e => this.value = e.target.value}" value="L" checked="${this.value == 'L' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Widowed"><mwc-radio id="widowed" @click="${e => this.value = e.target.value}" value="W" checked="${this.value == 'W' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Unmarried"><mwc-radio id="unmarried" @click="${e => this.value = e.target.value}" value="U" checked="${this.value == 'U' ? true : false}"></mwc-radio></mwc-formfield></td>
        </tr>
        <tr>
-       <td><mwc-formfield label="Married"><mwc-radio id="married" on-click="${e => this.value = e.target.value}" value="M" checked="${this.value == 'M' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Polygamous"><mwc-radio id="polygamous" on-click="${e => this.value = e.target.value}" value="P" checked="${this.value == 'P' ? true : false}"></mwc-radio></mwc-formfield></td>
-       <td><mwc-formfield label="Never Married"><mwc-radio id="nevermarried" on-click="${e => this.value = e.target.value}" value="S" checked="${this.value == 'S' ? true : false}"></mwc-radio></mwc-formfield></td>             
-       <td><mwc-formfield label="Domestic partner"><mwc-radio id="domesticpartner" on-click="${e => this.value = e.target.value}" value="T" checked="${this.value == 'T' ? true : false}"></mwc-radio></mwc-formfield></td>
-        <td><mwc-formfield label="Unknown"><mwc-radio id="unknown" on-click="${e => this.value = e.target.value}" value="UNK" checked="${this.value == 'UNK' ? true : false}"></mwc-radio></mwc-formfield></td> 
+       <td><mwc-formfield label="Married"><mwc-radio id="married" @click="${e => this.value = e.target.value}" value="M" checked="${this.value == 'M' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Polygamous"><mwc-radio id="polygamous" @click="${e => this.value = e.target.value}" value="P" checked="${this.value == 'P' ? true : false}"></mwc-radio></mwc-formfield></td>
+       <td><mwc-formfield label="Never Married"><mwc-radio id="nevermarried" @click="${e => this.value = e.target.value}" value="S" checked="${this.value == 'S' ? true : false}"></mwc-radio></mwc-formfield></td>             
+       <td><mwc-formfield label="Domestic partner"><mwc-radio id="domesticpartner" @click="${e => this.value = e.target.value}" value="T" checked="${this.value == 'T' ? true : false}"></mwc-radio></mwc-formfield></td>
+        <td><mwc-formfield label="Unknown"><mwc-radio id="unknown" @click="${e => this.value = e.target.value}" value="UNK" checked="${this.value == 'UNK' ? true : false}"></mwc-radio></mwc-formfield></td> 
        </tr> 
        </form>
-       </table>` : ''}
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+    </table>
+       </mwc-formfield>` : ''}
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

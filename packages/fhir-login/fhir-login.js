@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-login.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-button/mwc-button.js';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@polymer/iron-ajax/iron-ajax.js';
@@ -23,8 +23,8 @@ class FhirLogin extends LitElement {
     static get properties() {
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
-            relocateurl: String
+            url: {type: String},
+            relocateurl: {type: String}
         }
     }
 
@@ -33,7 +33,7 @@ class FhirLogin extends LitElement {
         this.url = "";
     }
 
-    _didRender() {
+    updated() {
         FhirLogin.relocateurl = this.relocateurl;
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             if (e.detail.response.authenticated) {
@@ -48,7 +48,7 @@ class FhirLogin extends LitElement {
         });
     }
 
-    _render({userName, passWord, url}) {
+    render() {
         return html`
        <style>
          .orange {
@@ -76,9 +76,9 @@ class FhirLogin extends LitElement {
        <div class="card">
        <mwc-textfield outlined  class="mid" id="username" label="Username"></mwc-textfield><br>
        <mwc-textfield outlined class="mid" id="password" label="Password" type="password"></mwc-textfield><br>  
-       <mwc-button id="button" raised class="orange" on-click=${() => this.doLogin()}>Login</mwc-button>
+       <mwc-button id="button" raised class="orange" @click=${() => this.doLogin()}>Login</mwc-button>
        </div>
-       <iron-ajax bubbles id="ajax" url="${url}"></iron-ajax>
+       <iron-ajax bubbles id="ajax" .url="${this.url}"></iron-ajax>
     `;
     }
 

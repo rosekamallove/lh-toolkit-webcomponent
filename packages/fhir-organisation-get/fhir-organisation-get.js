@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-organisation-get.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-organisation-name/fhir-organisation-name.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
@@ -28,23 +28,23 @@ class FhirOrganisationGet extends LitElement {
     static get properties(){
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type :String},
             /**organisationId defines organization Id. Use this property to show/hide. Default: true */
-            organisationId: String,
+            organisationId: {type :String},
             /**organisationName defines organization name. Use this property to show/hide. Default: true */
-            organisationName: String,
+            organisationName: {type :String},
             /**organisationActive defines organization active status. Use this property to show/hide. Default: true */
-            organisationActive: String,
+            organisationActive: {type :String},
             /**organisationContact defines organization contact of person. Use this property to show/hide. Default: true */
-            organisationContact: String,
+            organisationContact: {type :String},
             /**organisationTelecom defines organization contact details. Use this property to show/hide. Default: true */
-            organisationTelecom: String,
+            organisationTelecom: {type :String},
             /**organisationAddress defines organization address. Use this property to show/hide. Default: true */
-            organisationAddress: String,
+            organisationAddress: {type :String},
             /**organisationType defines organization type. Use this property to show/hide. Default: true */
-            organisationType: String,
+            organisationType: {type :String},
             /**value defines value for the fields*/
-            value: Array
+            value: {type :Array}
 
         }
     }
@@ -62,25 +62,25 @@ class FhirOrganisationGet extends LitElement {
     }
 
     /**_didRender() delivers only after _render*/
-    _didRender() {
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             this.parentNode.host.value = e.detail.response;
         });
     }
 
-    _render({url, organisationId, organisationName, organisationActive, organisationTelecom, organisationContact, organisationAddress, organisationType, value }) {
+    render() {
         if (typeof(value) == "string") {
             this.value = JSON.parse(value);
         }
         return html`
-       ${organisationId !== 'false' ? html`<fhir-person-identifier value="${this.value.identifier}" id="organisationId"></fhir-person-identifier>` : ''}
-       ${organisationName !== 'false' ? html`<fhir-organisation-name value="${this.value.name}" id="organisationName"></fhir-organisation-name>` : ''}
-       ${organisationType !== 'false' ? html`<fhir-organisation-type value="${this.value.type}" id="organisationType"></fhir-organisation-type>` : ''}
-       ${organisationActive !== 'false' ? html`<fhir-active-status value="${this.value.active}" id="organisationActive"></fhir-active-status>` : ''}
-       ${organisationTelecom !== 'false' ? html`<fhir-human-contact value="${this.value.telecom}" id="organisationTelecom"></fhir-human-contact>` : ''}
-       ${organisationAddress !== 'false' ? html`<fhir-human-address value="${this.value.address}" id="organisationAddress"></fhir-human-address>` : ''}
-       ${organisationContact !== 'false' ? html`contact:<fhir-organisation-contact value="${this.value.contact}" id="organisationContact"></fhir-organisation-contact>` : ''}
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+       ${this.organisationId !== 'false' ? html`<fhir-person-identifier .value="${this.value.identifier}" id="organisationId"></fhir-person-identifier>` : ''}
+       ${this.organisationName !== 'false' ? html`<fhir-organisation-name value="${this.value.name}" id="organisationName"></fhir-organisation-name>` : ''}
+       ${this.organisationType !== 'false' ? html`<fhir-organisation-type .value="${this.value.type}" id="organisationType"></fhir-organisation-type>` : ''}
+       ${this.organisationActive !== 'false' ? html`<fhir-active-status .value="${this.value.active}" id="organisationActive"></fhir-active-status>` : ''}
+       ${this.organisationTelecom !== 'false' ? html`<fhir-human-contact .value="${this.value.telecom}" id="organisationTelecom"></fhir-human-contact>` : ''}
+       ${this.organisationAddress !== 'false' ? html`<fhir-human-address .value="${this.value.address}" id="organisationAddress"></fhir-human-address>` : ''}
+       ${this.organisationContact !== 'false' ? html`contact:<fhir-organisation-contact .value="${this.value.contact}" id="organisationContact"></fhir-organisation-contact>` : ''}
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
   `;
     }
 }

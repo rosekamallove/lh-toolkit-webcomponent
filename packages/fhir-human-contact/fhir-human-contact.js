@@ -12,8 +12,11 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-human-contact.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-select';
+import '@material/mwc-formfield';
+import '@material/mwc-list/mwc-list-item';
 import '@polymer/iron-ajax/iron-ajax.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 
@@ -22,21 +25,23 @@ class FhirHumanContact extends LitElement {
     static get properties() {
         return {
             /**useField is a selectable option for use of contact. Use this property to show/hide. Default: true */
-            useField: String,
+            useField:{type: String},
             /**systemField is to select system of contact. Use this property to show/hide. Default: true */
-            systemField: String,
+            systemField: {type: String},
             /**contNumb is to display contact number. Use this property to show/hide. Default: true */
-            contNumb: String,
+            contNumb: {type: String},
             /**rankVal is to show ranking of preference of numbers. Use this property to show/hide. Default: true */
-            rankVal: String,
+            rankVal: {type: String},
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
-            periodField: String,
+            periodField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Array
+            value: {type: String}
         }
     }
+
+    
 
     constructor() {
         super();
@@ -48,8 +53,8 @@ class FhirHumanContact extends LitElement {
         this.value = [{}];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var humanName = this.parentNode.host;
             if (e.detail.response.telecom !== undefined) {
@@ -61,36 +66,39 @@ class FhirHumanContact extends LitElement {
         });
     }
 
-    _render({systemField, useField, contNumb, rankVal, periodField, url, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
      <div id="humanNameDiv">
-     <label>TELECOM DETAILS:</label>
-     ${systemField !== 'false' ? html`
-     System:<select class="systemField" value="${i.system}" on-change="${e => this.value[index].system = e.target.value}">
-         <option value="phone">Phone</option>
-         <option value="fax">Fax</option>
-         <option value="email">Email</option>
-         <option value="Pager">Pager</option>
-         <option value="url">URL</option>
-         <option value="sms">SMS</option>
-         <option value="other">Other</option>` : ''}
-     ${useField !== 'false' ? html`
-     </select>
-     Use:<select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
-         <option value="home">Home</option>
-         <option value="work">Work</option>
-         <option value="temp">Temp</option>
-         <option value="home">Old</option>
-         <option value="mobile">Mobile</option>
-     </select>` : ''}
-     ${contNumb !== 'false' ? html`<mwc-textfield outlined class="contNumb" value="${i.value}" on-input="${e => this.value[index].value = e.target._input.value}" label="ContactNumber:"></mwc-textfield>` : ''}
-     ${rankVal !== 'false' ? html`<mwc-textfield outlined class="rankVal" value="${i.rank}" on-input="${e => this.value[index].rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
-     ${periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
+     <mwc-formfield label ="TELECOM DETAILS" alignEnd>
+     ${this.systemField !== 'false' ? html`
+     <mwc-select label="System"  class="systemField" .value="${i.system}" @change="${e => this.value[index].system = e.target.value}">
+         <mwc-list-item value="phone">Phone</mwc-list-item>
+         <mwc-list-item value="fax">Fax</mwc-list-item>
+         <mwc-list-item value="email">Email</mwc-list-item>
+         <mwc-list-item value="Pager">Pager</mwc-list-item>
+         <mwc-list-item value="url">URL</mwc-list-item>
+         <mwc-list-item value="sms">SMS</mwc-list-item>
+         <mwc-list-item value="other">Other</mwc-list-item>
+    </mwc-select>` : ''}
+
+     ${this.useField !== 'false' ? html`
+     <mwc-select label = "Use" class="useField" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+         <mwc-list-item value="home">Home</mwc-list-item>
+         <mwc-list-item value="work">Work</mwc-list-item>
+         <mwc-list-item value="temp">Temp</mwc-list-item>
+         <mwc-list-item value="home">Old</mwc-list-item>
+         <mwc-list-item value="mobile">Mobile</mwc-list-item>
+     </mwc-select>
+    ` : ''}
+     ${this.contNumb !== 'false' ? html`<mwc-textfield outlined class="contNumb" value="${i.value || ""}" @input="${e => this.value[index].value = e.target._input.value}" label="Contact"></mwc-textfield>` : ''}
+     ${this.rankVal !== 'false' ? html`<mwc-textfield  outlined class="rankVal" value="${i.rank || ""}" @input="${e => this.value[index].rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
+     ${this.periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
+     </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
 `)}`;
     }
 }

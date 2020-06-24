@@ -66,9 +66,9 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', function (done) {
+            test('To check if value sets correctly to each field', function () {
                 document.querySelector('dom-bind').set('describe', location.description);
-                flush(function () {
+                flush(function (done) {
                     let val = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.describeField')[0].value;
                     assert.equal(val, "Second floor of the Old South Wing, formerly in use by Psychiatry");
                     assert.notEqual(val, "The Night");

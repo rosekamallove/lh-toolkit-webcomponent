@@ -129,9 +129,9 @@
                 });
             });
 
-            test('To check if value sets correctly to each field', function (done) {
+            test('To check if value sets correctly to each field', function () {
                 document.querySelector('dom-bind').set('names', JSON.stringify(patient2.name));
-                flush(function () {
+                flush(function (done) {
                     let family = document.getElementById('fhirName').shadowRoot.querySelectorAll('.lName')[0].value;
                     assert.equal(family, "Trần");
                     assert.notEqual(family, "Hồng");

@@ -13,8 +13,8 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-practitioner-get.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
-import '@material/mwc-button/mwc-button.js';
+import {LitElement, html} from 'lit-element';
+// import '@material/mwc-button/mwc-button.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
@@ -34,23 +34,23 @@ class FhirPractitionerGet extends LitElement {
     static get properties(){
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**practitionerName defines practitioner name. Use this property to show/hide. Default: true */
-            practitionerName: String,
+            practitionerName: {type: String},
             /**practitionerActive defines practitioner active status. Use this property to show/hide. Default: true */
-            practitionerActive: String,
+            practitionerActive: {type: String},
             /**practitionerQualification defines practitioner qualification. Use this property to show/hide. Default: true */
-            practitionerQualification: String,
+            practitionerQualification: {type: String},
             /**practitionerBirthday defines practitioner date of birth. Use this property to show/hide. Default: true */
-            practitionerBirthday: String,
+            practitionerBirthday: {type: String},
             /**practitionerGender defines practitioner gender. Use this property to show/hide. Default: true */
-            practitionerGender: String,
+            practitionerGender: {type: String},
             /**practitionerContact defines practitioner telecom details. Use this property to show/hide. Default: true */
-            practitionerContact: String,
+            practitionerContact: {type: String},
             /**practitionerAddress defines practitioner address. Use this property to show/hide. Default: true */
-            practitionerAddress: String,
+            practitionerAddress: {type: String},
             /**practitionerLanguage defines practitioner communication language. Use this property to show/hide. Default: true */
-            practitionerLanguage: String,
+            practitionerLanguage: {type: String},
             /**value is a used to define value of fields */
             value: Array
 
@@ -71,27 +71,27 @@ class FhirPractitionerGet extends LitElement {
     }
 
     /**_didRender() delivers only after _render*/
-    _didRender() {
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             this.parentNode.host.value = e.detail.response;
         });
     }
 
-    _render({url,  practitionerActive, practitionerQualification, practitionerName, practitionerBirthday, practitionerGender, practitionerContact, practitionerAddress, practitionerLanguage, value }) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
+            console.log(this.value)
         }
         return html`
-      
-       ${practitionerName !== 'false' ? html`<fhir-human-name value="${this.value.name}" id="practitionerName"></fhir-human-name>` : ''}
-       ${practitionerQualification !== 'false' ? html`<fhir-human-certification value="${this.value.name}" id="practitionerQualification"></fhir-human-certification>` : ''}
-       ${practitionerActive !== 'false' ? html`<fhir-active-status value="${this.value.active}" id="practitionerActive"></fhir-active-status>` : ''}
-       ${practitionerBirthday !== 'false' ? html`<fhir-birth-date value="${this.value.birthDate}" id="practitionerBirthday"></fhir-birth-date>` : ''}
-       ${practitionerGender !== 'false' ? html`<fhir-human-gender value="${this.value.gender}" id="practitionerGender"></fhir-human-gender>` : ''}
-       ${practitionerContact !== 'false' ? html`<fhir-human-contact value="${this.value.telecom}" id="practitionerContact"></fhir-human-contact>` : ''}
-       ${practitionerAddress !== 'false' ? html`<fhir-human-address value="${this.value.address}" id="practitionerAddress"></fhir-human-address>` : ''}
-       ${practitionerLanguage !== 'false' ? html`<fhir-human-language value="${this.value.language}" id="practitionerLanguage"></fhir-human-language>` : ''}
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+       ${this.practitionerName !== 'false' ? html`<fhir-human-name .value="${this.value.name}" id="practitionerName"></fhir-human-name>` : ''}
+       ${this.practitionerQualification !== 'false' ? html`<fhir-human-certification .value="${this.value.name}" id="practitionerQualification"></fhir-human-certification>` : ''}
+       ${this.practitionerActive !== 'false' ? html`<fhir-active-status .value="${this.value.active}" id="practitionerActive"></fhir-active-status>` : ''}
+       ${this.practitionerBirthday !== 'false' ? html`<fhir-birth-date .value="${this.value.birthDate}" id="practitionerBirthday"></fhir-birth-date>` : ''}
+       ${this.practitionerGender !== 'false' ? html`<fhir-human-gender .value="${this.value.gender}" id="practitionerGender"></fhir-human-gender>` : ''}
+       ${this.practitionerContact !== 'false' ? html`<fhir-human-contact .value="${this.value.telecom}" id="practitionerContact"></fhir-human-contact>` : ''}
+       ${this.practitionerAddress !== 'false' ? html`<fhir-human-address .value="${this.value.address}" id="practitionerAddress"></fhir-human-address>` : ''}
+       ${this.practitionerLanguage !== 'false' ? html`<fhir-human-language .value="${this.value.language}" id="practitionerLanguage"></fhir-human-language>` : ''}
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
   `;
     }
 }

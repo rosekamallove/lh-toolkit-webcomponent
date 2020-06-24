@@ -14,8 +14,10 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-location-status.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
@@ -23,11 +25,11 @@ class FhirLocationStatus extends LitElement {
     static get properties() {
         return {
             /**statusField is a selectable option for location status. Use this property to show/hide. Default: true */
-            statusField: String,
+            statusField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: String
+            value: {type: String}
         }
     }
 
@@ -38,8 +40,8 @@ class FhirLocationStatus extends LitElement {
         this.value = '';
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var status = this.parentNode.host;
             if(e.detail.response.status !== undefined) {
@@ -51,18 +53,19 @@ class FhirLocationStatus extends LitElement {
         });
     }
 
-    _render({statusField, url, value}) {
+    render() {
         return html`
    <div id="div">
-   ${statusField !== 'false' ? html`
-     <label>Status:</label>
-     <select class="statusField" value="${this.value}" on-change="${e => this.value = e.target.value}">
-         <option value="inactive">Inactive</option>
-         <option value="suspended">Suspended</option>
-         <option value="active">Active</option>
-     </select>` : ''}
+   ${this.statusField !== 'false' ? html`
+   <label>Status:</label>
+        <mwc-select class="statusField" .value="${this.value}" @change="${e => this.value = e.target.value}">
+         <mwc-list-item value="inactive">Inactive</mwc-list-item>
+         <mwc-list-item value="suspended">Suspended</mwc-list-item>
+         <mwc-list-item value="active">Active</mwc-list-item>
+     </mwc-select>
+     ` : ''}
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

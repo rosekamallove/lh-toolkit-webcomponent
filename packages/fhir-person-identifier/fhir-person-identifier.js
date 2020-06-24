@@ -12,8 +12,11 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-person-identifier.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-formfield';
 import '@polymer/iron-ajax/iron-ajax.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 
@@ -21,20 +24,20 @@ class FhirPersonIdentifier extends LitElement {
     static get properties() {
         return {
             /**useField is to show use of below fields. Use this property to show/hide. Default: true */
-            useField: String,
+            useField: {type: String},
             /**systemIdentifier is to show system identifier number. Use this property to show/hide. Default: true */
-            systemIdentifier: String,
+            systemIdentifier: {type: String},
             /**identifierField is to show person identifier number. Use this property to show/hide. Default: true */
-            identifierField: String,
+            identifierField: {type: String},
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
-            periodField: String,
+            periodField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Array
+            value: {type: Array}
         }
     }
-
+   
     constructor() {
         super();
         this.useField = 'true';
@@ -44,8 +47,9 @@ class FhirPersonIdentifier extends LitElement {
         this.value = [{}];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
+        
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var identifier = this.parentNode.host;
             if(e.detail.response.identifier !== undefined) {
@@ -57,26 +61,29 @@ class FhirPersonIdentifier extends LitElement {
         });
     }
 
+   
 
-    _render({useField, systemIdentifier, identifierField, periodField, url, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
         <div id="div">
-         <label>Identifier:</label>
-        ${useField !== 'false' ? html`
-        Use:<select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
-        <option value="usual">Usual</option>
-        <option value="official">Official</option>
-        <option value="temp">Temporary</option>
-        <option value="secondary">Secondary</option>
-        </select>` : ''}
-        ${systemIdentifier !== 'false' ? html`<mwc-textfield outlined value="${i.system}" on-input="${e => this.value[index].system = e.target._input.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
-        ${identifierField !== 'false' ? html`<mwc-textfield outlined value="${i.value}" on-input="${e => this.value[index].value = e.target._input.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
-        ${periodField !== 'false' ? html`<fhir-period class="periodField" value="${i.period}" on-input="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
+         <mwc-formfield label = "Identifier:" alignEnd>
+        ${this.useField !== 'false' ? html`
+        Use:<mwc-select class="useField" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+        <mwc-list-item value="usual">Usual</mwc-list-item>
+        <mwc-list-item value="official">Official</mwc-list-item>
+        <mwc-list-item value="temp">Temporary</mwc-list-item>
+        <mwc-list-item value="secondary">Secondary</mwc-list-item>
+        </mwc-select>` : ''}
+        ${this.systemIdentifier !== 'false' ? html`<mwc-textfield outlined .value="${i.system}" @input="${e => this.value[index].system = e.target._input.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
+        ${this.identifierField !== 'false' ? html`<mwc-textfield outlined .value="${i.value}" @input="${e => this.value[index].value = e.target._input.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
+        ${this.periodField !== 'false' ? html`<fhir-period class="periodField" .value="${i.period }" @input="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
+       
+        </mwc-formfield>
         </div>
-        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+        <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
      `)}`;
     }
 }

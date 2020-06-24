@@ -14,7 +14,7 @@
  *
  */
 
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js'
 import '@polymer/iron-ajax/iron-ajax.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
@@ -33,13 +33,13 @@ class FhirSearch extends LitElement {
     static get properties() {
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of field*/
-            value: Object,
+            value: {type: Object},
             /**relocateurl is used to give url that is used for redirection on click of the button*/
-            relocateurl: String,
+            relocateurl: {type: String},
             /**resourceType is used to determine which type of resource is being searched*/
-            resourceType: String
+            resourceType: {type: String}
 
         }
     }
@@ -50,7 +50,7 @@ class FhirSearch extends LitElement {
         this.resourceType ="";
     }
 
-    _didRender() {
+    updated() {
         FhirSearch.relocateurl = this.relocateurl;
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var grid = e.target.parentNode.querySelector('#table');
@@ -83,10 +83,10 @@ class FhirSearch extends LitElement {
         });
     }
 
-    _render({url, relocateurl}) {
+    render() {
         return html`
-      <mwc-textfield outlined id="searchField" on-input="${e => this.makeQuery(e.target._input.value)}" label="Search"></mwc-textfield>
-      <iron-ajax bubbles id="ajax" handle-as="json" url="${url}"></iron-ajax>
+      <mwc-textfield outlined id="searchField" @input="${e => this.makeQuery(e.target._input.value)}" label="Search"></mwc-textfield>
+      <iron-ajax bubbles id="ajax" handle-as="json" .url="${this.url}"></iron-ajax>
       <vaadin-grid aria-label="Names" id="table">
          <vaadin-grid-selection-column auto-select hidden></vaadin-grid-selection-column>
          <vaadin-grid-column width="50px " flex="0 ">
