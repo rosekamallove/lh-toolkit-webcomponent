@@ -71,7 +71,7 @@
                 document.querySelector('dom-bind').set('opstatus', location.operationalStatus);
                 flush(function () {
                     let typ = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.typeField')[0].value;
-                    assert.equal(typ, "O");
+                    assert.equal(typ, "0");
                     assert.notEqual(typ, "I");
                     done();
                 });

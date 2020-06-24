@@ -13,30 +13,34 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-human-relation.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-formfield';
 import '@lh-toolkit/fhir-human-name/fhir-human-name.js';
 import '@lh-toolkit/fhir-human-gender/fhir-human-gender.js';
 import '@lh-toolkit/fhir-human-address/fhir-human-address.js';
 import '@lh-toolkit/fhir-human-contact/fhir-human-contact.js';
 
+
 class FhirHumanRelation extends LitElement {
     static get properties() {
         return {
             /**relationType is used to show type of relationship. Use this property to show/hide. Default: true */
-            relationType: String,
+            relationType: {type: String},
             /**nameField is used to show name of person. Use this property to show/hide. Default: true */
-            nameField: String,
+            nameField:  {type: String},
             /**genderField is used to show gender of person. Use this property to show/hide. Default: true */
-            genderField: String,
+            genderField:  {type: String},
             /**addressField is used to show address of relation. Use this property to show/hide. Default: true */
-            addressField: String,
+            addressField:  {type: String},
             /**contactField is used to show telecom details. Use this property to show/hide. Default: true */
-            contactField: String,
+            contactField:  {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url:  {type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value:  {type: Object}
         }
     }
 
@@ -52,8 +56,8 @@ class FhirHumanRelation extends LitElement {
         this.value = [{relationship:[{coding:[{}]}],name: { given: []}, telecom: [{}], address: {line: []}}];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
 
             var relationship = this.parentNode.host;
@@ -66,34 +70,34 @@ class FhirHumanRelation extends LitElement {
         });
     }
 
-    _render({url, relationType, value, nameField, genderField, addressField, contactField}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
     <div id="relationDiv">
-    <label>CONTACT PERSON DETAILS:</label><br> 
-    ${relationType !== 'false' ? html`${i.relationship.map((i, index) => html`
-     Relation:<select class="relationType" value="${i.coding[0].code}" on-change="${e => this.value[index].code = e.target.value}">
-            <option value="BP">Billing Contact Person</option>
-            <option value="C">Emergency Contact</option>
-            <option value="CP">Contact Person</option>
-            <option value="E">Employer</option>
-            <option value="EP">Emergency Contact Person</option>
-            <option value="F">Federal Agency</option>
-            <option value="I">Insurance Company</option>
-            <option value="N">Next-Of-Kin</option>
-            <option value="O">Other</option>
-            <option value="PR">Person Preparing Referral</option>
-            <option value="S">State Agency</option>
-            <option value="U">Unknown</option>
-            </select> `)}` : ''}
-    ${nameField !== 'false' ? html`<fhir-human-name useField="false" value="${[i.name]}" on-change="${e => this.value[index].name = e.target._input.value}"></fhir-human-name>` : ''}
-    ${genderField !== 'false' ? html`<fhir-human-gender value="${i.gender}" on-change="${e => this.value[index].gender = e.target.value}"></fhir-human-gender>` : ''}
-    ${addressField !== 'false' ? html`<fhir-human-address value="${[i.address]}" on-change="${e => this.value[index].address = e.target._input.value}"></fhir-human-address>` : ''}
-    ${contactField !== 'false' ? html`<fhir-human-contact value="${i.telecom}" on-change="${e => this.value[index].telecom = e.target._input.value}"></fhir-human-contact>` : ''}
+    <mwc-formfield label = "CONTACT PERSON DETAILS:"></mwc-formfield><br><br>
+    ${this.relationType !== 'false' ? html`${i.relationship.map((i, index) => html`
+     <mwc-select label = "Relation" class="relationType" value="${i.coding[0].code}" @change="${e => this.value[index].code = e.target.value}">
+            <mwc-list-item value="BP">Billing Contact Person</mwc-list-item>
+            <mwc-list-item value="C">Emergency Contact</mwc-list-item>
+            <mwc-list-item value="CP">Contact Person</mwc-list-item>
+            <mwc-list-item value="E">Employer</mwc-list-item>
+            <mwc-list-item value="EP">Emergency Contact Person</mwc-list-item>
+            <mwc-list-item value="F">Federal Agency</mwc-list-item>
+            <mwc-list-item value="I">Insurance Company</mwc-list-item>
+            <mwc-list-item value="N">Next-Of-Kin</mwc-list-item>
+            <mwc-list-item value="O">Other</mwc-list-item>
+            <mwc-list-item value="PR">Person Preparing Referral</mwc-list-item>
+            <mwc-list-item value="S">State Agency</mwc-list-item>
+            <mwc-list-item value="U">Unknown</mwc-list-item>
+            </mwc-select> `)}` : ''}
+    ${this.nameField !== 'false' ? html`<fhir-human-name useField="false" .value="${[i.name]}" @change="${e => this.value[index].name = e.target._input.value}"></fhir-human-name>` : ''}
+    ${this.genderField !== 'false' ? html`<fhir-human-gender .value="${i.gender}" @change="${e => this.value[index].gender = e.target.value}"></fhir-human-gender>` : ''}
+    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target._input.value}"></fhir-human-address>` : ''}
+    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target._input.value}"></fhir-human-contact>` : ''}
      </div>   
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `)}`;
     }
 }

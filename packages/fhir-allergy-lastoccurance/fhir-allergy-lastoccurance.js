@@ -12,8 +12,9 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-lastoccurance.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-formfield/mwc-formfield.js';
+import '@material/mwc-textfield'
 import '@polymer/iron-ajax/iron-ajax.js';
 import moment from 'moment';
 
@@ -21,21 +22,23 @@ class FhirAllergyLastoccurance extends LitElement {
     static get properties() {
         return {
             /**lastoccurence is used to show persons allergy last occurrence date of allergy. Use this property to show/hide. Default: true */
-            lastoccurance: String,
+            lastoccurance: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value: {type: String}
         }
     }
 
     constructor() {
         super();
         this.lastoccurance = 'true';
-        this.value = {};
+        
+        
+        
     }
 
-    _didRender() {
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var allergydate = this.parentNode.host;
@@ -49,15 +52,16 @@ class FhirAllergyLastoccurance extends LitElement {
     }
 
 
-    _render({lastoccurance, url, value}) {
+    render() {
         return html`
        <div id="allergyDiv">
-       ${lastoccurance !== 'false' ? html`<mwc-formfield class="lastOccurance" alignEnd label="Last Occurrence:">
-         <input id="date" type="datetime-local" value="${this.value}" on-input="${e => this.value = e.target.value}">
+       ${this.lastoccurance !== 'false' ? html`<mwc-formfield class="lastOccurance" alignEnd label="Last Occurrence:">
+         <mwc-textfield outlined id="date" type="datetime-local" .value="${this.value}" @input="${e => this.value = e.target.value}"></mwc-textfield>
        </mwc-formfield>` : ''}
        </div>
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
-    `;
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax> 
+    `
+    ;
     }
 }
 

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-observation-status>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-observation-status/fhir-observation-status.js"></script>
+</head>
+<body>
+    <p>
+        <fhir-observation-status></fhir-observation-status>
+    </p>
+    <p>
+    <h3>The observation status is obtained from the url</h3>
+    <fhir-observation-status url="http://hapi.fhir.org/baseR4/Observation/602352"></fhir-observation-status>
+    </p>
+
+    <p>
+    <h3>The observation status is passed as a string in the "value" property</h3>
+    <fhir-observation-status value= "amended" ></fhir-observation-status>
+    </p>
+
+    <p>
+    <h3>The obsStatus is set to false</h3>
+    <fhir-observation-status obsStatus="false" ></fhir-observation-status>
+    </p>
+  </body>
+</html>

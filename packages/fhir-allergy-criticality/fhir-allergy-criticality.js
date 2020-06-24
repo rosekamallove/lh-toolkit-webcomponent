@@ -13,20 +13,22 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-criticallity.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
 
 class FhirAllergyCriticality extends LitElement {
     static get properties() {
         return {
             /**typeField is a selectable option critical nature of allergy. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField:{type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url:{type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value:{type: String}
         }
     }
 
@@ -34,11 +36,12 @@ class FhirAllergyCriticality extends LitElement {
     constructor() {
         super();
         this.typeField = 'true';
-        this.value = {};
+        
+       
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
 
@@ -52,18 +55,19 @@ class FhirAllergyCriticality extends LitElement {
         });
     }
 
-    _render({typeField, url, value}) {
+    render() {
         return html`
    <div id="allergyDiv">
-   ${typeField !== 'false' ? html`
-     <label>Critical Nature</label>
-     <select class="typeField" value="${this.value}" on-change="${e => this.value = e.target.value}">
-         <option value="low">Low</option>
-         <option value="high">High</option>
-         <option value="unable to assess">Unable-to-assess</option>
-     </select>` : ''}
+   ${this.typeField !== 'false' ? html`
+     <label>CRITICAL NATURE:</label>
+     <mwc-select outlined label="Critical Nature" class="typeField" .value="${this.value}" @change="${e => this.value = e.target.value}">
+        <mwc-list-item ></mwc-list-item>
+        <mwc-list-item value="low">Low</mwc-list-item>
+        <mwc-list-item value="high">High</mwc-list-item>
+        <mwc-list-item value="unable to assess">Unable-to-assess</mwc-list-item>
+    </mwc-select>`: ''}
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

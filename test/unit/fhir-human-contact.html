@@ -103,9 +103,9 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', function (done) {
+            test('To check if value sets correctly to each field', function () {
                 document.querySelector('dom-bind').set('contacts', JSON.stringify(patient2.telecom));
-                flush(function () {
+                flush(function (done) {
                     let cont = document.getElementById('fhirContact').shadowRoot.querySelectorAll('.contNumb')[0].value;
                     assert.equal(cont, "734 483 8464");
                     assert.notEqual(cont, "home");

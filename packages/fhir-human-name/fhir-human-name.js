@@ -12,32 +12,35 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-human-name.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
+import '@material/mwc-formfield'
+import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-select';
 import '@polymer/iron-ajax/iron-ajax.js';
 
 class FhirHumanName extends LitElement {
     static get properties() {
         return {
             /**useField is a selectable option for use of name. Use this property to show/hide. Default: true */
-            useField: String,
+            useField: { type: String },
             /**suffixField is show suffix. Use this property to show/hide. Default: true */
-            suffixField: String,
+            suffixField: { type: String },
             /**prefixField is used to show prefix. Use this property to show/hide. Default: true */
-            prefixField: String,
+            prefixField: { type: String },
             /**fName is to show first name of a person. Use this property to show/hide. Default: true */
-            fName: String,
+            fName: { type: String },
             /**lName is to show last name of a person. Use this property to show/hide. Default: true */
-            lName: String,
+            lName: { type: String },
             /**mName is to show mName name of a person. Use this property to show/hide. Default: false */
-            mName: String,
+            mName: { type: String },
             /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
-            periodField: String,
+            periodField: { type: String },
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: { type: String },
             /**value is used to take the input value of each field*/
-            value: Array
+            value: { type: Array }
         }
     }
 
@@ -51,14 +54,14 @@ class FhirHumanName extends LitElement {
         this.mName = 'false';
         this.lName = 'true';
         this.periodField = 'false';
-        this.value = [{given:[]}];
+        this.value = [{ given: [] }];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var humanName = this.parentNode.host;
-            if(e.detail.response.name !== undefined) {
+            if (e.detail.response.name !== undefined) {
                 humanName.value = e.detail.response.name;
             }
             else {
@@ -67,32 +70,33 @@ class FhirHumanName extends LitElement {
         });
     }
 
-    _render({useField, suffixField, fName, mName, lName, periodField, url, prefixField, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof (this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
    <div id="humanNameDiv">
-   <label>Name:</label>
-   ${useField !== 'false' ? html`
-     <label>Use:</label>
-     <select class="useField" value="${i.use}" on-change="${e => this.value[index].use = e.target.value}">
-         <option value="usual">Usual</option>
-         <option value="official">Official</option>
-         <option value="temp">Temporary</option>
-         <option value="nickname">Nickname</option>
-         <option value="anonymous">Anonymous</option>
-         <option value="old">Old</option>
-         <option value="maiden">Maiden</option>
-     </select>` : ''}
-     ${prefixField !== 'false' ? html`<mwc-textfield outlined class="prefixField" value="${i.prefix}" on-input="${e => this.value[index].prefix = e.target._input.value}" id="prefix" label="Prefix"></mwc-textfield>` : ''}
-     ${fName !== 'false' ? html`<mwc-textfield outlined class="fName" value="${mName !== 'false' ? i.given[0]:i.given}" on-input="${(e) => mName !== 'false' ? this.value[index].given[0] = e.target._input.value:this.value[index].given = e.target._input.value}" label="First Name:"></mwc-textfield>` : ''}
-     ${mName !== 'false' ? html`<mwc-textfield outlined class="mName" value="${i.given[1]}" on-input="${e => this.value[index].given[1]= e.target._input.value}" label="Middle Name:"></mwc-textfield>` : ''}
-     ${lName !== 'false' ? html`<mwc-textfield outlined class="lName" value="${i.family}" on-input="${e => this.value[index].family = e.target._input.value}" label="Last Name:"></mwc-textfield>` : ''}
-     ${periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
-     ${suffixField !== 'false' ? html`<mwc-textfield outlined class="suffixField" value="${i.suffix}" on-input="${e => this.value[index].suffix = e.target._input.value}" label="Suffix"></mwc-textfield>` : ''}
+   <mwc-formfield label= "NAME:" alignEnd>
+    ${this.useField !== 'false' ? html`
+     <mwc-select label = "Use" class="useField" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+         <mwc-list-item value="usual">Usual</mwc-list-item>
+         <mwc-list-item value="official">Official</mwc-list-item>
+         <mwc-list-item value="temp">Temporary</mwc-list-item>
+         <mwc-list-item value="nickname">Nickname</mwc-list-item>
+         <mwc-list-item value="anonymous">Anonymous</mwc-list-item>
+         <mwc-list-item value="old">Old</mwc-list-item>
+         <mwc-list-item value="maiden">Maiden</mwc-list-item>
+     </mwc-select>
+     ` : ''}
+     ${this.prefixField !== 'false' ? html`<mwc-textfield outlined class="prefixField" .value="${i.prefix || ""}" @input="${e => this.value[index].prefix = e.target._input.value}" id="prefix" label="Prefix"></mwc-textfield>` : ''}
+     ${this.fName !== 'false' ? html`<mwc-textfield outlined class="fName" .value="${this.mName !== 'false' ? i.given[0] : i.given || "" }" @input="${(e) =>this.mName !== 'false' ? this.value[index].given[0] = e.target._input.value : this.value[index].given = e.target._input.value}" label="First Name:"></mwc-textfield>` : ''}
+     ${this.mName !== 'false' ? html`<mwc-textfield outlined class="mName" .value="${i.given[1]}" @input="${e => this.value[index].given[1] = e.target._input.value}" label="Middle Name:"></mwc-textfield>` : ''}
+     ${this.lName !== 'false' ? html`<mwc-textfield outlined class="lName" .value="${i.family || ""}" @input="${e => this.value[index].family = e.target._input.value}" label="Last Name:"></mwc-textfield>` : ''}
+     ${this.periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
+     ${this.suffixField !== 'false' ? html`<mwc-textfield outlined class="suffixField" value="${i.suffix ||""}" @input="${e => this.value[index].suffix = e.target._input.value}" label="Suffix"></mwc-textfield>` : ''}
+     </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `)}`;
     }
 }

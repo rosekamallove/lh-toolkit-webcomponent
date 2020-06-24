@@ -61,6 +61,7 @@
                 birthDate.addEventListener('iron-ajax-response', function (done) {
                     flush(function () {
                         var dob = birthDate.shadowRoot.getElementById('date').value;
+                        console.log(dob)
                         assert.equal(dob, "2000-02-10");
                         assert.notEqual(dob, "2000-08-10");
                         done();
@@ -80,7 +81,8 @@
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('date', patient2.birthDate);
                 flush(function () {
-                    let date = document.getElementById('fhirBirth').shadowRoot.querySelector('#date').value;
+                    let date = document.getElementById('fhirBirth').shadowRoot.getElementById('date').value;
+                    console.log(date)
                     assert.equal(date, "2000-02-10");
                     assert.notEqual(date, "2000-08-10");
                     done();

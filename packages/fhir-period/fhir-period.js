@@ -15,18 +15,19 @@
  *
  */
 
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import moment from 'moment';
+import '@material/mwc-textfield'
 
 class FhirPeriod extends LitElement {
     static get properties() {
         return {
             /** The period Object with start and end properties should be in the two fields. If no value is passed, the current datetime is default */
-            value: Object,
+            value: {type:Object},
             /** Whether to show the start input field. Default: true */
-            start: Boolean,
+            start:{type:Boolean},
             /** Whether to show the end input field. Default: false */
-            end: Boolean,
+            end: {type:Boolean},
         }
     }
 
@@ -37,28 +38,28 @@ class FhirPeriod extends LitElement {
         this.end = false;
     }
 
-    _render({value, start, end}) {
-        if (value != undefined) {
-            if (typeof(value) === "string") { // value passed via html as string
-                if (JSON.parse(value).start != undefined) {
-                    var startDate = moment(JSON.parse(value).start).format('YYYY-MM-DDTHH:mm:ss');
+    render() {
+        if (this.value != undefined) {
+            if (typeof(this.value) === "string") { // value passed via html as string
+                if (JSON.parse(this.value).start != undefined) {
+                    var startDate = moment(JSON.parse(this.value).start).format('YYYY-MM-DDTHH:mm:ss');
                 }
-                if (JSON.parse(value).end != undefined) {
-                    var endDate = moment(JSON.parse(value).end).format('YYYY-MM-DDTHH:mm:ss');
+                if (JSON.parse(this.value).end != undefined) {
+                    var endDate = moment(JSON.parse(this.value).end).format('YYYY-MM-DDTHH:mm:ss');
                 }
-            } else if (typeof(value) == "object") { // value passed via js as object
-                if (value.start != undefined) {
-                    var startDate = moment(value.start).format('YYYY-MM-DDTHH:mm:ss');
+            } else if (typeof(this.value) == "object") { // value passed via js as object
+                if (this.value.start != undefined) {
+                    var startDate = moment(this.value.start).format('YYYY-MM-DDTHH:mm:ss');
                 }
-                if (value.end != undefined) {
-                    var endDate = moment(value.end).format('YYYY-MM-DDTHH:mm:ss');
+                if (this.value.end != undefined) {
+                    var endDate = moment(this.value.end).format('YYYY-MM-DDTHH:mm:ss');
                 }
             }
         }
 
         return html`
-            ${start ? html`Start:<input class="startField" type="datetime-local" value="${startDate}">` : ''}
-            ${end ? html`End:<input class="endField" type="datetime-local" value="${endDate}">` : ''}
+            ${this.start ? html`<mwc-textfield  label ="Start" outlined id= "start" class="startField" type="datetime-local"  .value="${startDate}"></mwc-textfield>` : ''}
+            ${this.end ? html`<mwc-textfield label ="End" outlined  class="endField" type="datetime-local" .value="${endDate}"></mwc-textfield>` : ''}
         `;
     }
 }

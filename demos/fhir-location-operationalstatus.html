@@ -15,7 +15,11 @@
 </p>
 <p>
 <h1>Default element without passing url but with JSON</h1>
-<fhir-location-operationalstatus value="I"></fhir-location-operationalstatus>
+<fhir-location-operationalstatus value='{
+    "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+    "code": "H",
+    "display": "Housekeeping"
+  }'></fhir-location-operationalstatus>
 </p>
 <p>
 <p>

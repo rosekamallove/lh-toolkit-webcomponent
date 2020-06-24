@@ -12,22 +12,26 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-location-operationalstatus.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
-import '@material/mwc-textfield/mwc-textfield.js';
+import {LitElement, html} from 'lit-element';
+import '@material/mwc-textfield';
+import '@material/mwc-select/mwc-select.js';
+import '@material/mwc-list/mwc-list-item.js';
+import '@material/mwc-formfield/mwc-formfield';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+
 
 class FhirLocationOperationalstatus extends LitElement {
     static get properties() {
         return {
             /**typeField is a selectable option for operational status of location. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField: {type: String},
             /**systemField is a textfield to show system URI of Location. Use this property to show/hide.*/
-            systemField: String,
+            systemField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value: {type: Object}
         }
     }
     /**default value of properties set in constructor*/
@@ -38,8 +42,8 @@ class FhirLocationOperationalstatus extends LitElement {
         this.value = {};
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var status = this.parentNode.host;
             if(e.detail.response.operationalStatus !== undefined) {
@@ -51,25 +55,26 @@ class FhirLocationOperationalstatus extends LitElement {
         });
     }
 
-    _render({typeField, url, value, systemField}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`
    <div id="div">
-   ${typeField !== 'false' ? html`
-     <label>Operational Status:</label>
-     <select class="typeField" value="${this.value.code}" on-change="${e => this.value.code = e.target.value}">
-         <option value="C">Closed</option>
-         <option value="H">Housekeeping</option>
-         <option value="I">Isolated</option>
-         <option value="K">Contaminated</option>
-         <option value="O">Occupied</option>
-         <option value="U">Unoccupied</option
-     </select>` : ''}
-   ${systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" value="${this.value.system}" on-input="${e => this.value.system = e.target._input.value}"  label="System URI"></mwc-textfield>` : ''}
+   ${this.typeField !== 'false' ? html`
+     <mwc-formfield label ="OPERATIONAL STATUS:" alignEnd>
+     <mwc-select class="typeField" .value = "${this.value.code}" @change="${e => this.value.code = e.target.value}">
+         <mwc-list-item value="C">Closed</mwc-list-item>
+         <mwc-list-item value="H">Housekeeping</mwc-list-item>
+         <mwc-list-item value="I">Isolated</mwc-list-item>
+         <mwc-list-item value="K">Contaminated</mwc-list-item>
+         <mwc-list-item value="O">Occupied</mwc-list-item>
+         <mwc-list-item value="U">Unoccupied</mwc-list-item>
+    </mwc-select>
+    </mwc-formfield>` : ''}
+   ${this.systemField !== 'true' ? html`<mwc-textfield outlined class="systemField" .value="${this.value.system || ""}" @input="${e => this.value.system = e.target._input.value}"  label="System URI"></mwc-textfield>` : ''}
    </div>
-   <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+   <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

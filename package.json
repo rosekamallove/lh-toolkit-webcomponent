@@ -11,15 +11,18 @@
     "test:integration": "polymer build # test that psk builds without error with the CLI"
   },
   "devDependencies": {
-    "polymer-cli": "^1.7.1",
-    "wct-browser-legacy": "^1.0.1",
     "async": "^1.5.2",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "polymer-cli": "^1.7.1",
+    "wct-browser-legacy": "^1.0.1"
   },
   "engines": {
     "node": ">=8.0"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "lit-element": "^2.3.1"
+  }
 }

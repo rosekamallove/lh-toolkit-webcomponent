@@ -12,7 +12,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-human-language.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@material/mwc-checkbox/mwc-checkbox.js'
@@ -22,13 +22,13 @@ class FhirHumanLanguage extends LitElement {
     static get properties() {
         return {
             /**langField is a field to display language. Use this property to show/hide. Default: true */
-            langField: String,
+            langField:{type: String},
             /**prefField is a switch to show if language is preferred or not. Use this property to show/hide. Default: true */
-            prefField: String,
+            prefField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: Array
+            value: {type: Array}
         }
     }
 
@@ -40,8 +40,8 @@ class FhirHumanLanguage extends LitElement {
         this.value = [{}];
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var communication = this.parentNode.host;
             if(e.detail.response.communication !== undefined) {
@@ -52,17 +52,18 @@ class FhirHumanLanguage extends LitElement {
             }
         });
     }
-    _render({langField, prefField, url, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
      <div id="div">
-     <label>COMMUNICATION:</label>
-     ${langField !== 'false' ? html`<mwc-textfield outlined class="langField" value="${i.language}" label="Language" on-input="${e => this.value[index].language = e.target._input.value}"></mwc-textfield>` : ''}
-     ${prefField !== 'false' ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox class="prefField" on-input="${e => this.value[index].preferred = e.target.value}"></mwc-checkbox></mwc-formfield>` : ''}
+     <mwc-formfield label = "COMMUNICATION:" alignEnd>
+     ${this.langField !== 'false' ? html`<mwc-textfield outlined class="langField" value="${i.language || ""}" label="Language" @input="${e => this.value[index].language = e.target._input.value}"></mwc-textfield>` : ''}
+     ${this.prefField !== 'false' ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox class="prefField" @input="${e => this.value[index].preferred = e.target.value}"></mwc-checkbox></mwc-formfield>` : ''}
+    </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
      
     `)}`;
     }

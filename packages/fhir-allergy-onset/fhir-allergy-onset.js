@@ -12,7 +12,18 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-onset.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+/**converts between json and string attributes */
+const jsonStringConverter = {
+    toAttribute(val) {
+        return JSON.parse(val);
+    },
+    fromAttribute(str) {
+        return JSON.stringify(str);
+    }
+}
+
+import {LitElement, html} from 'lit-element';
+import '@material/mwc-textfield';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 import moment from 'moment';
@@ -21,11 +32,11 @@ class FhirAllergyOnset extends LitElement {
     static get properties() {
         return {
             /**assertDate is used to show persons allergy onset date. Use this property to show/hide. Default: true */
-            onsetDate: String,
+            onsetDate: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url:{type: String},
             /**value is used to take the input value of each field*/
-            value: Object
+            value: {type: jsonStringConverter, reflect:true}
         }
     }
     /**default value of properties set in constructor*/
@@ -34,8 +45,8 @@ class FhirAllergyOnset extends LitElement {
         this.onsetDate = 'true';
         this.value = {};
     }
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after _render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var allergydate = this.parentNode.host;
@@ -48,14 +59,14 @@ class FhirAllergyOnset extends LitElement {
         });
     }
 
-    _render({onsetDate, url, value}) {
+    render() {
         return html`
        <div id="allergyDiv">
-       ${onsetDate !== 'false' ? html`<mwc-formfield class="assertDate" alignEnd label="Onset date:">
-       <input id="date" type="datetime-local" value="${this.value}" on-input="${e => this.value = e.target.value}">
+       ${this.onsetDate !== 'false' ? html`<mwc-formfield class="assertDate" alignEnd label="Onset date:">
+       <mwc-textfield outlined id="date" type="datetime-local" .value="${this.value}" @input="${e => this.value = e.target.value}"></mwc-textfield>
        </mwc-formfield>` : ''}
        </div>
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax> 
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax> 
     `;
     }
 }

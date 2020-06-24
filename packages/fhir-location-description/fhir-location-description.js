@@ -12,8 +12,10 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-location-description.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-formfield';
+import '@material/mwc-textarea';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
@@ -31,11 +33,11 @@ class FhirLocationDescription extends LitElement {
     static get properties() {
         return {
             /**describeField is a text for description of location. Use this property to show/hide. Default: true */
-            describeField: String,
+            describeField: {type: String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**value is used to take the input value of each field*/
-            value: String
+            value: {type: String}
         }
     }
 
@@ -43,10 +45,10 @@ class FhirLocationDescription extends LitElement {
     constructor() {
         super();
         this.describeField = 'true';
-        this.value = '';
+       
     }
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
 
@@ -60,13 +62,14 @@ class FhirLocationDescription extends LitElement {
         });
     }
 
-    _render({describeField, url, value}) {
+    render() {
         return html`
    <div id="allergyDiv"> 
-   <label>DESCRIPTION:</label> 
-     ${describeField !== 'false' ? html`<mwc-textfield outlined value="${this.value}" class="describeField" on-input="${e => this.value = e.target._input.value}"  label="Description"></mwc-textfield>` : ''}
+   <mwc-formfield label ="DESCRIPTION:" alignEnd>
+     ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" @input="${e => this.value = e.target._input.value}"  label="Description"></mwc-textarea>` : ''}
+    </mwc-formfield> 
    </div> 
-   <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+   <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }

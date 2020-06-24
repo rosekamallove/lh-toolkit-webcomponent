@@ -13,8 +13,8 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-patient-get.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
-import '@material/mwc-button/mwc-button.js';
+import {LitElement, html} from 'lit-element';
+// import '@material/mwc-button/mwc-button.js';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
@@ -34,31 +34,31 @@ class FhirPatientGet extends LitElement {
     static get properties(){
         return {
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type: String},
             /**patientId defines the patient Id. Use this property to show/hide. Default: true */
-            patientId: String,
+            patientId: {type: String},
             /**patientName defines the patient Name. Use this property to show/hide. Default: true */
-            patientName: String,
+            patientName: {type: String},
             /**patientActive defines the patient active status. Use this property to show/hide. Default: true */
-            patientActive: String,
+            patientActive: {type: String},
             /**patientDecease defines the patient deceased status. Use this property to show/hide. Default: true */
-            patientDecease: String,
+            patientDecease: {type: String},
             /**patientBirthday defines the patient date of birth. Use this property to show/hide. Default: true */
-            patientBirthday: String,
+            patientBirthday: {type: String},
             /**patientGender defines the patient gender. Use this property to show/hide. Default: true */
-            patientGender: String,
+            patientGender: {type: String},
             /**patientMarriage defines the patient marital status. Use this property to show/hide. Default: true */
-            patientMarriage: String,
+            patientMarriage: {type: String},
             /**patientContact defines the patient telecom details. Use this property to show/hide. Default: true */
-            patientContact: String,
+            patientContact: {type: String},
             /**patientAddress defines the patient address. Use this property to show/hide. Default: true */
-            patientAddress: String,
+            patientAddress: {type: String},
             /**patientLanguage defines the patient communication language. Use this property to show/hide. Default: true */
-            patientLanguage: String,
+            patientLanguage: {type: String},
             /**relationType defines the patient relation details. Use this property to show/hide. Default: true */
-            relationType: String,
+            relationType: {type: String},
             /**value defines the value of field */
-            value: Object
+            value: {type: Object}
 
         }
     }
@@ -79,30 +79,30 @@ class FhirPatientGet extends LitElement {
         this.value = {};
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             this.parentNode.host.value = e.detail.response;
         });
     }
 
-    _render({url, patientId, patientActive, patientName, patientDecease, patientBirthday, patientGender, patientMarriage, patientContact, patientAddress, patientLanguage, relationType, value }) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`
-       ${patientId !== 'false' ? html`<fhir-person-identifier value="${this.value.identifier}" id="patientId"></fhir-person-identifier>` : ''}
-       ${patientName !== 'false' ? html`<fhir-human-name value="${this.value.name}" id="patientName"></fhir-human-name>` : ''}
-       ${patientActive !== 'false' ? html`<fhir-active-status value="${this.value.active}" id="patientActive"></fhir-active-status>` : ''}
-       ${patientDecease !== 'false' ? html`<fhir-decease-status value="${this.value.deceasedBoolean}" id="patientDecease"></fhir-decease-status>` : ''}
-       ${patientBirthday !== 'false' ? html`<fhir-birth-date value="${this.value.birthDate}" id="patientBirthday"></fhir-birth-date>` : ''}
-       ${patientGender !== 'false' ? html`<fhir-human-gender value="${this.value.gender}" id="patientGender"></fhir-human-gender>` : ''}
-       ${patientMarriage !== 'false' ? html`<fhir-marital-status value="${this.value.maritalStatus}" id="patientMarriage"></fhir-marital-status>` : ''}
-       ${patientContact !== 'false' ? html`<fhir-human-contact value="${this.value.telecom}" id="patientContact"></fhir-human-contact>` : ''}
-       ${patientAddress !== 'false' ? html`<fhir-human-address value="${this.value.address}" id="patientAddress"></fhir-human-address>` : ''}
-       ${patientLanguage !== 'false' ? html`<fhir-human-language value="${this.value.language}" id="patientLanguage"></fhir-human-language>` : ''}
-       ${relationType !== 'false' ? html`<fhir-human-relation value="${this.value.contact}" id="patientRelation"></fhir-human-relation>` : ''}
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+       ${this.patientId !== 'false' ? html`<fhir-person-identifier .value="${this.value.identifier}" id="patientId"></fhir-person-identifier>` : ''}
+       ${this.patientName !== 'false' ? html`<fhir-human-name .value="${this.value.name}" id="patientName"></fhir-human-name>` : ''}
+       ${this.patientActive !== 'false' ? html`<fhir-active-status .value="${this.value.active}" id="patientActive"></fhir-active-status>` : ''}
+       ${this.patientDecease !== 'false' ? html`<fhir-decease-status .value="${this.value.deceasedBoolean}" id="patientDecease"></fhir-decease-status>` : ''}
+       ${this.patientBirthday !== 'false' ? html`<fhir-birth-date .value="${this.value.birthDate}" id="patientBirthday"></fhir-birth-date>` : ''}
+       ${this.patientGender !== 'false' ? html`<fhir-human-gender .value="${this.value.gender}" id="patientGender"></fhir-human-gender>` : ''}
+       ${this.patientMarriage !== 'false' ? html`<fhir-marital-status .value="${this.value.maritalStatus}" id="patientMarriage"></fhir-marital-status>` : ''}
+       ${this.patientContact !== 'false' ? html`<fhir-human-contact .value="${this.value.telecom}" id="patientContact"></fhir-human-contact>` : ''}
+       ${this.patientAddress !== 'false' ? html`<fhir-human-address .value="${this.value.address}" id="patientAddress"></fhir-human-address>` : ''}
+       ${this.patientLanguage !== 'false' ? html`<fhir-human-language .value="${this.value.language}" id="patientLanguage"></fhir-human-language>` : ''}
+       ${this.relationType !== 'false' ? html`<fhir-human-relation .value="${this.value.contact}" id="patientRelation"></fhir-human-relation>` : ''}
+       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
   `;
     }
 }

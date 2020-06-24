@@ -12,8 +12,11 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-organisation-name.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-formfield';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 
@@ -21,13 +24,13 @@ class FhirOrganisationType extends LitElement {
     static get properties() {
         return {
             /**systemField is a field for use system url. Use this property to show/hide. Default: true */
-            systemField: String,
+            systemField: { type: String },
             /**typeField is a selectable option for type of organization. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField: { type: String },
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: { type: String },
             /**value is used to take the input value of each field*/
-            value: Array
+            value: { type: Array }
         }
     }
 
@@ -36,13 +39,13 @@ class FhirOrganisationType extends LitElement {
         super();
         this.systemField = true;
         this.typeField = true;
-        this.value = [{coding:[{}]}];
+        this.value = [{ coding: [{}] }];
     }
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var type = this.parentNode.host;
-            if(e.detail.response.type !== undefined) {
+            if (e.detail.response.type !== undefined) {
                 type.value = e.detail.response.type;
             }
             else {
@@ -50,30 +53,32 @@ class FhirOrganisationType extends LitElement {
             }
         });
     }
-    _render({systemField, typeField, url, value}) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof (this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`${this.value.map((i, index) => html`
-        <div id="div"> 
-        ${typeField !== 'false' ? html`
-        <label>Category:</label>
-        <select class="typeField" value="${i.coding[0].code}" on-change="${e => this.value[index].coding[0].code= e.target.value}">
-             <option value="prov">Healthcare provider</option>
-             <option value="dpt">Hospital Department</option>
-             <option value="team">Organization team</option>
-             <option value="govt">Government</option>
-             <option value="ins">Insurance Company</option>
-             <option value="edu">Educational Institution</option>
-             <option value="reli">Religious institution</option>
-             <option value="crs">Clinical Research Sponser</option>
-             <option value="cg">Community Group</option>
-             <option value="bus">Non-healthcare Business</option>
-             <option value="other">Other</option>
-             </select>` : ''}
-        ${systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" value="${i.coding[0].system}" on-input="${e => this.value[index].system = e.target._input.value}"  label="System"></mwc-textfield>` : ''}
+        <div id="div">
+        <mwc-formfield>
+        ${this.typeField !== 'false' ? html`
+        <mwc-select label ="Category" class="typeField" .value="${i.coding[0].code}"  @change="${e => this.value[index].coding[0].code = e.target.value}">
+             <mwc-list-item value="prov">Healthcare provider</mwc-list-item>
+             <mwc-list-item value="dpt">Hospital Department</mwc-list-item>
+             <mwc-list-item value="team">Organization team</mwc-list-item>
+             <mwc-list-item value="govt">Government</mwc-list-item>
+             <mwc-list-item value="ins">Insurance Company</mwc-list-item>
+             <mwc-list-item value="edu">Educational Institution</mwc-list-item>
+             <mwc-list-item value="reli">Religious institution</mwc-list-item>
+             <mwc-list-item value="crs">Clinical Research Sponser</mwc-list-item>
+             <mwc-list-item value="cg">Community Group</mwc-list-item>
+             <mwc-list-item value="bus">Non-healthcare Business</mwc-list-item>
+             <mwc-list-item value="other">Other</mwc-list-item>
+             </mwc-select>
+              ` : ''}
+        ${this.systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" .value="${i.coding[0].system}" @input="${e => this.value[index].system = e.target._input.value}"  label="System"></mwc-textfield>` : ''}
+        </mwc-formfield>    
         </div> 
-        <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+        <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
    `)}`;
     }
 }

@@ -12,20 +12,34 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-allergy-type.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
+import '@material/mwc-select';
+import '@material/mwc-list/mwc-list-item';
+import '@material/mwc-formfield';
 import '@lh-toolkit/fhir-period/fhir-period.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+
+
+/**converts between json and string attributes */
+const jsonStringConverter = {
+    toAttribute(val) {
+        return JSON.stringify(val);
+    },
+    fromAttribute(str) {
+        return JSON.parse(str);
+    }
+};
 
 class FhirAllergyType extends LitElement {
     static get properties() {
         return {
             /**typeField is a selectable option type of allergy. Use this property to show/hide. Default: true */
-            typeField: String,
+            typeField: { type: String },
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: { type: String },
             /**value is used to take the input value of each field*/
-            value: Object
+            value: { type: jsonStringConverter, reflect: true }
         }
     }
 
@@ -36,14 +50,15 @@ class FhirAllergyType extends LitElement {
         this.value = [];
     }
 
+
     _setValue() {
         if (this.value.length != undefined) {
             this.shadowRoot.childNodes[1].querySelectorAll('.typeField')[0].value = this.value;
         }
     }
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after _render*/
+    updated() {
 
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
 
@@ -57,19 +72,22 @@ class FhirAllergyType extends LitElement {
         });
     }
 
-    _render({typeField, url, value}) {
+    render() {
         return html`
    <div id="allergyDiv">
-   ${typeField !== 'false' ? html`
-     <label>Type:</label>
-     <select class="typeField" value="${this.value}" on-change="${e => this.value = e.target.value}">
-         <option value="allergy">Allergy</option>
-         <option value="intolerance">Intolerance</option>
-     </select>` : ''}
+   ${this.typeField !== 'false' ? html`
+     <mwc-formfield label ="Type:" alignEnd>
+    <mwc-select class="typeField" outlined  .value="${this.value}" @change="${e => this.value = e.target.value}">
+     <mwc-list-item value="allergy">Allergy</mwc-list-item>
+     <mwc-list-item value="intolerance">Intolerance</mwc-list-item>
+    </mwc-select>
+ </mwc-formfield>
+     ` : ''}
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;
     }
 }
+
 
 window.customElements.define('fhir-allergy-type', FhirAllergyType);

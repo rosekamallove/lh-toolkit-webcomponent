@@ -69,8 +69,9 @@
                 document.querySelector('dom-bind').set('actives', JSON.stringify(patient2.active));
                 flush(function () {
                     let cont = document.getElementById('fhirActive').shadowRoot.getElementById('active').checked;
-                    assert.equal(cont, false);
-                    assert.notEqual(cont, true);
+                    console.log(cont)
+                    assert.equal(cont, true);
+                    assert.notEqual(cont, false);
                     done();
                 });
             });

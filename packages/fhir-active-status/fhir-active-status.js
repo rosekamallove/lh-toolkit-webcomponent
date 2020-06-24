@@ -12,7 +12,8 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-active-status.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+
+import {LitElement,html} from 'lit-element'
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@material/mwc-checkbox/mwc-checkbox.js'
 import '@polymer/iron-ajax/iron-ajax.js';
@@ -21,24 +22,25 @@ class FhirActiveStatus extends LitElement {
     static get properties() {
         return {
             /**activeStatus is used to show active status of person true or false. Use this property to show/hide. Default: true */
-            activeStatus: String,
+            activeStatus: {type:String},
             /**url is used to make AJAX call to FHIR resource. Default: null */
-            url: String,
+            url: {type:String},
             /**value is used to take the input value of each field*/
-            value: Boolean
+            value: {type:Boolean}
         }
     }
 
     /**default value of properties set in constructor*/
     constructor() {
         super();
-        this.activeStatus = 'true';
+        this.activeStatus = "true";
         this.value = false;
+        
     }
 
 
-    /**_didRender() delivers only after _render*/
-    _didRender() {
+    /**updated() delivers only after render*/
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             var active = this.parentNode.host;
             if (e.detail.response.active) {
@@ -54,14 +56,17 @@ class FhirActiveStatus extends LitElement {
         });
     }
 
-    _render({activeStatus, url, value}) {
+     
+    render() {
         return html`
        <div id="activeDiv">
-       ${activeStatus !== 'false' ? html`<mwc-formfield class="activeStatus" alignEnd label="ACTIVE STATUS:">
-         <mwc-checkbox id="active" checked="${this.value}" class="activeState" on-click="${e => this.value = e.target.value}"></mwc-checkbox>
+       ${this.activeStatus !== "false" ? 
+       html`<mwc-formfield class="activeStatus" alignEnd label="ACTIVE STATUS:">
+         <mwc-checkbox id="active" ?checked ="${this.value}" class="activeState" @click ="${e => this.value = e.target.value}"></mwc-checkbox>
          </mwc-formfield>` : ''}
        </div>
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+       <iron-ajax id= "ajax" bubbles auto handle-as="json" .url="${this.url}"> </iron-ajax>
+
     `;
     }
 }
