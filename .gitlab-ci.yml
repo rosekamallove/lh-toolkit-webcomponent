@@ -6,7 +6,7 @@ variables:
 test:
   stage: test
   script:
-  - npm i -g npm@latest
+  - yarn global add npm@latest
   #should run `polymer test` once configured with SauceLabs
   only:
     - master
@@ -14,9 +14,7 @@ test:
 pages:
   stage: deploy
   script:
-  - npm i -g npm@latest
-  - npm i -g yarn lerna
-  - yarn global add polymer-cli
+  - yarn global add lerna npm@latest polymer-cli
   - lerna bootstrap --use-workspaces
   - polymer build --js-transform-import-meta
   - mv build/default public
