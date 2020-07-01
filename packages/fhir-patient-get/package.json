@@ -12,7 +12,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "lit-element": "^2.3.1",
-    "@material/mwc-button": "file:../../material-components-web-components/packages/button",
+   "@material/mwc-button": "0.15.0",
     "@polymer/iron-ajax": "^3.0.0-pre.19"
   },
   "publishConfig": {

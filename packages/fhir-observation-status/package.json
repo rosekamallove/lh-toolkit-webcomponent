@@ -12,7 +12,9 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@polymer/iron-ajax": "^3.0.1",
-    "@polymer/lit-element": "^0.5.2",
+    "@material/mwc-select": "0.15.0",
+    "@material/mwc-formfield": "0.15.0",
+    "@material/mwc-list": "0.15.0",
     "@polymer/polymer": "^3.0.0",
     "lit-element": "^2.3.1"
   },
