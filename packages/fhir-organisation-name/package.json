@@ -12,8 +12,8 @@
   "license": "MPL-2.0",
   "dependencies": {
     "lit-element": "^2.3.1",
-    "@material/mwc-textfield": "file:../../material-components-web-components/packages/textfield",
-    "@material/mwc-base": "file:../../material-components-web-components/packages/base",
+    "@material/mwc-textfield": "0.15.0",
+    "@material/mwc-formfield": "0.15.0",
     "@polymer/iron-ajax": "^3.0.0-pre.19"
   },
   "publishConfig": {

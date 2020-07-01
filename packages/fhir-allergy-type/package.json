@@ -11,9 +11,11 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "lit-element": "^2.3.1",
-    "@polymer/iron-ajax": "^3.0.0-pre.19"
-
+    "@material/mwc-formfield": "^0.15.0",
+    "@material/mwc-list": "^0.15.0",
+    "@material/mwc-select": "^0.15.0",
+    "@polymer/iron-ajax": "^3.0.0-pre.19",
+    "lit-element": "^2.3.1"
   },
   "publishConfig": {
     "access": "public"

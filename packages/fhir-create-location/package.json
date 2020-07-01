@@ -11,8 +11,8 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@material/mwc-button": "^0.15.0",
     "@polymer/iron-ajax": "^3.0.0-pre.19",
+    "@material/mwc-button": "0.15.0",
     "lit-element": "^2.3.1"
   },
   "publishConfig": {
