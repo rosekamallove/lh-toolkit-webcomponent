@@ -15,7 +15,7 @@ Web Components can be seamlessly incorporated into a wide range of usage context
 Insert screenshot of a demo page, including a code snippet.
 -->
 
-**[Demos](https://librehealth.gitlab.io/lh-toolkit-webcomponents/index.html)**
+**[Demos](https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/)**
 
 ## Quick start
 
@@ -81,8 +81,7 @@ Below are instructions for setting up project development.
 2. create a demo html under `/demos`. Name it same as your custom element `tag-name.html`
 3. create unit tests under `/test/unit` and integration tests under `/test/integration` and test resources under `/test/testResources`
 4. add your demo page under `/index.html`
-
-  > The `material-components-web-components` is git submodule only temporarily until the polymer mwc team releases all the material web components to NPM registry
+5. add your demo html to `/polymer.json` in the fragments JSON
 
 ### Rebuild CSS for components
 
@@ -91,7 +90,7 @@ Components define their css using [SASS](http://sass-lang.com/). The SASS output
 ## Useful Links
 
 - [All Components](packages/)
-- [Demos](https://librehealth.github.io/lh-toolkit-webcomponents/index.html)
+- [Demos](https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/)
 - [Contributing](CONTRIBUTING.md)
 
 ## Browser Support
