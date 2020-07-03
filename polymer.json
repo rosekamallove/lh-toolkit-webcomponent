@@ -1,5 +1,8 @@
 {
   "entrypoint": "index.html",
+  "sources": [
+    "images/**/*"
+  ],
   "extraDependencies": [
     "node_modules/@webcomponents/webcomponentsjs/*.js",
     "!node_modules/@webcomponents/webcomponentsjs/gulpfile.js",
