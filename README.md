@@ -3,14 +3,15 @@
 
 > :warning: These components are still a work in progress. Elements are NOT available on NPM Registry.:warning:
 
-[![pipeline status](https://gitlab.com/librehealth/lh-toolkit-webcomponents/badges/master/pipeline.svg)](https://gitlab.com/librehealth/lh-toolkit-webcomponents/commits/master)
+[![pipeline status](https://gitlab.com/librehealth/lh-toolkit-webcomponents/badges/master/pipeline.svg)](https://gitlab.com/librehealth/lh-toolkit-webcomponents/commits/master)  [![Sauce Test Status](https://saucelabs.com/buildstatus/librehealth)](https://app.saucelabs.com/u/librehealth)
 
 The LibreHealth Toolkit Web Components implement [FHIR Resources](http://hl7.org/fhir) and GET/POST data using FHIR payload structures using [web components](https://developer.mozilla.org/en-US/docs/Web/Web_Components). We also have custom elements that are used by other elements and are then used by elements that implement FHIR Resources.
 
 Built using [Polymer 3.x](https://www.polymer-project.org/3.0/docs/devguide/feature-overview), we prefer that most lh-toolkit custom elements use the [Material Components Web](https://github.com/material-components/material-components-web) project and [LitElement](https://github.com/polymerlabs/lit-element). The Polymer library enables a reliable development workflow to build custom elements. Yet, these are only one pattern that we follow and other types of custom elements and webcomponents that use other frameworks like React, Angular, Vue etc. are also welcome.
 
-Web Components can be seamlessly incorporated into a wide range of usage contexts. Whether you're already heavily invested in another framework or not, it's easy to incorporate LibreHealth Toolkit FHIR Web Components into your EHR system.
+Web Components can be seamlessly incorporated into a wide range of usage contexts. Whether you're already heavily invested in another framework or not, it's easy to incorporate LibreHealth Toolkit FHIR Web Components into your EHR system. 
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/librehealth.svg)](https://saucelabs.com/u/librehealth)
 <!-- TODO
 Insert screenshot of a demo page, including a code snippet.
 -->
@@ -99,8 +100,12 @@ We officially support the last two versions of every major browser. Specifically
 
 - Chrome
 - Firefox
+- Microsoft Edge (Windows)
 - Safari (TODO)
 - IE 11/Edge (TODO)
 - Opera (TODO)
 - Mobile Safari (TODO)
 - Chrome on Android (TODO)
+
+Thanks to generous donation from SauceLabs, we perform cross-browser, cross-platform testing of the web components.
+[![Testing Powered By SauceLabs](https://saucelabs.github.io/images/opensauce/powered-by-saucelabs-badge-gray.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)

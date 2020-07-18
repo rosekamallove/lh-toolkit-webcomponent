@@ -2,8 +2,28 @@
   "verbose": true,
   "plugins": {
     "local": {
+      "disabled": true,
       "browsers": [
         "chrome"
+      ]
+    },
+    "sauce": {
+      "browsers": [
+        {
+          "browserName": "chrome",
+          "platform": "Linux",
+          "version": "latest"
+        },
+        {
+          "browserName": "MicrosoftEdge",
+          "platform": "Windows 10",
+          "version": "latest"
+        },
+        {
+          "browserName": "firefox",
+          "platform": "Linux",
+          "version": "latest"
+        }
       ]
     }
   }
