@@ -267,11 +267,8 @@
         // and cancelable series of key down/press/up events
         return this.each(function () {
             triggerCodesOnField(codes, $(this), settings.delay, settings.global);
-            //TO DO: If the mdc-text-field gets updated in future, update the space in below code for  'mdc-text-field__input ', else test fails.
-
-            if (this.className == 'mdc-text-field__input ') {
-                this.parentNode.parentNode.host.dispatchEvent(new Event('input'));
-            }
+            //TODO: if mwc-textfield changes its listener event, then change this
+            this.dispatchEvent(new Event('input'));
         });
     };
 
