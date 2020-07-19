@@ -24,9 +24,8 @@ class FhirCoding extends LitElement {
             value: { type: Object },
             /** Populate inputs via GET request : A url to the resource */
             url: { type: String },
-            /** Populate inputs via GET request : A string which is a JSON array. Consists of the JSON keys to access the coding*/
+            /** Populate inputs via GET request : A dot-syntax string of the JSON keys to access the coding */
             jsonPath: { type: String },
-
             /** Whether to show the display input field. Default: true */
             showDisplay: { type: String },
             /** Label for the display input field. Default: display */
@@ -64,13 +63,11 @@ class FhirCoding extends LitElement {
     }
 
     render() {
-        
-
         if (this.url != undefined && Object.keys(this.ajaxRelated).length === 0) {
             return html`
                 <iron-ajax class="ajax" bubbles auto
                     handle-as="json" .url=${this.url}
-                    @response=${e => this.handleResponse(e, jsonPath)}
+                    @response=${e => this.handleResponse(e, this.jsonPath)}
                     @error=${e => this.handleErrorResponse(e)}></iron-ajax>
                 <div class="ajaxMessage">Awaiting server response...</div>
             `;
@@ -80,9 +77,7 @@ class FhirCoding extends LitElement {
                 label=${this.labelOfDisplay}
                 value=${this.value.display || ""}
                 @blur=${e => this.value["display"] = e.target._input.value}></mwc-textfield>` : ''}
-            ${this.showSystem == "true" ? html`
-           
-            <mwc-textfield outlined class="systemField"
+            ${this.showSystem == "true" ? html`<mwc-textfield outlined class="systemField"
                 label="System"
                 value=${this.value.system || ""}
                 @blur=${e => this.value["system"] = e.target._input.value}></mwc-textfield>` : ''}
@@ -100,12 +95,10 @@ class FhirCoding extends LitElement {
                 @blur=${e => this.value["userSelected"] = e.target._input.value}></mwc-textfield>` : ''}
         `;
     }
-    
-    
 
     handleResponse(e, jsonPath) {
         if (jsonPath != undefined) {
-            let codingJson = this.getNestedObject(e.detail.response, JSON.parse(jsonPath));
+            let codingJson = this.getNestedObject(e.detail.response, jsonPath);
             if (codingJson != undefined) {
                 this.ajaxRelated["success"] = "true";
                 this.value = codingJson;
@@ -119,22 +112,13 @@ class FhirCoding extends LitElement {
             errorMessage = "Error occurred while retrieving server response";
             this.ajaxRelated = { ...this.ajaxRelated, errorMessage };
             console.log(this.ajaxRelated.errorMessage);
-        }else{
+        } else {
             console.log(errorMessage)
         }
-        
-
     }
 
-    getNestedObject(jsonObject, keyArray) {
-        let tmp = jsonObject;
-        keyArray.forEach(key => {
-            if (tmp[key] == undefined) {
-                return undefined;
-            }
-            tmp = tmp[key];
-        });
-        return tmp;
+    getNestedObject(obj, path) {
+        return path.split('.').reduce((o, key) => o && o[key], obj);
     }
 }
 window.customElements.define('fhir-coding', FhirCoding);
