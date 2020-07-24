@@ -24,10 +24,10 @@ const jsonStringConverter = {
 
 
 import { LitElement, html } from "lit-element";
-import '@material/mwc-textfield';
-import '@material/mwc-formfield';
-import moment from 'moment';
-import '@polymer/iron-ajax'
+import "@material/mwc-textfield";
+import "@material/mwc-formfield";
+import moment from "moment";
+import "@polymer/iron-ajax"
 
 class FhirObservationEffectivedatetime extends LitElement {
 
@@ -55,7 +55,7 @@ class FhirObservationEffectivedatetime extends LitElement {
 
      /**updated() delivers only after render()*/
     updated() {
-               this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
+               this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function (e) {
             let obsDatetime = this.parentNode.host;
             if (e.detail.response.effectiveDateTime !== undefined) {
                 obsDatetime.value = moment(e.detail.response.effectiveDateTime).format("YYYY-MM-DDThh:mm:ss");
@@ -72,10 +72,10 @@ class FhirObservationEffectivedatetime extends LitElement {
         <div id = "obsDatetimeDiv">
         ${this.obsDateTime !== "false" ?
                 html`<mwc-formfield  class= "obsDateTime" label= "OBSERVATION TIME:" alignEnd>
-        <mwc-textfield id="dateTime" outlined type ="datetime-local" .value =${this.value} @input= "${e => this.value = e.target.value}"></mwc-textfield>
+        <mwc-textfield id="dateTime" outlined type ="datetime-local" .value ="${this.value}" @input= "${e => this.value = e.target.value}"></mwc-textfield>
         </mwc-formfield>` : ""}
         </div>
-        <iron-ajax id="ajax" bubbles auto handle-as = "json" .url=${this.url}></iron-ajax>
+        <iron-ajax id="ajax" bubbles auto handle-as = "json" .url="${this.url}"></iron-ajax>
         
         `
     }
@@ -84,4 +84,4 @@ class FhirObservationEffectivedatetime extends LitElement {
 
 }
 
-customElements.define('fhir-observation-effectivedatetime', FhirObservationEffectivedatetime)
+customElements.define("fhir-observation-effectivedatetime", FhirObservationEffectivedatetime)

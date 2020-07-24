@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-observation-referencerange test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-observation-referencerange/fhir-observation-referencerange.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="DefaultElement">
+      <template>
+        <fhir-observation-referencerange url="/load_patient_data"></fhir-observation-referencerange>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="AllVisible">
+        <template>
+          <fhir-observation-referencerange  textField ="true" url="/load_patient_data"></fhir-observation-referencerange>
+        </template>
+      </test-fixture>
+<dom-bind>
+  <test-fixture id="SetValue">
+    <template>
+      <fhir-observation-referencerange id="FhirObsreferencerange" value = "[[Obsreferencerange]]"></fhir-observation-referencerange>
+    </template>
+  </test-fixture>
+</dom-bind>
+    
+
+    <script type="module">
+
+    import observation from '../../test/testResources/observation2.js';
+
+    suite('<iron-ajax>', function () {
+            let server;
+            let responseHeaders = {
+                json: {'Content-Type': 'application/json'}
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith('GET', /\/load_patient_data.*/,
+                    [200,
+                        {'Content-Type': 'application/json'},
+                        JSON.stringify(observation)                    ]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+            
+
+            suite('fhir-observation-referencerange tests', function(){
+                let  value;
+                setup(function () {
+                value = fixture('DefaultElement');
+                });
+            
+                test('test to show that only display is shown by default', function(done){
+                    flush(function () {
+                        assert.notEqual(value.shadowRoot.getElementById("valueID", null))
+                        assert.notEqual(value.shadowRoot.getElementById("ageFieldID", null))
+                        assert.notEqual(value.shadowRoot.getElementById("typeFieldID", null));
+                        assert.equal(value.shadowRoot.getElementById("textFieldID", null));
+                        done();
+                    });
+                });
+            
+        
+                test("display field shows the appropriate value", function(){
+                value.addEventListener('iron-ajax-response', function (done){
+                flush(function(){
+                let result = value.shadowRoot.getElementById("textFieldID").value;
+                console.log(result)
+                    assert.Eequal(result,"made up text");
+                    assert.notEqual(result, "temperature taking");
+                    done();
+            })
+          })
+
+        });
+    });
+
+    suite('fhir-observation-referencerange tests', function(){
+                let  All;
+                setup(function () {
+                All = fixture('AllVisible');
+                console.log(All)
+                });
+
+        test("All field are visible and shows the appropriate value", function(){
+            All.addEventListener('iron-ajax-response', function (done){
+                flush(function(){
+                let Display = All.shadowRoot.getElementById("valueID").value;
+                let system = All.shadowRoot.getElementById("ageFieldID").value;
+                let code = All.shadowRoot.getElementById("textFieldID").value;
+                assert.equal(Display,"Oral temperature taking")
+                assert.equal(code,"made up text")
+                assert.equal(system,"http://snomed.info/sct")
+                done();
+            })
+          })
+
+        });
+    
+        // test("To check if the display value sets correctly to its field", function(done){
+        //   document.querySelector("dom-bind").set("Obsreferencerange",JSON.stringify(observation.referenceRange));
+        //   flush(function(){
+        //     let displayValue = document.getElementById("FhirObsreferencerange").shadowRoot.getElementById("textFieldID").value;
+        //     assert.equal(displayValue,"made up text")
+        //     assert.notEqual(displayValue, "temperature taking")
+        //     done();
+        //   });
+        // });
+
+       
+
+      });
+    });
+    </script>
+
+    </body>
+    
+    
+</html>

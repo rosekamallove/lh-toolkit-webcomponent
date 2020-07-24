@@ -26,11 +26,11 @@ const jsonStringConverter = {
 }
 
 
-import {LitElement, html} from 'lit-element';
-import '@material/mwc-textfield';
-import '@material/mwc-formfield';
-import '@polymer/iron-ajax';
-import moment from 'moment';
+import {LitElement, html} from "lit-element";
+import "@material/mwc-textfield";
+import "@material/mwc-formfield";
+import "@polymer/iron-ajax";
+import moment from "moment";
 
 class FhirObservationIssued extends LitElement{
     static get properties(){
@@ -72,11 +72,11 @@ class FhirObservationIssued extends LitElement{
         ${this.obsIssued !== "false" ?
         html `
         <mwc-formfield class = "Issued" label ="OBSERVATION ISSUED:" alignEnd>
-            <mwc-textfield  id ="dateissued" outlined type ="datetime-local" .value = ${this.value} @input ="${e =>this.value =e.target.value}"></mwc-textfield>
+            <mwc-textfield  id ="dateissued" outlined type ="datetime-local" .value = "${this.value}" @input ="${e =>this.value =e.target.value}"></mwc-textfield>
         </mwc-formfield>
         `:""}
         </div>
-        <iron-ajax id ="ajax" bubbles auto handle-as ="json" .url=${this.url}></iron-ajax>
+        <iron-ajax id ="ajax" bubbles auto handle-as ="json" .url="${this.url}"></iron-ajax>
         `
     }
 
@@ -84,4 +84,4 @@ class FhirObservationIssued extends LitElement{
 
 }
 
-customElements.define('fhir-observation-issued',FhirObservationIssued)
+customElements.define("fhir-observation-issued",FhirObservationIssued)

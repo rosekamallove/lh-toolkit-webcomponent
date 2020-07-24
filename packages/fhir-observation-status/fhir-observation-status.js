@@ -12,11 +12,11 @@
  * 
  */
 
-import { LitElement, html } from 'lit-element';
-import '@material/mwc-select';
-import '@material/mwc-formfield';
-import '@material/mwc-list/mwc-list-item';
-import '@polymer/iron-ajax/iron-ajax.js';
+import { LitElement, html } from "lit-element";
+import "@material/mwc-select";
+import "@material/mwc-formfield";
+import "@material/mwc-list/mwc-list-item";
+import "@polymer/iron-ajax/iron-ajax.js";
 
 
 const jsonStringConverter = {
@@ -48,21 +48,21 @@ class FhirObservationStatus extends LitElement {
 
   constructor() {
     super();
-    this.obsStatus = 'true';
+    this.obsStatus = "true";
     this.value = {};
   }
 
   /**updated() delivers only after render*/
   updated() {
 
-    this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
+    this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function (e) {
 
       var obsCat = this.parentNode.host;
       if (e.detail.response.status !== undefined) {
         obsCat.value = e.detail.response.status;
       }
       else {
-        this.parentNode.removeChild(this.parentNode.querySelector('#obsDiv'));
+        this.parentNode.removeChild(this.parentNode.querySelector("#obsDiv"));
       }
     });
   }
@@ -70,7 +70,7 @@ class FhirObservationStatus extends LitElement {
   render() {
     return html`
     <div id="obsDiv">
-    ${this.obsStatus !== 'false' ? html`
+    ${this.obsStatus !== "false" ? html`
       <mwc-formfield label ="OBSERVATION STATUS:" alignEnd>
       <mwc-select label="Observation status" class="obsClass" .value="${this.value}" @change="${e => this.value = e.target.value}">
           <mwc-list-item></mwc-list-item>
@@ -79,7 +79,7 @@ class FhirObservationStatus extends LitElement {
           <mwc-list-item value="final">Final</mwc-list-item>
           <mwc-list-item value="amended">Amended</mwc-list-item>
       </mwc-select>
-      </mwc-formfield>` : ''}
+      </mwc-formfield>` : ""}
       </div>
       <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
      `;
@@ -89,4 +89,4 @@ class FhirObservationStatus extends LitElement {
 
 }
 
-window.customElements.define('fhir-observation-status', FhirObservationStatus);
+window.customElements.define("fhir-observation-status", FhirObservationStatus);

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            <fhir-observation-valuestring>demo
+        </title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+        <script type="module" src="../node_modules/@lh-toolkit/fhir-observation-valuestring/fhir-observation-valuestring.js"></script>
+    </head>
+    <body>
+        <p>
+            <h2>Observation valuestring without a value passed</h2>
+            <fhir-observation-valuestring></fhir-observation-valuestring>
+        </p>
+        <p>
+            <h2>Observation valuestring with a string value passed</h2>
+            <fhir-observation-valuestring value =" The patient was had a high platelet value"></fhir-observation-valuestring>
+        </p>
+        <p>
+            <h2>Observation valuestring with a url passed</h2>
+            <fhir-observation-valuestring url = ""></fhir-observation-valuestring>
+        </p>
+        <p>
+            <h2>Observation valuestring with a valuestringField set to false</h2>
+            <fhir-observation-valuestring valuestringField = "false"></fhir-observation-valuestring>
+        </p>
+    </body>
+    
+    
+
+
+
+    
+
+    
+
+
+</html>
+

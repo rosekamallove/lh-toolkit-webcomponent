@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-observation-valuedatetime test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-observation-valuedatetime/fhir-observation-valuedatetime.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="DefaultElement">
+        <template>
+          <fhir-observation-valuedatetime url="/load_patient_data"></fhir-observation-valuedatetime>
+        </template>
+      </test-fixture>
+  <dom-bind>
+    <test-fixture id="SetValue">
+      <template>
+        <fhir-observation-valuedatetime id="fhirObsvaluedatetime" value = "[[time]]"></fhir-observation-valuedatetime>
+      </template>
+    </test-fixture>
+  </dom-bind>
+    
+
+   
+<script type="module">
+
+    import observation from '../../test/testResources/observation.js';
+
+
+    suite('<iron-ajax>', function () {
+          var ajax;
+          var request;
+          var server;
+          var obsTime;
+          var responseHeaders = {
+              json: {'Content-Type': 'application/json'}
+          };
+          setup(function () {
+              server = sinon.fakeServer.create();
+              server.respondImmediately = true;
+              server.respondWith('GET', /\/load_patient_data.*/,
+                  [200,
+                      {'Content-Type': 'application/json'},
+                      JSON.stringify(observation)                    ]
+              );
+          });
+          teardown(function () {
+              server.restore();
+          });
+
+    suite('fhir-observation-valuedatetime tests', function()  {
+      setup(function () {
+        obsTime = fixture('DefaultElement');          
+              });
+      
+      test("iron ajax response observation time is accurate", function(){
+        obsTime.addEventListener('iron-ajax-response', function(done){
+          flush(function (done){
+            var obsTiming = obsTime.shadowRoot.getElementById("dateTime").value;
+            assert.equal (obsTiming, "2000-11-24T17:59:21");
+            assert.notEqual(obsTiming, "2019-09-17");
+            done();
+          });
+        });
+
+      });
+
+      test("set the value for each field", function(done){
+        document.querySelector('dom-bind').set('time',observation.valueDateTime);
+        flush(function(){
+          let obsTime = document.getElementById("fhirObsvaluedatetime").shadowRoot.getElementById("dateTime").value;
+          assert.equal(obsTime, "2000-11-24T17:59:21");
+          assert.notEqual(obsTime,"2019-09-17")
+          done();
+        })
+      });    
+
+    });
+  });
+  </script>
+
+    </body>
+    
+    
+</html>
