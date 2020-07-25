@@ -91,10 +91,10 @@ class FhirHumanAddress extends LitElement {
          <mwc-list-item value="physical">Physical</mwc-list-item>
          <mwc-list-item value="both">Both</mwc-list-item>
      </mwc-select>` : ''}
-     ${this.add1Field !== 'false' ? html`<mwc-textfield outlined class="add1Field" .value="${i.text}" label="Address Line1:" @input="${e => this.value[index].text = e.target._input.value}"></mwc-textfield>` : ''}
-     ${this.add2Field !== 'false' ? html`<mwc-textfield outlined class="add2Field" .value="${i.line}" label="Address Line2:" @input="${e => this.value[index].line = e.target._input.value}"></mwc-textfield>` : ''}
-     ${this.cityField !== 'false' ? html`<mwc-textfield outlined class="cityField" .value="${i.city }" label="City:" @input="${e => this.value[index].city = e.target._input.value}"></mwc-textfield>` : ''}
-     ${this.districtField !== 'false' ? html`<mwc-textfield outlined class="districtField" .value="${i.district }" label="District:" @input="${e => this.value[index].district = e.target._input.value}"></mwc-textfield><br>` : ''}
+     ${this.add1Field !== 'false' ? html`<mwc-textfield outlined class="add1Field" .value="${i.text}" label="Address Line1:" @input="${e => this.value[index].text = e.target.value}"></mwc-textfield>` : ''}
+     ${this.add2Field !== 'false' ? html`<mwc-textfield outlined class="add2Field" .value="${i.line}" label="Address Line2:" @input="${e => this.value[index].line = e.target.value}"></mwc-textfield>` : ''}
+     ${this.cityField !== 'false' ? html`<mwc-textfield outlined class="cityField" .value="${i.city }" label="City:" @input="${e => this.value[index].city = e.target.value}"></mwc-textfield>` : ''}
+     ${this.districtField !== 'false' ? html`<mwc-textfield outlined class="districtField" .value="${i.district }" label="District:" @input="${e => this.value[index].district = e.target.value}"></mwc-textfield><br>` : ''}
      ${this.periodField !== 'false' ? html`<fhir-period class="periodField" .value="${i.period}" @input="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
      </mwc-formfield>
     </div>

@@ -52,14 +52,12 @@
             });
             test('typing in the value and posting body is done correctly ', function (done) {
                 flush(function () {
-                    //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
-
-                    var inputField2 = post.shadowRoot.getElementById('practitionerAddress').shadowRoot.querySelector('.cityField').shadowRoot.getElementById('text-field');
-                    $(inputField2).autotype('Indy');
-                    var inputField3 = post.shadowRoot.getElementById('practitionerAddress').shadowRoot.querySelector('.districtField').shadowRoot.getElementById('text-field');
-                    $(inputField3).autotype('Indiana');
+                    var cityField = post.shadowRoot.getElementById('practitionerAddress').shadowRoot.querySelector('.cityField');
+                    $(cityField).autotype('Indy');
+                    var districtField = post.shadowRoot.getElementById('practitionerAddress').shadowRoot.querySelector('.districtField');
+                    $(districtField).autotype('Indiana');
                     post.addEventListener('iron-ajax-request', function (e) {
-                        assert.equal(JSON.stringify(practitioner.address), JSON.stringify(e.detail.options.body.address));
+                        assert.deepEqual(practitioner.address, e.detail.options.body.address);
                         done();
                     });
                     post.shadowRoot.getElementById('button').click();

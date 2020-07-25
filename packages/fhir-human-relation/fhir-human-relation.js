@@ -92,10 +92,10 @@ class FhirHumanRelation extends LitElement {
             <mwc-list-item value="S">State Agency</mwc-list-item>
             <mwc-list-item value="U">Unknown</mwc-list-item>
             </mwc-select> `)}` : ''}
-    ${this.nameField !== 'false' ? html`<fhir-human-name useField="false" .value="${[i.name]}" @change="${e => this.value[index].name = e.target._input.value}"></fhir-human-name>` : ''}
+    ${this.nameField !== 'false' ? html`<fhir-human-name useField="false" .value="${[i.name]}" @change="${e => this.value[index].name = e.target.value}"></fhir-human-name>` : ''}
     ${this.genderField !== 'false' ? html`<fhir-human-gender .value="${i.gender}" @change="${e => this.value[index].gender = e.target.value}"></fhir-human-gender>` : ''}
-    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target._input.value}"></fhir-human-address>` : ''}
-    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target._input.value}"></fhir-human-contact>` : ''}
+    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target.value}"></fhir-human-address>` : ''}
+    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target.value}"></fhir-human-contact>` : ''}
      </div>   
      <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `)}`;

@@ -52,12 +52,9 @@
         });
 
         suite('fhir-human-contact tests', function () {
-            setup(function () {
-                contact = fixture('DefaultElement');
-            });
-
-            test('System field displayed correctly', function () {
-                contact.addEventListener('iron-ajax-response', function (done) {
+            test('System field displayed correctly', async () => {
+                contact = await fixture('DefaultElement');
+                contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var use = contact.shadowRoot.querySelector('.systemField').value;
                         assert.equal(use, "phone");
@@ -67,8 +64,9 @@
                 });
             });
 
-            test('UseField displayed correctly', function () {
-                contact.addEventListener('iron-ajax-response', function (done) {
+            test('UseField displayed correctly', async () => {
+                contact = await fixture('DefaultElement');
+                contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var type = contact.shadowRoot.querySelector('.useField').value;
                         assert.equal(type, "home");
@@ -78,8 +76,9 @@
                     });
                 });
             });
-            test('Contact Number is displayed correctly', function () {
-                contact.addEventListener('iron-ajax-response', function (done) {
+            test('Contact Number is displayed correctly', async () => {
+                contact = await fixture('DefaultElement');
+                contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var cont = contact.shadowRoot.querySelector('.contNumb').value;
                         assert.equal(cont, "734 483 8464");
@@ -90,9 +89,9 @@
                     });
                 });
             });
-            test('Rank is displayed correctly', function () {
-
-                contact.addEventListener('iron-ajax-response', function (done) {
+            test('Rank is displayed correctly', async () => {
+                contact = await fixture('DefaultElement');
+                contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var rank = contact.shadowRoot.querySelector('.rankVal').value;
                         assert.equal(rank, "1");
@@ -103,10 +102,11 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', function () {
+            test('To check if value sets correctly to each field', async () => {
+                contact = await fixture('SetValue');
                 document.querySelector('dom-bind').set('contacts', JSON.stringify(patient2.telecom));
-                flush(function (done) {
-                    let cont = document.getElementById('fhirContact').shadowRoot.querySelectorAll('.contNumb')[0].value;
+                flush(function () {
+                    let cont = document.getElementById('fhirContact').shadowRoot.querySelector('.contNumb').value;
                     assert.equal(cont, "734 483 8464");
                     assert.notEqual(cont, "home");
                     assert.notEqual(cont, "1");

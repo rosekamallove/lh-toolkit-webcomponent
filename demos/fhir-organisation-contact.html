@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>
-        <fhir-organisation-contact>demo
+        fhir-organisation-contact demo
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
@@ -18,7 +18,13 @@
 <fhir-organisation-contact value='
 [
   {
-    "purpose": "ADMIN",
+    "purpose": {
+      "coding": [{
+      "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
+      "code": "BILL",
+      "display": "Billing"
+      }]
+    },
     "name": {
       "family": "V\u0169",
       "given": [
@@ -49,7 +55,7 @@
 <p>
 <p>
 <h1>Default element when url is passed</h1>
-<fhir-organisation-contact url="http://hapi.fhir.org/baseDstu3/Organization/3142926"></fhir-organisation-contact>
+<fhir-organisation-contact url="http://hapi.fhir.org/baseR4/Organization/plannet-network-HPID040000"></fhir-organisation-contact>
 </p>
 </body>
 </html>

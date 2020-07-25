@@ -72,7 +72,7 @@ class FhirLocationOperationalstatus extends LitElement {
          <mwc-list-item value="U">Unoccupied</mwc-list-item>
     </mwc-select>
     </mwc-formfield>` : ''}
-   ${this.systemField !== 'true' ? html`<mwc-textfield outlined class="systemField" .value="${this.value.system || ""}" @input="${e => this.value.system = e.target._input.value}"  label="System URI"></mwc-textfield>` : ''}
+   ${this.systemField !== 'true' ? html`<mwc-textfield outlined class="systemField" .value="${this.value.system || ""}" @input="${e => this.value.system = e.target.value}"  label="System URI"></mwc-textfield>` : ''}
    </div>
    <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `;

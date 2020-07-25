@@ -52,16 +52,14 @@
             });
             test('typing in the value and posting is done correctly ', function (done) {
                 flush(function () {
-                    //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
-                    var field = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.prefixField');
-                    var inputField1 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.prefixField').shadowRoot.getElementById('text-field');
-                    $(inputField1).autotype('Sr');
-                    var inputField2 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.fName').shadowRoot.getElementById('text-field');
-                    $(inputField2).autotype('James');
-                    var inputField3 = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.lName').shadowRoot.getElementById('text-field');
-                    $(inputField3).autotype('Bond');
+                    var prefixField = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.prefixField');
+                    $(prefixField).autotype('Sr');
+                    var fName = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.fName');
+                    $(fName).autotype('James');
+                    var lName = post.shadowRoot.getElementById('patientName').shadowRoot.querySelector('.lName');
+                    $(lName).autotype('Bond');
                     post.addEventListener('iron-ajax-request', function (e) {
-                        assert.equal(JSON.stringify(patient23.name), JSON.stringify(e.detail.options.body.name));
+                        assert.deepEqual(e.detail.options.body.name, [{"given":"James","prefix":"Sr","family":"Bond"}]);
                         done();
                     });
                     post.shadowRoot.getElementById('button').click();

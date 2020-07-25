@@ -54,15 +54,13 @@
         });
 
         suite('fhir-location-operationalstatus tests', function () {
-            setup(function () {
+            test('Type of organisation is correct ', function (done) {
                 opstatus = fixture('DefaultElement');
-            });
-            test('Type of organisation is correct ', function () {
-                opstatus.addEventListener('iron-ajax-response', function (done) {
+                opstatus.addEventListener('iron-ajax-response', function () {
                     flush(function () {
-                        var type = opstatus.shadowRoot.querySelectorAll('.typeField')[0].value;
-                        assert.equal(type, "O");
-                        assert.notEqual(type, "I");
+                        var type = opstatus.shadowRoot.querySelector('.typeField').value;
+                        assert.equal(type, "C");
+                        assert.notEqual(type, "O");
                         done();
                     });
                 });
@@ -70,8 +68,8 @@
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('opstatus', location.operationalStatus);
                 flush(function () {
-                    let typ = document.getElementById('fhirLocation').shadowRoot.querySelectorAll('.typeField')[0].value;
-                    assert.equal(typ, "0");
+                    let typ = document.getElementById('fhirLocation').shadowRoot.querySelector('.typeField').value;
+                    assert.equal(typ, "C");
                     assert.notEqual(typ, "I");
                     done();
                 });

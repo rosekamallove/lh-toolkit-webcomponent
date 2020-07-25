@@ -48,7 +48,7 @@ class FhirOrganisationContact extends LitElement {
         this.addressField = 'true';
         this.contactField = 'true';
         /**this.value contains an array which has been initialized as blank for the purpose of re-usability of components like fhir-human-name, fhir-human-address , fhir-human-contact*/
-        this.value = [{ name: { given: [] }, telecom: [{}], address: { line: [] } }];
+        this.value = [{purpose: {coding: [{code:""}]}, name: { given: [] }, telecom: [{}], address: { line: [] } }];
     }
 
     /**updated() delivers only after render*/
@@ -72,7 +72,7 @@ class FhirOrganisationContact extends LitElement {
     <div id="div">
     ${this.purposeField !== 'false' ? html`
     <mwc-formfield label ="IDENTIFIER:" alignEnd>
-    <mwc-select label="Use" class="purposeField" .value="${i.purpose}" @change="${e => this.value[index].purpose = e.target.value}">
+    <mwc-select label="Use" class="purposeField" .value="${i.purpose.coding[0].code || ""}" @change="${e => this.value[index].purpose.coding[0].code = e.target.value}">
         <mwc-list-item value="BILL">Billing</mwc-list-item>
         <mwc-list-item value="ADMIN">Administrative</mwc-list-item>
         <mwc-list-item value="HR">Human Resource</mwc-list-item>
@@ -81,9 +81,9 @@ class FhirOrganisationContact extends LitElement {
         <mwc-list-item value="PRESS">Press</mwc-list-item>
     </mwc-select>
     </mwc-formfield>` : ''}
-    ${this.nameField !== 'false' ? html`<fhir-human-name .value="${[i.name]}" @change="${e => this.value[index].name = e.target._input.value}"></fhir-human-name>` : ''}
-    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target._input.value}"></fhir-human-address>` : ''}
-    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target._input.value}"></fhir-human-contact>` : ''}
+    ${this.nameField !== 'false' ? html`<fhir-human-name .value="${[i.name]}" @change="${e => this.value[index].name = e.target.value}"></fhir-human-name>` : ''}
+    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target.value}"></fhir-human-address>` : ''}
+    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target.value}"></fhir-human-contact>` : ''}
     </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `)}`;

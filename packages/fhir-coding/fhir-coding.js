@@ -76,23 +76,23 @@ class FhirCoding extends LitElement {
             ${this.showDisplay == "true" ? html`<mwc-textfield outlined class="displayField"
                 label=${this.labelOfDisplay}
                 value=${this.value.display || ""}
-                @blur=${e => this.value["display"] = e.target._input.value}></mwc-textfield>` : ''}
+                @blur=${e => this.value["display"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showSystem == "true" ? html`<mwc-textfield outlined class="systemField"
                 label="System"
                 value=${this.value.system || ""}
-                @blur=${e => this.value["system"] = e.target._input.value}></mwc-textfield>` : ''}
+                @blur=${e => this.value["system"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showVersion == "true" ? html`<mwc-textfield outlined class="versionField"
                 label="Version"
                 value=${this.value.version || ""}
-                @blur=${e => this.value["version"] = e.target._input.value}></mwc-textfield>` : ''}
+                @blur=${e => this.value["version"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showCode == "true" ? html`<mwc-textfield outlined class="codeField"
                 label="Code"
                 value=${this.value.code || ""}
-                @blur=${e => this.value["code"] = e.target._input.value}></mwc-textfield>` : ''}
+                @blur=${e => this.value["code"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showUserSelected == "true" ? html`<mwc-textfield outlined class="userSelectedField"
                 label="User Selected"
                 value=${this.value.userSelected || ""}
-                @blur=${e => this.value["userSelected"] = e.target._input.value}></mwc-textfield>` : ''}
+                @blur=${e => this.value["userSelected"] = e.target.value}></mwc-textfield>` : ''}
         `;
     }
 

@@ -59,7 +59,7 @@ class FhirHumanLanguage extends LitElement {
         return html`${this.value.map((i, index) => html`
      <div id="div">
      <mwc-formfield label = "COMMUNICATION:" alignEnd>
-     ${this.langField !== 'false' ? html`<mwc-textfield outlined class="langField" value="${i.language || ""}" label="Language" @input="${e => this.value[index].language = e.target._input.value}"></mwc-textfield>` : ''}
+     ${this.langField !== 'false' ? html`<mwc-textfield outlined class="langField" value="${i.language || ""}" label="Language" @input="${e => this.value[index].language = e.target.value}"></mwc-textfield>` : ''}
      ${this.prefField !== 'false' ? html`<mwc-formfield alignEnd>Language is preferred:<mwc-checkbox class="prefField" @input="${e => this.value[index].preferred = e.target.value}"></mwc-checkbox></mwc-formfield>` : ''}
     </mwc-formfield>
      </div>
