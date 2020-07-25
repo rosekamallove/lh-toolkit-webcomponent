@@ -53,14 +53,12 @@
         });
 
         suite('fhir-organisation-name tests', function () {
-            setup(function () {
+            test('Name of organisation is correct ', function (done) {
                 orgname = fixture('DefaultElement');
-            });
-            test('Name of organisation is correct ', function () {
-                orgname.addEventListener('iron-ajax-response', function (done) {
+                orgname.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var name = orgname.shadowRoot.querySelector('.nameField').value;
-                        assert.equal(name, "The Night's Watch");
+                        assert.equal(name, "PHARMACIE DU GINKGO");
                         assert.notEqual(name, "The Night's");
                         done();
                     });
@@ -70,7 +68,7 @@
                 document.querySelector('dom-bind').set('orgname', organisation.name);
                 flush(function () {
                     let family = document.getElementById('fhirOrganisation').shadowRoot.querySelectorAll('.nameField')[0].value;
-                    assert.equal(family, "The Night's Watch");
+                    assert.equal(family, "PHARMACIE DU GINKGO");
                     assert.notEqual(family, "The Night's");
                     done();
                 });

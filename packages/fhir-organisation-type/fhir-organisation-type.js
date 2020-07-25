@@ -75,7 +75,7 @@ class FhirOrganisationType extends LitElement {
              <mwc-list-item value="other">Other</mwc-list-item>
              </mwc-select>
               ` : ''}
-        ${this.systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" .value="${i.coding[0].system}" @input="${e => this.value[index].system = e.target._input.value}"  label="System"></mwc-textfield>` : ''}
+        ${this.systemField !== 'false' ? html`<mwc-textfield outlined class="systemField" .value="${i.coding[0].system}" @input="${e => this.value[index].system = e.target.value}"  label="System"></mwc-textfield>` : ''}
         </mwc-formfield>    
         </div> 
         <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

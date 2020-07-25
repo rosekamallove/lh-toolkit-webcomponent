@@ -13,7 +13,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-organisation-get.html
  *
  */
-import {LitElement, html} from '@polymer/lit-element/lit-element.js';
+import {LitElement, html} from 'lit-element';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-organisation-name/fhir-organisation-name.js';
 import '@lh-toolkit/fhir-location-status/fhir-location-status.js';

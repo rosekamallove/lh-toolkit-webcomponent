@@ -120,7 +120,7 @@ class FhirHumanCertification extends LitElement {
          <mwc-list-item value="RPH">Registered Pharmacist</mwc-list-item>
          <mwc-list-item value="MMG">Medico di Medicina Generale</mwc-list-item>
      </mwc-select>` : ''}
-     ${this.systemIdentifier !== 'false' ? html`<fhir-person-identifier useField="false" periodField="false" .value="${i.identifier}" @input="${e => this.value[index].identifier = e.target._input.value}"></fhir-person-identifier>` : ''}     
+     ${this.systemIdentifier !== 'false' ? html`<fhir-person-identifier useField="false" periodField="false" .value="${i.identifier}" @input="${e => this.value[index].identifier = e.target.value}"></fhir-person-identifier>` : ''}     
      </mwc-formfield> 
     </div>
      <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

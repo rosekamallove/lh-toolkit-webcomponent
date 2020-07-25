@@ -14,10 +14,13 @@ export default{
         }
     ],
     "status": "active",
-    "operationalStatus": "O",
+    "operationalStatus": {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+        "code": "C",
+        "display": "Closed"
+    },
     "type": "RH",
     "mode": "instance",
-    "name": "aaal5",
     "address": {
         "country": "US"
     },

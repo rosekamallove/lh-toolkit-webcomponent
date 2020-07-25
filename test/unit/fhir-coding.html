@@ -56,7 +56,7 @@
         <fhir-coding showSystem="true" showVersion="true"
                      showCode="true" showUserSelected="true"
                      url='/schedule_url'
-                     jsonPath='["serviceCategory", "coding", 0]'></fhir-coding>
+                     jsonPath='serviceCategory.coding.0'></fhir-coding>
     </template>
 </test-fixture>
 
@@ -85,9 +85,8 @@
 
         suite('fhir-coding tests', function () {
             test('default view should show displayField and NOT show systemField versionField codeField and userSelectedField',
-                    function () {
-                let fhirCoding = fixture('DefaultView');
-                console.log(fhirCoding.shadowRoot.querySelector(".displayField"))
+                    async () => {
+                let fhirCoding = await fixture('DefaultView');
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.displayField'), null);
                 assert.equal(fhirCoding.shadowRoot.querySelector('.systemField'), null);
                 assert.equal(fhirCoding.shadowRoot.querySelector('.versionField'), null);
@@ -95,8 +94,8 @@
                 assert.equal(fhirCoding.shadowRoot.querySelector('.userSelectedField'), null);
             });
 
-            test('all fields view should show all the fields', function () {
-                let fhirCoding = fixture('AllFieldsView');
+            test('all fields view should show all the fields', async () => {
+                let fhirCoding = await fixture('AllFieldsView');
                 //Not checking "displayField" because it appears by default (already checked)
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.systemField'), null);
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.versionField'), null);
@@ -104,19 +103,19 @@
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.userSelectedField'), null);
             });
 
-            test('no fields view should not show the display field either', function () {
-                let fhirCoding = fixture('AllFieldsView');
+            test('no fields view should not show the display field either', async () => {
+                let fhirCoding = await fixture('AllFieldsView');
                 assert.notEqual(fhirCoding.shadowRoot.querySelector('.displayField'), null);
                 // Not checking the remaining fields as they are NOT rendered by default (already checked)
             });
 
-            test('display label view should show the correct label for display', function () {
-                let fhirCoding = fixture('DisplayLabelView');
+            test('display label view should show the correct label for display', async () => {
+                let fhirCoding = await fixture('DisplayLabelView');
                 assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').label, 'Service Type');
             });
 
-            test('all fields with data view should show the data correctly in the relevant fields', function () {
-                let fhirCoding = fixture('AllFieldsWithDataView');
+            test('all fields with data view should show the data correctly in the relevant fields', async () => {
+                let fhirCoding = await fixture('AllFieldsWithDataView');
                 assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').value, 'Paediatric Cardiology');
                 assert.equal(fhirCoding.shadowRoot.querySelector('.systemField').value, 'http://hl7.org/fhir/service-type');
                 assert.equal(fhirCoding.shadowRoot.querySelector('.versionField').value, '2');
@@ -142,8 +141,8 @@
             });
 
             test('On blur view should update value property as the textfields focus out',
-                    function (done) {
-                let fhirCoding = fixture('OnBlurView');
+                    async () => {
+                let fhirCoding = await fixture('OnBlurView');
 
                 let displayField = fhirCoding.shadowRoot.querySelector('.displayField');
                 let systemField = fhirCoding.shadowRoot.querySelector('.systemField');
@@ -151,11 +150,11 @@
                 let codeField = fhirCoding.shadowRoot.querySelector('.codeField');
                 let userSelectedField = fhirCoding.shadowRoot.querySelector('.userSelectedField');
 
-                displayField._input.value = "a";
-                systemField._input.value = "b";
-                versionField._input.value = "c";
-                codeField._input.value = "d";
-                userSelectedField._input.value = "e";
+                displayField.value = "a";
+                systemField.value = "b";
+                versionField.value = "c";
+                codeField.value = "d";
+                userSelectedField.value = "e";
 
                 assert.notEqual(fhirCoding.value.display, "a");
                 assert.notEqual(fhirCoding.value.system, "b");
@@ -182,9 +181,7 @@
                         assert.equal(fhirCoding.value.code, "d");
                         assert.equal(fhirCoding.value.userSelected, "e");
                     }, 0); /* without timeout method, value gets asserted before updated */
-                    done();
                 }, true);
-
                 userSelectedField.dispatchEvent(new Event('blur'));
             });
         });

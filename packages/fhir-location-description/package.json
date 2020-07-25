@@ -14,6 +14,7 @@
     "lit-element": "^2.3.1",
     "@material/mwc-formfield": "0.15.0",
     "@material/mwc-textfield": "0.15.0",
+    "@material/mwc-textarea": "0.15.0",
     "@polymer/iron-ajax": "^3.0.0-pre.19"
   },
   "publishConfig": {

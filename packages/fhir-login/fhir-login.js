@@ -40,7 +40,7 @@ class FhirLogin extends LitElement {
                 window.location.href = FhirLogin.relocateurl;
             }
             else {
-                if (e.target.parentNode.getElementById('username')._input.value != undefined) {
+                if (e.target.parentNode.getElementById('username').value != undefined) {
                     alert("Please login with correct credentials");
                 }
 
@@ -84,8 +84,8 @@ class FhirLogin extends LitElement {
 
     doLogin() {
         if (this.url != "") {
-            var username = this.shadowRoot.getElementById('username')._input.value;
-            var password = this.shadowRoot.getElementById('password')._input.value;
+            var username = this.shadowRoot.getElementById('username').value;
+            var password = this.shadowRoot.getElementById('password').value;
             this.shadowRoot.getElementById('ajax').headers['Authorization'] = 'Basic ' + btoa(username + ':' + password);
             this.shadowRoot.getElementById('ajax').generateRequest();
         }

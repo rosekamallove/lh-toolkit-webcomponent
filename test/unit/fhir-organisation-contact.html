@@ -52,17 +52,14 @@
             server.restore();
         });
 
-        suite('fhir-human-relation tests', function () {
-            setup(function () {
+        suite('fhir-organisation-contact tests', function () {
+            test('Contact Type is correctly displayed', function (done) {
                 organization = fixture('DefaultElement');
-            });
-
-            test('Contact Type is correctly displayed', function () {
-                organization.addEventListener('iron-ajax-response', function (done) {
+                organization.addEventListener('iron-ajax-response', function () {
                     flush(function () {
-                        var select = organization.shadowRoot.querySelectorAll('.purposeField')[0].value;
-                        assert.equal(select, "ADMIN");
-                        assert.notEqual(select, "CP");
+                        var orgPurpose = organization.shadowRoot.querySelector('.purposeField').value;
+                        assert.equal(orgPurpose, "ADMIN");
+                        assert.notEqual(orgPurpose, "CP");
                         done();
                     });
                 });
@@ -70,10 +67,10 @@
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('orgs', JSON.stringify(organisation.contact));
                 flush(function () {
-                    let cont = document.getElementById('fhirOrg').shadowRoot.querySelectorAll('.purposeField')[0].value;
-                    assert.equal(cont, "ADMIN");
-                    assert.notEqual(cont, "BILL");
-                    assert.notEqual(cont, "1");
+                    let orgPurpose = document.getElementById('fhirOrg').shadowRoot.querySelector('.purposeField').value;
+                    assert.equal(orgPurpose, "ADMIN");
+                    assert.notEqual(orgPurpose, "BILL");
+                    assert.notEqual(orgPurpose, "1");
                     done();
                 });
             });

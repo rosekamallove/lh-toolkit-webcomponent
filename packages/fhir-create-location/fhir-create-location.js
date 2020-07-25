@@ -59,7 +59,6 @@ class FhirCreateLocation extends LitElement {
         this.shadowRoot.getElementById('ajax').contentType='application/json';
         this.shadowRoot.getElementById('ajax').body = {"resourceType": "Location", "name": pname,  "status" : pstatus, "operationalStatus" : popt,  "description" : pdescribe, "mode" : pmode, "telecom" : pcontact, "address" : paddress};
         this.shadowRoot.getElementById('ajax').generateRequest();
-
     }
 }
 window.customElements.define('fhir-create-location', FhirCreateLocation);

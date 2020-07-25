@@ -59,7 +59,7 @@ class FhirAllergyNote extends LitElement {
    <div id="allergyDiv"> 
    <label>Note:</label> 
      ${this.describeField !== 'false' ? 
-     html`<mwc-textfield outlined  .value="${this.value[0].text}" class="describeField" @input="${e => this.value.text = e.target._input.value}"  label="Note"></mwc-textfield>` : ''}
+     html`<mwc-textfield outlined  .value="${this.value[0].text}" class="describeField" @input="${e => this.value.text = e.target.value}"  label="Note"></mwc-textfield>` : ''}
    </div> 
 
    <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

@@ -45,28 +45,26 @@ class FhirLocationDescription extends LitElement {
     constructor() {
         super();
         this.describeField = 'true';
-       
+        this.value = "";
     }
     /**updated() delivers only after render*/
     updated() {
-
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
-
             var location = this.parentNode.host;
             if (e.detail.response.description !== undefined) {
                 location.value = e.detail.response.description;
             }
             else {
-                this.parentNode.removeChild(this.parentNode.querySelector('#allergyDiv'));
+                this.parentNode.removeChild(this.parentNode.querySelector('#fhirLocationDescDiv'));
             }
         });
     }
 
     render() {
         return html`
-   <div id="allergyDiv"> 
+   <div id="fhirLocationDescDiv"> 
    <mwc-formfield label ="DESCRIPTION:" alignEnd>
-     ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" @input="${e => this.value = e.target._input.value}"  label="Description"></mwc-textarea>` : ''}
+     ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" @input="${e => this.value = e.target.value}"  label="Description"></mwc-textarea>` : ''}
     </mwc-formfield> 
    </div> 
    <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

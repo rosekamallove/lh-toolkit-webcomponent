@@ -22,7 +22,7 @@
 </test-fixture>
 
 <script type="module">
-    import organisation1 from '../../test/testResources/organisation1.js';
+    import organisation from '../../test/testResources/organisation.js';
 
     suite('<iron-ajax>', function () {
         var post;
@@ -38,7 +38,7 @@
             server.respondWith('POST', /\/load_data.*!/,
                 [200,
                     {'Content-Type': 'application/json'},
-                    JSON.stringify(organisation1)
+                    JSON.stringify(organisation)
                 ]
             );
         });
@@ -54,12 +54,12 @@
                 flush(function () {
                     //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
 
-                    var inputField1 = post.shadowRoot.getElementById('organisationAddress').shadowRoot.querySelector('.cityField').shadowRoot.getElementById('text-field');
-                    $(inputField1).autotype('Black');
-                    var inputField2 = post.shadowRoot.getElementById('organisationAddress').shadowRoot.querySelector('.districtField').shadowRoot.getElementById('text-field');
-                    $(inputField2).autotype('North');
+                    var cityField = post.shadowRoot.getElementById('organisationAddress').shadowRoot.querySelector('.cityField');
+                    $(cityField).autotype('NANCY');
+                    var districtField = post.shadowRoot.getElementById('organisationAddress').shadowRoot.querySelector('.districtField');
+                    $(districtField).autotype('North');
                     post.addEventListener('iron-ajax-request', function (e) {
-                        assert.equal(JSON.stringify(organisation1.address), JSON.stringify(e.detail.options.body.address));
+                        assert.deepEqual(organisation.address, e.detail.options.body.address);
                         done();
                     });
                     post.shadowRoot.getElementById('button').click();

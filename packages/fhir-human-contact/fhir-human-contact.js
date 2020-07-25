@@ -93,8 +93,8 @@ class FhirHumanContact extends LitElement {
          <mwc-list-item value="mobile">Mobile</mwc-list-item>
      </mwc-select>
     ` : ''}
-     ${this.contNumb !== 'false' ? html`<mwc-textfield outlined class="contNumb" value="${i.value || ""}" @input="${e => this.value[index].value = e.target._input.value}" label="Contact"></mwc-textfield>` : ''}
-     ${this.rankVal !== 'false' ? html`<mwc-textfield  outlined class="rankVal" value="${i.rank || ""}" @input="${e => this.value[index].rank = e.target._input.value}" label="Rank:"></mwc-textfield>` : ''}
+     ${this.contNumb !== 'false' ? html`<mwc-textfield outlined class="contNumb" value="${i.value || ""}" @input="${e => this.value[index].value = e.target.value}" label="Contact"></mwc-textfield>` : ''}
+     ${this.rankVal !== 'false' ? html`<mwc-textfield  outlined class="rankVal" value="${i.rank || ""}" @input="${e => this.value[index].rank = e.target.value}" label="Rank:"></mwc-textfield>` : ''}
      ${this.periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      </mwc-formfield>
      </div>

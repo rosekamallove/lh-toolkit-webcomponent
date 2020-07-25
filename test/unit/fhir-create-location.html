@@ -52,12 +52,10 @@
             });
             test('typing in the value and posting body is done correctly ', function (done) {
                 flush(function () {
-                    //TO DO: If the mdc-text-field gets updated in future, update the space at line 270 'mdc-text-field__input ', else test fails.
-                    var inputField = post.shadowRoot.getElementById('locationDescription').shadowRoot.querySelector('.describeField').shadowRoot.getElementById('text-field');
+                    var inputField = post.shadowRoot.getElementById('locationDescription').shadowRoot.querySelector('.describeField');
                     $(inputField).autotype('Second floor of the Old South Wing, formerly in use by Psychiatry');
                     post.addEventListener('iron-ajax-request', function (e) {
-                        assert.equal(JSON.stringify(location.description), JSON.stringify(e.detail.options.body.description));
-
+                        assert.deepEqual(location.description, e.detail.options.body.description);
                         done();
                     });
                     post.shadowRoot.getElementById('button').click();
