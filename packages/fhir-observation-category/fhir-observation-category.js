@@ -17,10 +17,10 @@
 
 
 import { LitElement, html } from "lit-element";
-import "@material/mwc-select";
-import '@material/mwc-list/mwc-list-item';
-import '@material/mwc-formfield';
-import '@polymer/iron-ajax';
+import "@material/mwc-select/mwc-select.js";
+import "@material/mwc-list/mwc-list-item.js";
+import "@material/mwc-formfield/mwc-formfield.js";
+import "@polymer/iron-ajax";
 
 
 class FhirObservationCategory extends LitElement {
@@ -46,13 +46,13 @@ class FhirObservationCategory extends LitElement {
 
   /** updated() is rendered only after render() */
   updated() {
-    this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
+    this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function (e) {
       var observation = this.parentNode.host;
       if (e.detail.response.category !== undefined) {
         observation.value = e.detail.response.category;
       }
       else {
-        this.parentNode.removeChild(this.parentNode.querySelector('#obsDiv'));
+        this.parentNode.removeChild(this.parentNode.querySelector("#obsDiv"));
       }
     });
   }
@@ -67,7 +67,7 @@ class FhirObservationCategory extends LitElement {
         <mwc-formfield label= "OBSERVATION CATEGORY:" alignEnd>
         ${this.obsCat !== "false" ?
         html`${i.coding.map((i, index) => html `
-        <mwc-select id ="obsClass" .value = ${i.code} @change ='${e => this.value[index].code = e.target.value}'> 
+        <mwc-select outlined  label ="category" id ="obsClass" .value = "${i.code}" @change ="${e => this.value[index].code = e.target.value}"> 
                 <mwc-list-item></mwc-list-item>
                 <mwc-list-item value ="social-history"> Social History</mwc-list-item>
                 <mwc-list-item value = "vital-signs">Vital Signs</mwc-list-item>
@@ -87,4 +87,4 @@ class FhirObservationCategory extends LitElement {
   
 
 }
-customElements.define('fhir-observation-category', FhirObservationCategory);
+customElements.define("fhir-observation-category", FhirObservationCategory);

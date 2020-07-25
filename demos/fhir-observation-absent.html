@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-create-organisation>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-observation-absent/fhir-observation-absent.js"></script>
+</head>
+<body>
+<p>
+    <h2>Observation absence reason without URL or JSON</h2>
+  <fhir-observation-absent></fhir-observation-absent>
+</p>
+<p>
+    <h2>Observation absence reason with JSON passed</h2>
+  <fhir-observation-absent value='{
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "125154007",
+        "display": "Specimen unsatisfactory for evaluation"
+      }
+    ]
+  }'></fhir-observation-absent>
+
+</p>
+    <h2>Observation absent reason obtained from url</h2>
+  <fhir-observation-absent ></fhir-observation-absent>
+
+</body>
+</html>

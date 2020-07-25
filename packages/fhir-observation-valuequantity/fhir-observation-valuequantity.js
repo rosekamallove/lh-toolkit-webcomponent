@@ -14,10 +14,10 @@
  */
 
 
-import {LitElement, html} from 'lit-element';
-import '@material/mwc-formfield';
-import '@material/mwc-textfield';
-import '@polymer/iron-ajax';
+import {LitElement, html} from "lit-element";
+import "@material/mwc-formfield";
+import "@material/mwc-textfield";
+import "@polymer/iron-ajax";
 
 class FhirObservationValuequantity extends LitElement{
     
@@ -73,10 +73,10 @@ class FhirObservationValuequantity extends LitElement{
         return html`
         <div id ="valueQty">
         <mwc-formfield class ="valueSet" label =" OBSERVATION VALUE:" alignEnd>
-        ${this.valueField !== "false" ? html `<mwc-textfield id ="result" outlined label ="value" .value =${this.value.value} @input= ${e => this.value.value = e.target.value}></mwc-textfield>`:""}
-        ${this.unitField !== "false" ? html `<mwc-textfield id ="resultUnit" outlined label ="unit" .value =${this.value.unit|| "" } @input= ${e => this.value.unit = e.target.value}></mwc-textfield>`: ""}
-        ${this.systemField !== "false" ? html`<mwc-textfield id ="resultSystem" outlined label ="system" .value =${this.value.system } @input= ${e => this.value.system = e.target.value}></mwc-textfield>`: ""}
-        ${this.codeField !== "false" ? html `<mwc-textfield id = "resultCode" outlined label ="code" .value =${this.value.code } @input= ${e => this.value.code = e.target.value}></mwc-textfield>`: ""}
+        ${this.valueField !== "false" ? html `<mwc-textfield id ="result" outlined label ="value" .value ="${this.value.value || ""}" @input= "${e => this.value.value = e.target.value}"></mwc-textfield>`:""}
+        ${this.unitField !== "false" ? html `<mwc-textfield id ="resultUnit" outlined label ="unit" .value ="${this.value.unit|| "" }" @input= "${e => this.value.unit = e.target.value}"></mwc-textfield>`: ""}
+        ${this.systemField !== "false" ? html`<mwc-textfield id ="resultSystem" outlined label ="system" .value ="${this.value.system || ""}" @input= "${e => this.value.system = e.target.value}"></mwc-textfield>`: ""}
+        ${this.codeField !== "false" ? html `<mwc-textfield id = "resultCode" outlined label ="code" .value ="${this.value.code || ""}" @input= "${e => this.value.code = e.target.value}"></mwc-textfield>`: ""}
         </mwc-formfield>
         </div>
         <iron-ajax id = "ajax" bubbles auto handle-as ="json" .url ="${this.url}" ></iron-ajax>
@@ -84,4 +84,4 @@ class FhirObservationValuequantity extends LitElement{
     `}
 }
 
-customElements.define('fhir-observation-valuequantity', FhirObservationValuequantity);
+customElements.define("fhir-observation-valuequantity", FhirObservationValuequantity);

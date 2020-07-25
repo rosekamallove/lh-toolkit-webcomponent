@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            <fhir-observation-interpretation>fhir-observation-interpretation
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+        <script type="module" src="../node_modules/@lh-toolkit/fhir-observation-interpretation/fhir-observation-interpretation.js"></script>
+
+    </head>
+
+    <body>
+        <p>
+            <h2>Default Observation interpretation element without JSON and URL</h2>
+            <fhir-observation-interpretation></fhir-observation-interpretation>
+
+        </p>
+        <p>
+            <h2>Value of Observation interpretation with URL passed </h2>
+            <fhir-observation-interpretation url = "http://hapi.fhir.org/baseR4/Observation/3e79f665-e9b2-4a6b-b15b-b8d78c67a6a7"></fhir-observation-interpretation>
+        </p>
+        
+        <p>
+            <h2>Value of Observation interpretation with JSON passed </h2>
+          <fhir-observation-interpretation value = '[
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L",
+                "display": "Low"
+              }
+            ]
+          }
+        ]'></fhir-observation-interpretation>
+        </p>
+        
+    </body>
+</html>
