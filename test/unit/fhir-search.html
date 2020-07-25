@@ -52,16 +52,14 @@
             });
             test('getting back similar human search names on typing, is done correctly', function (done) {
                 flush(function () {
-                    var field = post.shadowRoot.getElementById('searchField').shadowRoot.getElementById('text-field');
+                    var field = post.shadowRoot.getElementById('searchField');
                     $(field).autotype('Par');
                     post.addEventListener('iron-ajax-response', function (e) {
                         assert.equal(patientlist.entry.length, e.detail.response.entry.length);
                         done();
                     });
-
                 });
             });
-
         });
     });
     suite('<iron-ajax>', function () {
@@ -92,16 +90,14 @@
             });
             test('getting back similar non human search names on typing, is done correctly', function (done) {
                 flush(function () {
-                    var field = post.shadowRoot.getElementById('searchField').shadowRoot.getElementById('text-field');
+                    var field = post.shadowRoot.getElementById('searchField');
                     $(field).autotype('Goo');
                     post.addEventListener('iron-ajax-response', function (e) {
                         assert.equal(organizationlist.entry.length, e.detail.response.entry.length);
                         done();
                     });
-
                 });
             });
-
         });
     });
 </script>

@@ -40,7 +40,6 @@ class FhirSearch extends LitElement {
             relocateurl: {type: String},
             /**resourceType is used to determine which type of resource is being searched*/
             resourceType: {type: String}
-
         }
     }
 
@@ -85,7 +84,7 @@ class FhirSearch extends LitElement {
 
     render() {
         return html`
-      <mwc-textfield outlined id="searchField" @input="${e => this.makeQuery(e.target._input.value)}" label="Search"></mwc-textfield>
+      <mwc-textfield outlined id="searchField" @input="${e => this.makeQuery(e.target.value)}" label="Search"></mwc-textfield>
       <iron-ajax bubbles id="ajax" handle-as="json" .url="${this.url}"></iron-ajax>
       <vaadin-grid aria-label="Names" id="table">
          <vaadin-grid-selection-column auto-select hidden></vaadin-grid-selection-column>
