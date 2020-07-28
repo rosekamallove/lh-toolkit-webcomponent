@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <title>fhir-rangedemo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-range/fhir-range.js"></script>
+</head>
+<body>
+<p>
+    <h1>fhir-range with JSON passed</h1>
+    <fhir-range value ='{
+        "low": {
+          "value": 64,
+          "unit": "mmol/l",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "high": {
+          "value": 104,
+          "unit": "mmol/l",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        }}'></fhir-range>
+</p>
+</body>
+</html>
