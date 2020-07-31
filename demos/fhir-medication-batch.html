@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    <fhir-medication-batch>demo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module" src="../node_modules/@lh-toolkit/fhir-medication-batch/fhir-medication-batch.js"></script>
+</head>
+<body>
+  <p>
+  <h3>Default medication batch custom element</h3>
+  <fhir-medication-batch></fhir-medication-batch>
+  </p>
+  <p>
+  <h3>The medication batch is obtained from the url</h3>
+  <fhir-medication-batch url="http://hapi.fhir.org/baseR4/Medication/3072"></fhir-medication-batch>
+  </p>
+  <p>
+  <h3>The medication batch is passed as a JSON in the "value" property</h3>
+  <fhir-medication-batch value='{
+        "lotNumber": "9494788",
+        "expirationDate": "2017-05-22"
+      }'></fhir-medication-batch>
+  </p>
+</body>
+</html>

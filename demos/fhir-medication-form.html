@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    <fhir-medication-form>demo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module" src="../node_modules/@lh-toolkit/fhir-medication-form/fhir-medication-form.js"></script>
+</head>
+<body>
+  <p>
+  <h3>Default medication form custom element</h3>
+  <fhir-medication-form></fhir-medication-form>
+  </p>
+  <p>
+  <h3>The medication form is obtained from the url</h3>
+  <fhir-medication-form url="http://hapi.fhir.org/baseR4/Medication/30139"></fhir-medication-form>
+  </p>
+  <p>
+  <h3>The medication form is passed as a JSON in the "value" property</h3>
+  <fhir-medication-form value='{
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "385057009",
+          "display": "Film-coated tablet (qualifier value)"
+        } ]
+      }'></fhir-medication-form>
+  </p>
+  <p>
+  <h3>The formfield and systemfield are set to true</h3>
+  <fhir-medication-form codefield="true" systemfield="true"></fhir-medication-form>
+  </p>
+</body>
+</html>

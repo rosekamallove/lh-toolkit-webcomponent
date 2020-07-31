@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    <fhir-medication-amount>demo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module" src="../node_modules/@lh-toolkit/fhir-medication-amount/fhir-medication-amount.js"></script>
+</head>
+<body>
+  <p>
+  <h3>Default medication amount custom element</h3>
+  <fhir-medication-amount></fhir-medication-amount>
+  </p>
+  <p>
+  <h3>The medication amount is passed as a JSON in the "value" property</h3>
+  <fhir-medication-amount value='{
+        "numerator": {
+          "value": 500,
+          "system": "http://unitsofmeasure.org",
+          "code": "mg"
+        },
+        "denominator": {
+          "value": 10,
+          "system": "http://unitsofmeasure.org",
+          "code": "mL"
+        }
+      }'></fhir-medication-amount>
+  </p>
+</body>
+</html>

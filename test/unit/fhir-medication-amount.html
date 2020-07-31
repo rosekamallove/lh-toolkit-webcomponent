@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medication-amount test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-medication-amount/fhir-medication-amount.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="DefaultElement">
+        <template>
+            <fhir-medication-amount url="/load_patient_data"></fhir-medication-amount>
+        </template>
+    </test-fixture>
+
+    <dom-bind>
+        <test-fixture id="SetValue">
+            <template>
+                <fhir-medication-amount id="FhirMedamount" value="[[MedsAmount]]">
+                </fhir-medication-amount>
+            </template>
+        </test-fixture>
+    </dom-bind>
+
+
+    <script type="module">
+
+        import medication from "../../test/testResources/medication.js";
+
+
+
+        suite("<iron-ajax>", function () {
+            let server;
+            let defaultElement;
+            let responseHeaders = {
+                json: { "Content-Type": "application/json" }
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith("GET", /\/load_patient_data.*/,
+                    [200,
+                        { "Content-Type": "application/json" },
+                        JSON.stringify(medication)]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+
+
+            suite("fhir-medication-amount tests", function () {
+                setup(function () {
+                    defaultElement = fixture("DefaultElement");
+
+                });
+
+                test("medication amount value is accurate", function (done) {
+                    defaultElement.addEventListener("iron-ajax-response", function () {
+                        flush(function () {
+                            var amount = defaultElement.shadowRoot.getElementById("amountID").value
+                            assert.equal(amount.numerator.value, 500);
+                            assert.equal(amount.numerator.system, "http://unitsofmeasure.org");
+                            assert.equal(amount.numerator.code, "mg")
+                            assert.equal(amount.denominator.value, 10);
+                            assert.equal(amount.denominator.system, "http://unitsofmeasure.org");
+                            assert.equal(amount.denominator.code, "mL")
+                            done();
+
+                        })
+                    })
+                })
+
+                test("To check if value sets correctly to each field", function (done) {
+                    document.querySelector("dom-bind").set("MedsAmount", medication.amount);
+                    flush(function () {
+                        var amount = document.getElementById("FhirMedamount").shadowRoot.getElementById("amountID").value;
+                        assert.equal(amount.numerator.value, 500);
+                        assert.equal(amount.numerator.system, "http://unitsofmeasure.org");
+                        assert.equal(amount.numerator.code, "mg")
+                        assert.equal(amount.denominator.value, 10);
+                        assert.equal(amount.denominator.system, "http://unitsofmeasure.org");
+                        assert.equal(amount.denominator.code, "mL")
+                        done();
+                        
+                    });
+                });
+
+            });
+
+        });
+    </script>
+
+</body>
+
+
+</html>
