@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medication-batch test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-medication-batch/fhir-medication-batch.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="DefaultElement">
+      <template>
+        <fhir-medication-batch url="/load_patient_data"></fhir-medication-batch>
+      </template>
+    </test-fixture>
+
+<dom-bind>
+  <test-fixture id="SetValue">
+    <template>
+      <fhir-medication-batch id="FhirMedbatch" value = "[[Medsbatch]]"></fhir-medication-batch>
+    </template>
+  </test-fixture>
+</dom-bind>
+    
+
+    <script type="module">
+
+    import medication from '../../test/testResources/medication.js';
+
+
+
+    suite('<iron-ajax>', function () {
+            let server;
+            let defaultElement;
+            let responseHeaders = {
+                json: {'Content-Type': 'application/json'}
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith('GET', /\/load_patient_data.*/,
+                    [200,
+                        {'Content-Type': 'application/json'},
+                        JSON.stringify(medication)                    ]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+            
+
+            suite('fhir-medication-batch tests', function () {
+                setup(function () {
+                    defaultElement = fixture('DefaultElement');
+                    
+                });
+                test('medication batch is accurate ', function (done) {
+                    defaultElement.addEventListener('iron-ajax-response', function () {
+                        flush(function () {
+                        var lot = defaultElement.shadowRoot.getElementById('lotID').value;
+                        var expiry = defaultElement.shadowRoot.getElementById('expiryID').value;
+                        assert.equal(lot, "9494788");
+                        assert.notEqual(lot, "000000");
+                        assert.equal(expiry, "2017-05-22");
+                        assert.notEqual(expiry, "2010-02-01");
+                        done();
+                    });
+                    });
+                });
+                test('To check if value sets correctly to each field', function (done) {
+                    document.querySelector('dom-bind').set('Medsbatch', medication.batch);
+                    flush(function () {
+                        let lot = document.getElementById('FhirMedbatch').shadowRoot.getElementById('lotID').value;
+                        let expiry = document.getElementById('FhirMedbatch').shadowRoot.getElementById('expiryID').value;
+                        assert.equal(lot, "9494788");
+                        assert.notEqual(lot, "000000");
+                        assert.equal(expiry, "2017-05-22");
+                        assert.notEqual(expiry, "2010-02-01");
+                        done();
+                    });
+                });
+    
+            });
+        
+    });
+
+    
+   
+    </script>
+
+    </body>
+    
+    
+</html>

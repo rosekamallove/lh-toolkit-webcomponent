@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-medication-status>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-medication-status/fhir-medication-status.js"></script>
+</head>
+<body>
+    <p>
+    <h3>Default element without properties</h3>
+    <fhir-medication-status></fhir-medication-status>
+    </p>
+    <p>
+    <h3>The medication status is obtained from the url</h3>
+    <fhir-medication-status url="http://hapi.fhir.org/baseR4/medication/602352"></fhir-medication-status>
+    </p>
+    <p>
+    <h3>The medication status is passed as a string in the "value" property</h3>
+    <fhir-medication-status value="active"></fhir-medication-status>
+    </p>
+    <p>
+    <h3>The medStatus is set to false</h3>
+    <fhir-medication-status medStatus="false"></fhir-medication-status>
+    </p>
+</body>
+</html>

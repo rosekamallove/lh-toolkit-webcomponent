@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    <fhir-medication-ingredient>demo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module"
+    src="../node_modules/@lh-toolkit/fhir-medication-ingredient/fhir-medication-ingredient.js"></script>
+</head>
+<body>
+  <p>
+  <h3>Default medication ingredient custom element</h3>
+  <fhir-medication-ingredient></fhir-medication-ingredient>
+  </p>
+  <p>
+  <h3>The medication ingredient is obtained from the url</h3>
+  <fhir-medication-ingredient url="http://hapi.fhir.org/baseR4/Medication/26235"></fhir-medication-ingredient>
+  </p>
+  <p>
+  <h3>The medication ingredient is passed as a JSON in the "value" property</h3>
+  <fhir-medication-ingredient value='[ {
+      "itemCodeableConcept": {
+        "coding": [ {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "66955",
+          "display": "Vancomycin Hydrochloride"
+        } ]
+      },
+      "isActive": true,
+      "strength": {
+        "numerator": {
+          "value": 500,
+          "system": "http://unitsofmeasure.org",
+          "code": "mg"
+        },
+        "denominator": {
+          "value": 10,
+          "system": "http://unitsofmeasure.org",
+          "code": "mL"
+        }
+      }
+    } ]'></fhir-medication-ingredient>
+  </p>
+</body>
+</html>

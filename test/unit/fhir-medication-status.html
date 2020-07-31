@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medication-status test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-medication-status/fhir-medication-status.js"></script>
+  </head>
+  <body>
+    <test-fixture id="DefaultElement">
+        <template>
+            <fhir-medication-status url="/load_patient_data"></fhir-medication-status>
+        </template>
+    </test-fixture>
+    <dom-bind>
+        <test-fixture id="SetValue">
+            <template>
+                <fhir-medication-status id="fhirMedication" value="[[medication]]"></fhir-medication-status>
+            </template>
+        </test-fixture>
+    </dom-bind>
+    
+    
+    <script type="module">
+        import medication from '../../test/testResources/medication.js';
+    
+        suite('<iron-ajax>', function () {
+            var ajax;
+            var request;
+            var server;
+            var defaultElement;
+            var responseHeaders = {
+                json: {'Content-Type': 'application/json'}
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith('GET', /\/load_patient_data.*/,
+                    [200,
+                        {'Content-Type': 'application/json'},
+                        JSON.stringify(medication)
+                    ]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+    
+            suite('fhir-medication-status tests', function () {
+                setup(function () {
+                    defaultElement = fixture('DefaultElement');
+                    
+                });
+                test('medication status is accurate ', function (done) {
+                    defaultElement.addEventListener('iron-ajax-response', function () {
+                        flush(function (done) {
+                        var status = defaultElement.shadowRoot.getElementById('statusID').value;
+                        assert.equal(status, "active");
+                        assert.notEqual(status, "inactive");
+                        
+                    });done();
+                    });
+                });
+                test('To check if value sets correctly to each field', function (done) {
+                    document.querySelector('dom-bind').set('medication', medication.status);
+                    flush(function () {
+                        let typ = document.getElementById('fhirMedication').shadowRoot.getElementById('statusID').value;
+                        assert.equal(typ, "active");
+                        assert.notEqual(typ, "inactive");
+                        done();
+                    });
+                });
+    
+            });
+        });
+    </script>
+    </body>
+    
+    
+</html>

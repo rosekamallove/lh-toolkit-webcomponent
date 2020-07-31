@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medication-ingredient test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-medication-ingredient/fhir-medication-ingredient.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="DefaultElement">
+        <template>
+            <fhir-medication-ingredient url="/load_patient_data"></fhir-medication-ingredient>
+        </template>
+    </test-fixture>
+
+    <dom-bind>
+        <test-fixture id="SetValue">
+            <template>
+                <fhir-medication-ingredient id="FhirMedIngredient" value="[[MedsIngredient]]">
+                </fhir-medication-ingredient>
+            </template>
+        </test-fixture>
+    </dom-bind>
+
+
+    <script type="module">
+
+        import medication from "../../test/testResources/medication.js";
+
+
+
+        suite("<iron-ajax>", function () {
+            let server;
+            let defaultElement;
+            let responseHeaders = {
+                json: { "Content-Type": "application/json" }
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith("GET", /\/load_patient_data.*/,
+                    [200,
+                        { "Content-Type": "application/json" },
+                        JSON.stringify(medication)]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+
+
+            suite("fhir-medication-ingredient tests", function () {
+                setup(function () {
+                    defaultElement = fixture("DefaultElement");
+
+                });
+                test("type of medication input value is accurate", function (done) {
+                    defaultElement.addEventListener("iron-ajax-response", function () {
+                        flush(function () {
+                            var active = defaultElement.shadowRoot.getElementById("activeID").checked;
+                            var strength = defaultElement.shadowRoot.getElementById("strengthID").value;
+                            var coding = defaultElement.shadowRoot.getElementById("codingID").value
+                            console.log('active is', active, typeof (active))
+                            console.log('strength is', strength, typeof (strength))
+                            console.log('coding is', coding, typeof (coding))
+
+                            assert.equal(typeof (active), "boolean");
+                            assert.equal(typeof (strength), "object");
+                            assert.equal(typeof (coding), "object");
+                            done();
+                        });
+                    });
+                });
+
+                test("medication ingredient value is accurate", function (done) {
+                    defaultElement.addEventListener("iron-ajax-response", function () {
+                        flush(function () {
+                            var active = defaultElement.shadowRoot.getElementById("activeID").checked;
+                            var strength = defaultElement.shadowRoot.getElementById("strengthID").value;
+                            var coding = defaultElement.shadowRoot.getElementById("codingID").value
+
+                            // testing active status
+                            assert.equal(active, true);
+
+                            // testing medication strength
+                            assert.equal(strength.numerator.value, 500);
+                            assert.equal(strength.numerator.system, "http://unitsofmeasure.org");
+                            assert.equal(strength.numerator.code, "mg")
+                            assert.equal(strength.denominator.value, 10);
+                            assert.equal(strength.denominator.system, "http://unitsofmeasure.org");
+                            assert.equal(strength.denominator.code, "mL")
+
+                            //testing medication coding
+                            assert.equal(coding.system, "http://www.nlm.nih.gov/research/umls/rxnorm");
+                            assert.equal(coding.code, "66955");
+                            assert.equal(coding.display, "Vancomycin Hydrochloride")
+                            done();
+
+                        })
+                    })
+                })
+
+                test("To check if value sets correctly to each field", function (done) {
+                    document.querySelector("dom-bind").set("MedsIngredient", medication.ingredient);
+                    flush(function () {
+                        var active = document.getElementById("FhirMedIngredient").shadowRoot.getElementById("activeID").checked;
+                        var strength = document.getElementById("FhirMedIngredient").shadowRoot.getElementById("strengthID").value;
+                        var coding = document.getElementById("FhirMedIngredient").shadowRoot.getElementById("codingID").value;
+
+                        // testing active status
+                        assert.equal(active, true);
+
+                        // testing medication strength
+                        assert.equal(strength.numerator.value, 500);
+                        assert.equal(strength.numerator.system, "http://unitsofmeasure.org");
+                        assert.equal(strength.numerator.code, "mg")
+                        assert.equal(strength.denominator.value, 10);
+                        assert.equal(strength.denominator.system, "http://unitsofmeasure.org");
+                        assert.equal(strength.denominator.code, "mL")
+
+                        //testing medication coding
+                        assert.equal(coding.system, "http://www.nlm.nih.gov/research/umls/rxnorm");
+                        assert.equal(coding.code, "66955");
+                        assert.equal(coding.display, "Vancomycin Hydrochloride")
+                        done();
+                        
+                    });
+                });
+
+            });
+
+        });
+    </script>
+
+</body>
+
+
+</html>

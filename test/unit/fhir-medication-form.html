@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medication-form test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-medication-form/fhir-medication-form.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="DefaultElement">
+      <template>
+        <fhir-medication-form url="/load_patient_data"></fhir-medication-form>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="AllVisible">
+        <template>
+          <fhir-medication-form  codeField ="true" systemField ="true" url="/load_patient_data"></fhir-medication-form>
+        </template>
+      </test-fixture>
+<dom-bind>
+  <test-fixture id="SetValue">
+    <template>
+      <fhir-medication-form id="FhirMedform" value = "[[Medsform]]"></fhir-medication-form>
+    </template>
+  </test-fixture>
+</dom-bind>
+    
+
+    <script type="module">
+
+    import medication from '../../test/testResources/medication.js';
+
+
+
+    suite('<iron-ajax>', function () {
+            let server;
+            let responseHeaders = {
+                json: {'Content-Type': 'application/json'}
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith('GET', /\/load_patient_data.*/,
+                    [200,
+                        {'Content-Type': 'application/json'},
+                        JSON.stringify(medication)                    ]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+            
+
+            suite('fhir-medication-form tests', function(){
+                let  value;
+                setup(function () {
+                value = fixture('DefaultElement');
+                });
+            
+                test('test to show that only display is shown by default', function(done){
+                    flush(function () {
+                        assert.notEqual(value.shadowRoot.getElementById("displayFieldID", null))
+                        assert.equal(value.shadowRoot.getElementById("codeFieldID", null));
+                        assert.equal(value.shadowRoot.getElementById("systemFieldID", null));
+                        done();
+                    });
+                });
+            
+        
+                test("display field shows the appropriate value", function(done){
+                value.addEventListener('iron-ajax-response', function (){
+                flush(function(){
+                let result = value.shadowRoot.getElementById("displayFieldID").value;
+                    assert.equal(result,"Injection Solution (qualifier value)");
+                    assert.notEqual(result, "Injection Solution");
+                    done();
+            })
+          })
+
+        });
+    });
+
+    suite('fhir-medication-form tests', function(){
+                let  All;
+                setup(function () {
+                All = fixture('AllVisible');
+                });
+
+        test("All field are visible and shows the appropriate value", function(done){
+            All.addEventListener('iron-ajax-response', function (){
+                flush(function(){
+                let Display = All.shadowRoot.getElementById("displayFieldID").value;
+                let system = All.shadowRoot.getElementById("systemFieldID").value;
+                let code = All.shadowRoot.getElementById("codeFieldID").value;
+                assert.equal(Display,"Injection Solution (qualifier value)")
+                assert.equal(code,"385219001")
+                assert.equal(system,"http://snomed.info/sct")
+                done();
+            })
+          })
+
+        });
+    
+        test("To check if the display value sets correctly to its field", function(done){
+          document.querySelector("dom-bind").set("Medsform",JSON.stringify(medication.form));
+          flush(function(){
+            let displayValue = document.getElementById("FhirMedform").shadowRoot.getElementById("displayFieldID").value;
+            assert.equal(displayValue,"Injection Solution (qualifier value)")
+            assert.notEqual(displayValue, "Injection")
+            done();
+          });
+        });
+
+       
+
+      });
+    });
+    </script>
+
+    </body>
+    
+    
+</html>
