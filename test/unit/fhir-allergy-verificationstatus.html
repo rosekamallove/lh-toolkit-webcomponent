@@ -55,13 +55,11 @@
         });
 
         suite('fhir-allergy-verificationstatus tests', function () {
-            setup(function () {
+            test('Verification status of allergy is correct ', function (done) {
                 clinicalstat = fixture('DefaultElement');
-            });
-            test('Verification status of allergy is correct ', function () {
-                clinicalstat.addEventListener('iron-ajax-response', function (done) {
+                clinicalstat.addEventListener('iron-ajax-response', function () {
                     flush(function () {
-                        var status = clinicalstat.shadowRoot.querySelectorAll('.typeField')[0].value;
+                        var status = clinicalstat.shadowRoot.querySelector('.typeField').value;
                         assert.equal(status, "confirmed");
                         assert.notEqual(status, "refuted");
                         done();
@@ -71,13 +69,12 @@
             test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('allergystatus', allergy.verificationStatus);
                 flush(function () {
-                    let status = document.getElementById('fhirAllergy').shadowRoot.querySelectorAll('.typeField')[0].value;
+                    let status = document.getElementById('fhirAllergy').shadowRoot.querySelector('.typeField').value;
                     assert.equal(status, "confirmed");
                     assert.notEqual(status, "refuted");
                     done();
                 });
             });
-
         });
     });
 </script>
