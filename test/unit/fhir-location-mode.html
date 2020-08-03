@@ -49,11 +49,9 @@
             );
         });
         suite('fhir-location-mode tests', function () {
-            setup(function () {
+            test('Instance mode id checked', function (done) {
                 locMode = fixture('DefaultElement');
-            });
-            test('Instance mode id checked', function () {
-                locMode.addEventListener('iron-ajax-response', function (done) {
+                locMode.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
                         assert.equal(mode, true);
@@ -62,8 +60,9 @@
                     });
                 });
             });
-            test('Kind mode not checked ', function () {
-                locMode.addEventListener('iron-ajax-response', function (done) {
+            test('Kind mode not checked ', function (done) {
+                locMode = fixture('DefaultElement');
+                locMode.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var mode = locMode.shadowRoot.querySelectorAll('mwc-radio')[1].checked;
                         assert.equal(mode, false);

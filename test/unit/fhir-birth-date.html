@@ -53,12 +53,9 @@
         });
 
         suite('fhir-birth-date tests', function () {
-            setup(function () {
+            test('Receives correct date of birth', function (done) {
                 birthDate = fixture('DefaultElement');
-            });
-
-            test('Receives correct date of birth', function () {
-                birthDate.addEventListener('iron-ajax-response', function (done) {
+                birthDate.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var dob = birthDate.shadowRoot.getElementById('date').value;
                         console.log(dob)
@@ -68,8 +65,9 @@
                     });
                 });
             });
-            test('Receives correct date of birth format in mm/dd/yyyy', function () {
-                birthDate.addEventListener('iron-ajax-response', function (done) {
+            test('Receives correct date of birth format in mm/dd/yyyy', function (done) {
+                birthDate = fixture('DefaultElement');
+                birthDate.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var dob = birthDate.shadowRoot.getElementById('date').value;
                         assert.equal(dob, "2000-02-10");
@@ -89,8 +87,7 @@
                 });
             });
         });
-    })
-    ;
+    });
 </script>
 </body>
 </html>
