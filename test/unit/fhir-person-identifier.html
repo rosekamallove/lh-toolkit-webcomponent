@@ -53,11 +53,9 @@
         });
 
         suite('fhir-person-identifier tests', function () {
-            setup(function () {
+            test('Patient identifier is displayed correctly', function (done) {
                 myView = fixture('DefaultElement');
-            });
-            test('Patient identifier is displayed correctly', function () {
-                myView.addEventListener('iron-ajax-response', function (done) {
+                myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf1 = myView.shadowRoot.querySelector('.identifierField').value;
                         assert.equal(idf1, "LDX12345");
@@ -67,8 +65,9 @@
                 });
             });
 
-            test('Patient system identifier is displayed correctly', function () {
-                myView.addEventListener('iron-ajax-response', function (done) {
+            test('Patient system identifier is displayed correctly', function (done) {
+                myView = fixture('DefaultElement');
+                myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf = myView.shadowRoot.querySelector('.systemIdentifier').value;
                         assert.equal(idf, "urn:lumiradx:consult");
@@ -78,8 +77,9 @@
                     });
                 });
             });
-            test('Identifier use is displayed correctly', function () {
-                myView.addEventListener('iron-ajax-response', function (done) {
+            test('Identifier use is displayed correctly', function (done) {
+                myView = fixture('DefaultElement');
+                myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf = myView.shadowRoot.querySelector('.useField').value;
                         assert.equal(idf, "official");
