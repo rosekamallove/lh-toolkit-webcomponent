@@ -57,8 +57,8 @@
                 maritalStatus = fixture('DefaultElement');
             });
 
-            test('Check if Childnode i.e., table of radio buttons is removed', function () {
-                maritalStatus.addEventListener('iron-ajax-response', function (done) {
+            test('Check if Childnode i.e., table of radio buttons is removed', function (done) {
+                maritalStatus.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var childnodelen = maritalStatus.shadowRoot.querySelectorAll('mwc-radio')[0].checked;
                         assert.equal(childnodelen, true);

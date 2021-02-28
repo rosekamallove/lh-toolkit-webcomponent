@@ -38,10 +38,10 @@
         });
 
         suite('fhir-practitioner-gets tests', function () {
-            test(' Name fields get correct values', function () {
+            test(' Name fields get correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let lastName = name.shadowRoot.getElementById('practitionerName').shadowRoot.querySelector('.lName').value;
                         assert.equal(lastName, 'Prandin');
                         assert.notEqual(lastName, 'Trần');
@@ -50,11 +50,11 @@
                     });
                 });
             });
-            test(' City Field gets correct values', function () {
+            test(' City Field gets correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
-                        let city = name.shadowRoot.getElementById('patientAddress').shadowRoot.querySelector('.cityField').value;
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
+                        let city = name.shadowRoot.getElementById('practitionerAddress').shadowRoot.querySelector('.cityField').value;
                         assert.equal(city, 'Indy');
                         assert.notEqual(city, 'Trần');
                         assert.notEqual(city, 'Hồng');

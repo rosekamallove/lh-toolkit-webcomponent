@@ -61,18 +61,15 @@
         obsTime = fixture('DefaultElement');          
               });
       
-      test("iron ajax response observation time is accurate", function(){
-        obsTime.addEventListener('iron-ajax-response', function(done){
-          flush(function (done){
+      test("iron ajax response observation time is accurate", function(done){
+        obsTime.addEventListener('iron-ajax-response', function(){
+          flush(function (){
             var obsTiming = obsTime.shadowRoot.getElementById("dateTime").value;
             assert.equal (obsTiming, "2000-11-24T18:59:21");
             assert.notEqual(obsTiming, "2019-09-17");
             done();
           });
-
-
         });
-
       });
 
       test("set the value for each field", function(done){
@@ -84,11 +81,6 @@
           done();
         })
       });
-
-        
-
-      
-
     });
   });
   </script>

@@ -56,9 +56,9 @@
                 onset = fixture('DefaultElement');
             });
 
-            test('Receives correct onset date', function () {
-                onset.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+            test('Receives correct onset date', function (done) {
+                onset.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         var date = onset.shadowRoot.getElementById('date').value;
                         assert.equal(date, "2002-07-30T15:00:34");
                         assert.notEqual(date, "2000-08-10");

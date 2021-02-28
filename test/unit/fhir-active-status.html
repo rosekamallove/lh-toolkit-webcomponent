@@ -55,8 +55,8 @@
             setup(function () {
                 active = fixture('DefaultElement');
             });
-            test('Active state for patient2 is false ', function () {
-                active.addEventListener('iron-ajax-response', function (done) {
+            test('Active state for patient2 is false ', function (done) {
+                active.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var status = active.shadowRoot.getElementById('active').checked;
                         assert.equal(status, false);
@@ -69,7 +69,6 @@
                 document.querySelector('dom-bind').set('actives', JSON.stringify(patient2.active));
                 flush(function () {
                     let cont = document.getElementById('fhirActive').shadowRoot.getElementById('active').checked;
-                    console.log(cont)
                     assert.equal(cont, true);
                     assert.notEqual(cont, false);
                     done();

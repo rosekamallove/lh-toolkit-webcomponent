@@ -57,8 +57,8 @@
                 relation = fixture('DefaultElement');
             });
 
-            test('Relation Type is correctly displayed', function () {
-                relation.addEventListener('iron-ajax-response', function (done) {
+            test('Relation Type is correctly displayed', function (done) {
+                relation.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var select = relation.shadowRoot.querySelector('.relationType').value;
                         assert.equal(select, "N");

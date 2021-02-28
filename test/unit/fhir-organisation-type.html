@@ -57,8 +57,8 @@
                 organization = fixture('DefaultElement');
             });
 
-            test('Organization Type is correctly displayed', function () {
-                organization.addEventListener('iron-ajax-response', function (done) {
+            test('Organization Type is correctly displayed', function (done) {
+                organization.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var select = organization.shadowRoot.querySelector('.typeField').value;
                         assert.equal(select, "prov");
@@ -67,12 +67,12 @@
                     });
                 });
             });
-            test('Organization system uri is correctly displayed', function () {
-                organization.addEventListener('iron-ajax-response', function (done) {
+            test('Organization system uri is correctly displayed', function (done) {
+                organization.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var system = organization.shadowRoot.querySelector('.systemField').value;
-                        assert.equal(system, "http://hl7.org/fhir/organization-type");
-                        assert.notEqual(system, "http://hl7.org/fhir/organization-org");
+                        assert.equal(system, "http://terminology.hl7.org/CodeSystem/organization-type");
+                        assert.notEqual(system, "http://terminology.hl7.org/CodeSystem/organization-org");
                         done();
                     });
                 });
@@ -82,7 +82,7 @@
                 flush(function () {
                     let system = document.getElementById('fhirOrg').shadowRoot.querySelector('.typeField').value;
                     assert.equal(system, "prov");
-                    assert.notEqual(system, "http://hl7.org/fhir/organization-org");
+                    assert.notEqual(system, "http://terminology.hl7.org/CodeSystem/organization-type");
                     done();
                 });
             });

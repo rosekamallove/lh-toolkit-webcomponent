@@ -57,8 +57,8 @@
                 decease = fixture('DefaultElement');
             });
 
-            test('Decease state of patient2 is false', function () {
-                decease.addEventListener('iron-ajax-response', function (done) {
+            test('Decease state of patient2 is false', function (done) {
+                decease.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var deceased = decease.shadowRoot.querySelector('.decease').checked;
                         assert.equal(deceased, false);

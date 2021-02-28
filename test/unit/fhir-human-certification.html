@@ -56,8 +56,8 @@
             setup(function () {
                 certificate = fixture('DefaultElement');
             });
-            test('Qualification code is selected correct ', function () {
-                certificate.addEventListener('iron-ajax-response', function (done) {
+            test('Qualification code is selected correct ', function (done) {
+                certificate.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var code = certificate.shadowRoot.querySelector('.qualificationSelect').value;
                         assert.equal(code, "MMG");

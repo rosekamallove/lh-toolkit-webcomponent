@@ -56,8 +56,8 @@
             setup(function () {
                 status = fixture('DefaultElement');
             });
-            test('Status of location is correct ', function () {
-                status.addEventListener('iron-ajax-response', function (done) {
+            test('Status of location is correct ', function (done) {
+                status.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var loc = status.shadowRoot.querySelectorAll('.statusField')[0].value;
                         assert.equal(loc, "active");

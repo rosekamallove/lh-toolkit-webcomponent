@@ -96,8 +96,8 @@ class FhirHumanName extends LitElement {
      ${this.suffixField !== 'false' ? html`<mwc-textfield outlined class="suffixField" value="${i.suffix ||""}" @input="${e => this.value[index].suffix = e.target.value}" label="Suffix"></mwc-textfield>` : ''}
      </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
-    `)}`;
+    `)}
+    <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>`;
     }
 }
 

@@ -58,7 +58,7 @@ class FhirObservationEffectivedatetime extends LitElement {
                this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function (e) {
             let obsDatetime = this.parentNode.host;
             if (e.detail.response.effectiveDateTime !== undefined) {
-                obsDatetime.value = moment(e.detail.response.effectiveDateTime).format("YYYY-MM-DDThh:mm:ss");
+                obsDatetime.value = moment(e.detail.response.effectiveDateTime).format("YYYY-MM-DDTHH:mm:ss");
             } else {
                 this.parentNode.removechild(this.parentNode.querySelector("#obsDatetimeDiv"))
             }

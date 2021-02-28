@@ -56,9 +56,9 @@
             setup(function () {
                 alltype = fixture('DefaultElement');
             });
-            test('category of allergy is correct ', function () {
-                alltype.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+            test('category of allergy is correct ', function (done) {
+                alltype.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         var type = alltype.shadowRoot.querySelectorAll('.typeField')[0].value;
                         assert.equal(type, "food");
                         assert.notEqual(type, "medication");

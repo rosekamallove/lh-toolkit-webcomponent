@@ -60,18 +60,15 @@
               alltype = fixture('DefaultElement');          
                 });
         
-        test("iron ajax response observation category is accurate", function(){
-          alltype.addEventListener('iron-ajax-response', function(done){
-            flush(function (done){
+        test("iron ajax response observation category is accurate", function(done){
+          alltype.addEventListener('iron-ajax-response', function(){
+            flush(function (){
               var category = alltype.shadowRoot.getElementById("obsClass").value
-              assert.equal (category, 'imaging');
-              assert.notEqual(category, "laboratory");
+              assert.equal (category, "laboratory");
+              assert.notEqual(category, "imag");
               done();
             });
-
-
           });
-
         });
 
         test("set the value for each field", function(done){

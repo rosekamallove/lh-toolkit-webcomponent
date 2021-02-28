@@ -29,7 +29,7 @@
   </dom-bind>
     
 
-   
+<script src="../../node_modules/moment/moment.js"></script>   
 <script type="module">
 
     import observation from '../../test/testResources/observation.js';
@@ -61,11 +61,11 @@
         obsTime = fixture('DefaultElement');          
               });
       
-      test("iron ajax response observation time is accurate", function(){
-        obsTime.addEventListener('iron-ajax-response', function(done){
-          flush(function (done){
+      test("iron ajax response observation time is accurate", function(done){
+        obsTime.addEventListener('iron-ajax-response', function(){
+          flush(function (){
             var obsTiming = obsTime.shadowRoot.getElementById("dateTime").value;
-            assert.equal (obsTiming, "2000-11-24T17:59:21");
+            assert.equal (obsTiming, moment("2000-11-24T17:59:21").format("YYYY-MM-DDTHH:mm:ss"));
             assert.notEqual(obsTiming, "2019-09-17");
             done();
           });

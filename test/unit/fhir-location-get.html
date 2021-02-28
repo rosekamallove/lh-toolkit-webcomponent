@@ -38,10 +38,10 @@
         });
 
         suite('fhir-location-gets tests', function () {
-            test(' Name fields get correct values', function () {
+            test(' Name fields get correct values', function (done) {
                 let check = fixture('DefaultElement');
-                check.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                check.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let names = check.shadowRoot.getElementById('locationName').value;
                         assert.equal(names, "South Wing, second floor");
                         assert.notEqual(names, 'South');
@@ -50,10 +50,10 @@
                     });
                 });
             });
-            test(' Identifier Field gets correct values', function () {
+            test(' Identifier Field gets correct values', function (done) {
                 let check = fixture('DefaultElement');
-                check.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                check.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let describe = check.shadowRoot.getElementById('locationationdescribe').value;
                         assert.equal(describe, 'Second floor of the Old South Wing, formerly in use by Psychiatry');
                         assert.notEqual(describe, 'Second floor of the Old South Wing');
