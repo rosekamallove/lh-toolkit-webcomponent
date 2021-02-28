@@ -9,8 +9,6 @@ test:
   - yarn global add lerna npm@latest polymer-cli
   - lerna bootstrap --use-workspaces
   - polymer test
-  only:
-    - master
 
 pages:
   stage: deploy
@@ -22,5 +20,3 @@ pages:
   artifacts:
     paths:
     - public
-  only:
-  - master

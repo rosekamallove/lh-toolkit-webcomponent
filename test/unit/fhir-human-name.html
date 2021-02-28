@@ -53,8 +53,8 @@
         });
 
         suite('fhir-human-name tests', function () {
-            test('Firstname should be loaded from given name field', async () => {
-                let name = await fixture('DefaultElement');
+            test('Firstname should be loaded from given name field', function(done){
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let firstName = name.shadowRoot.querySelector('.fName').value;
@@ -66,22 +66,19 @@
                 });
             });
 
-            test('Middlename should be shown in its own field if true', async () => {
-                let name = await fixture('MiddleName');
+            test('Middlename should be shown in its own field if true', function(done){
+                let name = fixture('MiddleName');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let middleName = name.shadowRoot.querySelector('.mName').value;
-                        if (name.mName) {
-                            assert.notEqual(middleName, 'Nam');
-                        } else {
-                            assert.equal(middleName, 'Hồng,Nam');
-                        }
+                        assert.equal(middleName, 'Nam');
+                        assert.notEqual(middleName, 'Hồng,Nam');
                         done();
                     });
                 });
             });
-            test('Lastname should be loaded from family name field', async () => {
-                let name = await fixture('DefaultElement');
+            test('Lastname should be loaded from family name field', function(done){
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let lastName = name.shadowRoot.querySelector('.lName').value;
@@ -92,8 +89,8 @@
                     });
                 });
             });
-            test('Use should be loaded from given use field', async () => {
-                let name = await fixture('DefaultElement');
+            test('Use should be loaded from given use field', function(done){
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let use = name.shadowRoot.querySelector('.useField').value;
@@ -104,8 +101,8 @@
                     });
                 });
             });
-            test('Suffix should be loaded from suffix of name field', async () => {
-                let name = await fixture('DefaultElement');
+            test('Suffix should be loaded from suffix of name field', function(done){
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let suffix = name.shadowRoot.querySelector('.suffixField').value;
@@ -116,8 +113,8 @@
                     });
                 });
             });
-            test('Prefix should be loaded from prefix name field', async () => {
-                let name = await fixture('DefaultElement');
+            test('Prefix should be loaded from prefix name field', function(done) {
+                let name = fixture('DefaultElement');
                 name.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         let prefix = name.shadowRoot.querySelector('.prefixField').value;
@@ -129,8 +126,8 @@
                 });
             });
 
-            test('To check if value sets correctly to each field', async () => {
-                let name = await fixture('SetValue');
+            test('To check if value sets correctly to each field', function(done) {
+                let name = fixture('SetValue');
                 document.querySelector('dom-bind').set('names', JSON.stringify(patient2.name));
                 flush(function () {
                     let family = document.getElementById('fhirName').shadowRoot.querySelector('.lName').value;

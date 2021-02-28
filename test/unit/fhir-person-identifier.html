@@ -53,8 +53,11 @@
         });
 
         suite('fhir-person-identifier tests', function () {
+            setup(function () {
+                myView = fixture('DefaultElement'); 
+            });
+
             test('Patient identifier is displayed correctly', function (done) {
-                myView = fixture('DefaultElement');
                 myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf1 = myView.shadowRoot.querySelector('.identifierField').value;
@@ -66,10 +69,10 @@
             });
 
             test('Patient system identifier is displayed correctly', function (done) {
-                myView = fixture('DefaultElement');
                 myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf = myView.shadowRoot.querySelector('.systemIdentifier').value;
+                        console.log(idf);
                         assert.equal(idf, "urn:lumiradx:consult");
                         assert.notEqual(idf, "412345");
                         assert.notEqual(idf, "urn:lumiradx:mpi");
@@ -78,7 +81,6 @@
                 });
             });
             test('Identifier use is displayed correctly', function (done) {
-                myView = fixture('DefaultElement');
                 myView.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var idf = myView.shadowRoot.querySelector('.useField').value;
@@ -90,9 +92,9 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', function () {
+            test('To check if value sets correctly to each field', function (done) {
                 document.querySelector('dom-bind').set('identifiers', JSON.stringify(patient81036.identifier));
-                flush(function (done) {
+                flush(function () {
                     let cont = document.getElementById('fhirIdentifier').shadowRoot.querySelectorAll('.systemIdentifier')[0].value;
                     assert.equal(cont, "urn:lumiradx:consult");
                     assert.notEqual(cont, "LDX12345");

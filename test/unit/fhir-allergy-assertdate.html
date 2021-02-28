@@ -56,9 +56,9 @@
                 assertdate = fixture('DefaultElement');
             });
 
-            test('Receives correct assert date', function () {
-                assertdate.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+            test('Receives correct assert date', function (done) {
+                assertdate.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         var date = assertdate.shadowRoot.getElementById('date').value;
                         assert.equal(date, "2002-07-30T15:00:34");
                         assert.notEqual(date, "2000-08-10");

@@ -56,12 +56,12 @@
             setup(function () {
                 text = fixture('DefaultElement');
             });
-            test('Note of allergy is correct ', function () {
-                text.addEventListener('iron-ajax-response', function (done) {
+            test('Note of allergy is correct ', function (done) {
+                text.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var val = text.shadowRoot.querySelector('.describeField').value;
-                        assert.equal(val, "Allergy is not identifiable as of the present");
-                        assert.notEqual(val, "asdfg");
+                        assert.equal(val, "The patient reports that the onset of urticaria was within 15 minutes of eating cashews.");
+                        assert.notEqual(val, "moderate");
                         done();
                     });
                 });

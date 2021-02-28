@@ -60,12 +60,12 @@
                 });
                 test('medication status is accurate ', function (done) {
                     defaultElement.addEventListener('iron-ajax-response', function () {
-                        flush(function (done) {
+                    flush(function () {
                         var status = defaultElement.shadowRoot.getElementById('statusID').value;
                         assert.equal(status, "active");
                         assert.notEqual(status, "inactive");
-                        
-                    });done();
+                        done();
+                    });
                     });
                 });
                 test('To check if value sets correctly to each field', function (done) {

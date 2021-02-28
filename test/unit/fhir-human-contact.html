@@ -52,8 +52,8 @@
         });
 
         suite('fhir-human-contact tests', function () {
-            test('System field displayed correctly', async () => {
-                contact = await fixture('DefaultElement');
+            test('System field displayed correctly', function (done){
+                contact = fixture('DefaultElement');
                 contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var use = contact.shadowRoot.querySelector('.systemField').value;
@@ -64,8 +64,8 @@
                 });
             });
 
-            test('UseField displayed correctly', async () => {
-                contact = await fixture('DefaultElement');
+            test('UseField displayed correctly', function (done){
+                contact = fixture('DefaultElement');
                 contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var type = contact.shadowRoot.querySelector('.useField').value;
@@ -76,8 +76,8 @@
                     });
                 });
             });
-            test('Contact Number is displayed correctly', async () => {
-                contact = await fixture('DefaultElement');
+            test('Contact Number is displayed correctly', function (done){
+                contact = fixture('DefaultElement');
                 contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var cont = contact.shadowRoot.querySelector('.contNumb').value;
@@ -89,8 +89,8 @@
                     });
                 });
             });
-            test('Rank is displayed correctly', async () => {
-                contact = await fixture('DefaultElement');
+            test('Rank is displayed correctly', function (done){
+                contact = fixture('DefaultElement');
                 contact.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var rank = contact.shadowRoot.querySelector('.rankVal').value;
@@ -102,8 +102,8 @@
                     });
                 });
             });
-            test('To check if value sets correctly to each field', async () => {
-                contact = await fixture('SetValue');
+            test('To check if value sets correctly to each field', function (done){
+                contact = fixture('SetValue');
                 document.querySelector('dom-bind').set('contacts', JSON.stringify(patient2.telecom));
                 flush(function () {
                     let cont = document.getElementById('fhirContact').shadowRoot.querySelector('.contNumb').value;

@@ -56,9 +56,9 @@
             setup(function () {
                 clinicalstat = fixture('DefaultElement');
             });
-            test('Clinical status of allergy is correct ', function () {
-                clinicalstat.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+            test('Clinical status of allergy is correct ', function (done) {
+                clinicalstat.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         var status = clinicalstat.shadowRoot.querySelectorAll('.typeField')[0].value;
                         assert.equal(status, "active");
                         assert.notEqual(status, "resolved");

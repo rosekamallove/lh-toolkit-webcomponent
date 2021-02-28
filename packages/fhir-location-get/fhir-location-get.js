@@ -66,26 +66,26 @@ class FhirLocationGet extends LitElement {
     }
 
     /**_didRender() delivers only after _render*/
-    _didRender() {
+    updated() {
         this.shadowRoot.getElementById('ajax').addEventListener('iron-ajax-response', function (e) {
             this.parentNode.host.value = e.detail.response;
         });
     }
 
-    _render({url, locationId, locationName, locationstatus, locationoperation, locationationdescribe, locationMode, locationContact, locationAddress, value }) {
-        if (typeof(value) == "string") {
-            this.value = JSON.parse(value);
+    render() {
+        if (typeof(this.value) == "string") {
+            this.value = JSON.parse(this.value);
         }
         return html`
-       ${locationId !== 'false' ? html`<fhir-person-identifier value="${this.value.identifier}" id="locationId"></fhir-person-identifier>` : ''}
-       ${locationName !== 'false' ? html`<fhir-organisation-name value="${this.value.name}" id="locationName"></fhir-organisation-name>` : ''}
-       ${locationstatus !== 'false' ? html`<fhir-location-status value="${this.value.status}" id="locationstatus"></fhir-location-status>` : ''}
-       ${locationoperation !== 'false' ? html`<fhir-location-operationalstatus value="${this.value.operationalStatus}" id="locationoperation"></fhir-location-operationalstatus>` : ''}
-       ${locationationdescribe !== 'false' ? html`<fhir-location-description value="${this.value.description}" id="locationationdescribe"></fhir-location-description>` : ''}
-       ${locationMode !== 'false' ? html`<fhir-location-mode value="${this.value.mode}" id="locationMode"></fhir-location-mode>` : ''}
-       ${locationContact !== 'false' ? html`<fhir-human-contact value="${this.value.telecom}" id="locationContact"></fhir-human-contact>` : ''}
-       ${locationContact !== 'false' ? html`<fhir-human-address value="${this.value.address}" id="locationAddress"></fhir-human-address>` : ''}
-       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${url}"></iron-ajax>
+       ${this.locationId !== 'false' ? html`<fhir-person-identifier .value="${this.value.identifier}" id="locationId"></fhir-person-identifier>` : ''}
+       ${this.locationName !== 'false' ? html`<fhir-organisation-name .value="${this.value.name}" id="locationName"></fhir-organisation-name>` : ''}
+       ${this.locationstatus !== 'false' ? html`<fhir-location-status .value="${this.value.status}" id="locationstatus"></fhir-location-status>` : ''}
+       ${this.locationoperation !== 'false' ? html`<fhir-location-operationalstatus .value="${this.value.operationalStatus}" id="locationoperation"></fhir-location-operationalstatus>` : ''}
+       ${this.locationationdescribe !== 'false' ? html`<fhir-location-description .value="${this.value.description}" id="locationationdescribe"></fhir-location-description>` : ''}
+       ${this.locationMode !== 'false' ? html`<fhir-location-mode .value="${this.value.mode}" id="locationMode"></fhir-location-mode>` : ''}
+       ${this.locationContact !== 'false' ? html`<fhir-human-contact .value="${this.value.telecom}" id="locationContact"></fhir-human-contact>` : ''}
+       ${this.locationAddress !== 'false' ? html`<fhir-human-address .value="${this.value.address}" id="locationAddress"></fhir-human-address>` : ''}
+       <iron-ajax id="ajax" bubbles auto handle-as="json" url="${this.url}"></iron-ajax>
   `;
     }
 }

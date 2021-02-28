@@ -98,8 +98,8 @@ class FhirHumanContact extends LitElement {
      ${this.periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}
      </mwc-formfield>
      </div>
-     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
-`)}`;
+`)}
+<iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>`;
     }
 }
 

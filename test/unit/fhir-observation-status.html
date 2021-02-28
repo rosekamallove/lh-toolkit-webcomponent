@@ -58,9 +58,9 @@
                     alltype = fixture('DefaultElement');
                     
                 });
-                test('observation status is accurate ', function () {
-                    alltype.addEventListener('iron-ajax-response', function (done) {
-                        flush(function (done) {
+                test('observation status is accurate ', function (done) {
+                    alltype.addEventListener('iron-ajax-response', function () {
+                        flush(function () {
                         var type = alltype.shadowRoot.querySelectorAll('.obsClass')[0].value;
                         assert.equal(type, "final");
                         assert.notEqual(type, "preliminary");

@@ -37,7 +37,7 @@
 
     <script type="module">
 
-    import observation from '../../test/testResources/observation2.js';
+    import observation from '../../test/testResources/observation.js';
 
     suite('<iron-ajax>', function () {
             let server;
@@ -50,7 +50,7 @@
                 server.respondWith('GET', /\/load_patient_data.*/,
                     [200,
                         {'Content-Type': 'application/json'},
-                        JSON.stringify(observation)                    ]
+                        JSON.stringify(observation)]
                 );
             });
             teardown(function () {
@@ -74,19 +74,7 @@
                     });
                 });
             
-        
-                test("display field shows the appropriate value", function(){
-                value.addEventListener('iron-ajax-response', function (done){
-                flush(function(){
-                let result = value.shadowRoot.getElementById("textFieldID").value;
-                console.log(result)
-                    assert.Eequal(result,"made up text");
-                    assert.notEqual(result, "temperature taking");
-                    done();
-            })
-          })
-
-        });
+                // errors not resolved yet
     });
 
     suite('fhir-observation-referencerange tests', function(){
@@ -96,15 +84,31 @@
                 console.log(All)
                 });
 
-        test("All field are visible and shows the appropriate value", function(){
-            All.addEventListener('iron-ajax-response', function (done){
+                test("display field shows the appropriate value", function(done){
+                  All.addEventListener('iron-ajax-response', function (){
                 flush(function(){
-                let Display = All.shadowRoot.getElementById("valueID").value;
-                let system = All.shadowRoot.getElementById("ageFieldID").value;
-                let code = All.shadowRoot.getElementById("textFieldID").value;
-                assert.equal(Display,"Oral temperature taking")
-                assert.equal(code,"made up text")
-                assert.equal(system,"http://snomed.info/sct")
+                let result = All.shadowRoot.getElementById('textFieldID').value;
+                    assert.equal(result,"made up text");
+                    assert.notEqual(result, "temperature taking");
+                    done();
+            })
+          })
+
+        });
+                
+                //errors not resolved yet
+        test("All field are visible and shows the appropriate value", function(done){
+            All.addEventListener('iron-ajax-response', function (){
+                flush(function(){
+                let value = All.shadowRoot.getElementById("valueID").value;
+                let age = All.shadowRoot.getElementById("ageFieldID").value;
+                let text = All.shadowRoot.getElementById("textFieldID").value;
+                let type = All.shadowRoot.getElementById("typeFieldID").value;
+                assert.equal(typeof(value), 'object');
+                assert.equal(text,"made up text");
+                assert.equal(age.low.value, 15);
+                assert.equal(age.high.value, 25);
+                assert.equal(typeof(type), 'object');
                 done();
             })
           })

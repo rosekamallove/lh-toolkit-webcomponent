@@ -38,10 +38,10 @@
         });
 
         suite('fhir-patient-gets tests', function () {
-            test(' Identifier Field get correct values', function () {
+            test(' Identifier Field get correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let identifier = name.shadowRoot.getElementById('patientId').shadowRoot.querySelectorAll('.systemIdentifier')[0].value;
                         assert.equal(identifier, 'urn:lumiradx:consult');
                         assert.notEqual(identifier, 'Trần');
@@ -50,10 +50,10 @@
                     });
                 });
             });
-            test(' Name Field gets correct values', function () {
+            test(' Name Field gets correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let firstName = name.shadowRoot.getElementById('patientName').shadowRoot.querySelectorAll('.lName')[0].value;
                         assert.equal(firstName, 'Smith');
                         assert.notEqual(firstName, 'Trần');

@@ -83,8 +83,8 @@ class FhirPersonIdentifier extends LitElement {
        
         </mwc-formfield>
         </div>
-        <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
-     `)}`;
+     `)}
+     <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>`;
     }
 }
 

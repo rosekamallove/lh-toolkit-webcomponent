@@ -38,25 +38,25 @@
         });
 
         suite('fhir-organisation-gets tests', function () {
-            test(' Name fields get correct values', function () {
+            test(' Name fields get correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         let names = name.shadowRoot.getElementById('organisationName').value;
-                        assert.equal(names, "The Night's Watch");
-                        assert.notEqual(names, 'Night');
-                        assert.notEqual(names, 'Watch');
+                        assert.equal(names, "PHARMACIE DU GINKGO");
+                        assert.notEqual(names, 'PHARMACIE');
+                        assert.notEqual(names, '');
                         done();
                     });
                 });
             });
-            test(' Identifier Field gets correct values', function () {
+            test(' Identifier Field gets correct values', function (done) {
                 let name = fixture('DefaultElement');
-                name.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
-                        let city = name.shadowRoot.getElementById('organisationId').shadowRoot.querySelector('.identifierField').value;
-                        assert.equal(city, 'Derrick.Lau');
-                        assert.notEqual(city, 'www.nationalorgidentifier.gov/ids');
+                name.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
+                        let value = name.shadowRoot.getElementById('organisationId').shadowRoot.querySelector('.identifierField').value;
+                        assert.equal(value, '2141253');
+                        assert.notEqual(value, 'Pharmacy CIP Code');
                         done();
                     });
                 });

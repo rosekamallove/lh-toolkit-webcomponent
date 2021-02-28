@@ -58,7 +58,7 @@ class FhirObservationIssued extends LitElement{
         this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function(e){
            let obsIssed = this.parentNode.host
             if(e.detail.response.issued !== undefined){
-                obsIssed.value = moment(e.detail.response.issued).format("YYYY-MM-DDThh:mm:ss");
+                obsIssed.value = moment(e.detail.response.issued).format("YYYY-MM-DDTHH:mm:ss");
             }else{
                 this.parentNode.removeChild(this.parentNode.getElementById("obsIssuedDiv"))
             }

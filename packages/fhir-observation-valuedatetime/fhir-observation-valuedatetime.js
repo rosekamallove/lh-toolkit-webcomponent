@@ -59,7 +59,7 @@ class FhirObservationValuedatetime extends LitElement {
                this.shadowRoot.getElementById("ajax").addEventListener("iron-ajax-response", function (e) {
             let valDateTime = this.parentNode.host;
             if (e.detail.response.valueDateTime !== undefined) {
-                valDateTime.value = moment(e.detail.response.valueDateTime).format("YYYY-MM-DDThh:mm:ss");
+                valDateTime.value = moment(e.detail.response.valueDateTime).format("YYYY-MM-DDTHH:mm:ss");
             } else {
                 this.parentNode.removechild(this.parentNode.querySelector("#valDatetimeDiv"))
             }

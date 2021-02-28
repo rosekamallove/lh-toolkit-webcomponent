@@ -56,8 +56,8 @@
                 language = fixture('DefaultElement');
             });
 
-            test('Language field displays correct value', function () {
-                language.addEventListener('iron-ajax-response', function (done) {
+            test('Language field displays correct value', function (done) {
+                language.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         var lang = language.shadowRoot.querySelectorAll('.langField')[0].value;
                         assert.equal(lang, "English");

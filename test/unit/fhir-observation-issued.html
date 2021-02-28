@@ -29,6 +29,7 @@
 </dom-bind>
     
 
+    <script src="../../node_modules/moment/moment.js"></script>
     <script type="module">
 
     import observation from '../../test/testResources/observation.js';
@@ -59,11 +60,11 @@
               issued = fixture('DefaultElement');          
                 });
         
-        test("iron ajax response for observation issued is accurate", function(){
-          issued.addEventListener('iron-ajax-response', function(done){
-            flush(function (done){
+        test("iron ajax response for observation issued is accurate", function(done){
+          issued.addEventListener('iron-ajax-response', function(){
+            flush(function (){
               var issue = issued.shadowRoot.getElementById("dateissued").value;
-              assert.equal (issue, '2019-09-17T22:10:10.961+00:00');
+              assert.equal (issue, moment('2019-09-17T22:10:10.961+00:00').format("YYYY-MM-DDTHH:mm:ss"));
               assert.notEqual(issue, "2019-09-17");
               done();
             });

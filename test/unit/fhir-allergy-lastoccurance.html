@@ -56,9 +56,9 @@
                 lastdate = fixture('DefaultElement');
             });
 
-            test('Receives correct last occurance', function () {
-                lastdate.addEventListener('iron-ajax-response', function (done) {
-                    flush(function (done) {
+            test('Receives correct last occurance', function (done) {
+                lastdate.addEventListener('iron-ajax-response', function () {
+                    flush(function () {
                         var date = lastdate.shadowRoot.getElementById('date').value;
                         assert.equal(date, "2002-07-30T15:00:34");
                         assert.notEqual(date, "2000-08-10");
