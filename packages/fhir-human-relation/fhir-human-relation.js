@@ -77,8 +77,8 @@ class FhirHumanRelation extends LitElement {
         return html`${this.value.map((i, index) => html`
     <div id="relationDiv">
     <mwc-formfield label = "CONTACT PERSON DETAILS:"></mwc-formfield><br><br>
-    ${this.relationType !== 'false' ? html`${i.relationship.map((i, index) => html`
-     <mwc-select label = "Relation" class="relationType" value="${i.coding[0].code}" @change="${e => this.value[index].code = e.target.value}">
+    ${this.relationType !== 'false' ? html`${i.relationship.map((i2, index2) => html`
+     <mwc-select label = "Relation" class="relationType" value="${i2.coding[0].code}" @change="${e => this.value[index].relationship[index2].coding[0].code = e.target.value}">
             <mwc-list-item value="BP">Billing Contact Person</mwc-list-item>
             <mwc-list-item value="C">Emergency Contact</mwc-list-item>
             <mwc-list-item value="CP">Contact Person</mwc-list-item>
@@ -92,10 +92,10 @@ class FhirHumanRelation extends LitElement {
             <mwc-list-item value="S">State Agency</mwc-list-item>
             <mwc-list-item value="U">Unknown</mwc-list-item>
             </mwc-select> `)}` : ''}
-    ${this.nameField !== 'false' ? html`<fhir-human-name useField="false" .value="${[i.name]}" @change="${e => this.value[index].name = e.target.value}"></fhir-human-name>` : ''}
-    ${this.genderField !== 'false' ? html`<fhir-human-gender .value="${i.gender}" @change="${e => this.value[index].gender = e.target.value}"></fhir-human-gender>` : ''}
-    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @change="${e => this.value[index].address = e.target.value}"></fhir-human-address>` : ''}
-    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @change="${e => this.value[index].telecom = e.target.value}"></fhir-human-contact>` : ''}
+    ${this.nameField !== 'false' ? html`<fhir-human-name useField="false" .value="${[i.name]}" @input="${e => this.value[index].name = e.target.value}"></fhir-human-name>` : ''}
+    ${this.genderField !== 'false' ? html`<fhir-human-gender .value="${i.gender}" @input="${e => this.value[index].gender = e.target.value}"></fhir-human-gender>` : ''}
+    ${this.addressField !== 'false' ? html`<fhir-human-address .value="${[i.address]}" @input="${e => this.value[index].address = e.target.value}"></fhir-human-address>` : ''}
+    ${this.contactField !== 'false' ? html`<fhir-human-contact .value="${i.telecom}" @input="${e => this.value[index].telecom = e.target.value}"></fhir-human-contact>` : ''}
      </div>   
      <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>
     `)}`;

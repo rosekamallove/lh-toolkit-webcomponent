@@ -62,7 +62,7 @@ class FhirActiveStatus extends LitElement {
        <div id="activeDiv">
        ${this.activeStatus !== "false" ? 
        html`<mwc-formfield class="activeStatus" alignEnd label="ACTIVE STATUS:">
-         <mwc-checkbox id="active" ?checked ="${this.value}" class="activeState" @click ="${e => this.value = e.target.value}"></mwc-checkbox>
+         <mwc-checkbox id="active" ?checked ="${this.value}" class="activeState" @click ="${e => this.value = !e.target.checked}"></mwc-checkbox>
          </mwc-formfield>` : ''}
        </div>
        <iron-ajax id= "ajax" bubbles auto handle-as="json" .url="${this.url}"> </iron-ajax>
