@@ -34,7 +34,7 @@ class FhirPersonIdentifier extends LitElement {
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: {type: String},
             /**value is used to take the input value of each field*/
-            value: {type: Array}
+            value: {type: Array, reflect: true}
         }
     }
    

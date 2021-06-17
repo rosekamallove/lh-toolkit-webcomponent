@@ -21,7 +21,7 @@ class FhirCoding extends LitElement {
     static get properties() {
         return {
             /** Populate inputs via properties : A Coding JSON as a string or as a object */
-            value: { type: Object },
+            value: { type: Object, reflect: true },
             /** Populate inputs via GET request : A url to the resource */
             url: { type: String },
             /** Populate inputs via GET request : A dot-syntax string of the JSON keys to access the coding */

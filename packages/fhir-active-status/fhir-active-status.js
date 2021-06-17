@@ -26,7 +26,7 @@ class FhirActiveStatus extends LitElement {
             /**url is used to make AJAX call to FHIR resource. Default: null */
             url: {type:String},
             /**value is used to take the input value of each field*/
-            value: {type:Boolean}
+            value: {type:Boolean, reflect: true}
         }
     }
 
@@ -61,7 +61,7 @@ class FhirActiveStatus extends LitElement {
         return html`
        <div id="activeDiv">
        ${this.activeStatus !== "false" ? 
-       html`<mwc-formfield class="activeStatus" alignEnd label="ACTIVE STATUS:">
+       html`<mwc-formfield class="activeStatus" alignEnd label="Active-Status:">
          <mwc-checkbox id="active" ?checked ="${this.value}" class="activeState" @click ="${e => this.value = !e.target.checked}"></mwc-checkbox>
          </mwc-formfield>` : ''}
        </div>

@@ -1,0 +1,22 @@
+{
+  "name": "@lh-toolkit/fhir-schedule",
+  "version": "0.0.1",
+  "description": "Custom element for the Schedule fhir resource",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/librehealth/toolkit/lh-toolkit-webcomponents.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "lit-element": "^2.3.1",
+    "@material/mwc-formfield": "^0.15.0",
+    "@material/mwc-textarea": "0.15.0",
+    "moment": "2.18.1"
+  }
+}
