@@ -23,7 +23,7 @@ class FhirPeriod extends LitElement {
     static get properties() {
         return {
             /** The period Object with start and end properties should be in the two fields. If no value is passed, the current datetime is default */
-            value: {type:Object},
+            value: {type:Object, reflect: true},
             /** Whether to show the start input field. Default: true */
             start:{type:Boolean},
             /** Whether to show the end input field. Default: false */
@@ -33,7 +33,7 @@ class FhirPeriod extends LitElement {
 
     constructor() {
         super()
-        this.value = '{"start":"' + moment().toISOString() + '", "end": "' + moment().toISOString() + '"}';
+        this.value = {start: moment().toISOString(), end: moment().toISOString() };
         this.start = true;
         this.end = false;
     }
@@ -58,8 +58,8 @@ class FhirPeriod extends LitElement {
         }
 
         return html`
-            ${this.start ? html`<mwc-textfield  label ="Start" outlined id= "start" class="startField" type="datetime-local"  .value="${startDate}"></mwc-textfield>` : ''}
-            ${this.end ? html`<mwc-textfield label ="End" outlined  class="endField" type="datetime-local" .value="${endDate}"></mwc-textfield>` : ''}
+            ${this.start ? html`<mwc-textfield  label ="Start" outlined id= "start" class="startField" type="datetime-local"  .value="${startDate}" @input="${e => this.value.start = e.target.value}"></mwc-textfield>` : ''}
+            ${this.end ? html`<mwc-textfield label ="End" outlined  class="endField" type="datetime-local" .value="${endDate}" @input="${e => this.value.end = e.target.value}"></mwc-textfield>` : ''}
         `;
     }
 }

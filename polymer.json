@@ -55,7 +55,10 @@
     "demos/fhir-observation-category.html",
     "demos/fhir-observation-effectivedatetime.html",
     "demos/fhir-observation-issued.html",
-    "demos/fhir-observation-valuequantity.html" 
+    "demos/fhir-observation-valuequantity.html",
+    "demos/fhir-codeable-concept.html",
+    "demos/fhir-schedule.html",
+    "demos/fhir-reference.html"
   ],
   "builds": [
     {
