@@ -59,7 +59,8 @@
     "demos/fhir-codeable-concept.html",
     "demos/fhir-schedule.html",
     "demos/fhir-reference.html",
-    "demos/fhir-slot.html"
+    "demos/fhir-slot.html",
+    "demos/fhir-appointment.html"
   ],
   "builds": [
     {

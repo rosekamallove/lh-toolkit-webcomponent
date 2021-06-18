@@ -49,19 +49,19 @@ class FhirReference extends LitElement {
   // templates to render the component
   referenceTemplate() {
     return html`
-      <mwc-textfield size=40 label="Reference" class="textfield" type="text" .value='${this.value.reference || ""}' @input="${this.setReferenceInput}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Reference" class="textfield" type="text" .value='${this.value.reference || ""}' @input="${this.setReferenceInput}"> </mwc-textfield>
   `;
   }
 
   displayTemplate() {
     return html`
-      <mwc-textfield size=40 label="Display" class="textfield" type="text" .value='${this.value.display || ""}' @input="${this.setDisplayInput}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Display" class="textfield" type="text" .value='${this.value.display || ""}' @input="${this.setDisplayInput}"> </mwc-textfield>
   `;
   }
 
   typeTemplate() {
     return this.showType !== "false" ? html`
-      <mwc-textfield size=40 label="Type" class="textfield" type="text" .value='${this.value.type || ""}' @input="${this.setTypeInput}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Type" class="textfield" type="text" .value='${this.value.type || ""}' @input="${this.setTypeInput}"> </mwc-textfield>
   ` : "";
   }
 
