@@ -60,7 +60,25 @@
     "demos/fhir-schedule.html",
     "demos/fhir-reference.html",
     "demos/fhir-slot.html",
-    "demos/fhir-appointment.html"
+    "demos/fhir-appointment.html",
+    "demos/fhir-login.html",
+    "demos/fhir-medication-amount.html",
+    "demos/fhir-medication-batch.html",
+    "demos/fhir-medication-code.html",
+    "demos/fhir-medication-form.html",
+    "demos/fhir-medication-ingredient.html",
+    "demos/fhir-medication-status.html",
+    "demos/fhir-observation-absent.html",
+    "demos/fhir-observation-bodysite.html",
+    "demos/fhir-observation-code.html",
+    "demos/fhir-observation-interpretation.html",
+    "demos/fhir-observation-method.html",
+    "demos/fhir-observation-note.html",
+    "demos/fhir-observation-referencerange.html",
+    "demos/fhir-observation-valuedatetime.html",
+    "demos/fhir-observation-valuestring.html",
+    "demos/fhir-range.html",
+    "demos/fhir-ratio.html"
   ],
   "builds": [
     {
