@@ -71,7 +71,7 @@ class FhirObservationIssued extends LitElement{
         <div id = "obsIssuedDiv">
         ${this.obsIssued !== "false" ?
         html `
-        <mwc-formfield class = "Issued" label ="OBSERVATION ISSUED:" alignEnd>
+        <mwc-formfield class = "Issued" label ="Observation Issued:" alignEnd>
             <mwc-textfield  id ="dateissued" outlined type ="datetime-local" .value = "${this.value}" @input ="${e =>this.value =e.target.value}"></mwc-textfield>
         </mwc-formfield>
         `:""}

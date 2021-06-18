@@ -66,7 +66,7 @@ class FhirAllergyClinicalstatus extends LitElement {
     render() {
         return html`
     <div id="allergyDiv">
-   <mwc-formfield label ="CLINICAL STATUS:" alignEnd>
+   <mwc-formfield label ="Clinical Status:" alignEnd>
    ${this.typeField !== 'false' ? html`
    <mwc-select outlined class="typeField" value="${this.value}" @change="${e => this.value = e.target.value}">
         <mwc-list-item value="active">Active</mwc-list-item>

@@ -71,7 +71,7 @@ class FhirObservationEffectivedatetime extends LitElement {
         return html`
         <div id = "obsDatetimeDiv">
         ${this.obsDateTime !== "false" ?
-                html`<mwc-formfield  class= "obsDateTime" label= "OBSERVATION TIME:" alignEnd>
+                html`<mwc-formfield  class= "obsDateTime" label= "Observation Time:" alignEnd>
         <mwc-textfield id="dateTime" outlined type ="datetime-local" .value ="${this.value}" @input= "${e => this.value = e.target.value}"></mwc-textfield>
         </mwc-formfield>` : ""}
         </div>

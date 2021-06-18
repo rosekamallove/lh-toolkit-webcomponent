@@ -60,7 +60,7 @@ class FhirMaritalStatus extends LitElement {
     render() {
         return html`
        ${this.tableResponsive !== 'false' ? html`
-       <mwc-formfield label= "MARITAL STATUS:" alignEnd > 
+       <mwc-formfield label= "Marital Status:" alignEnd > 
        <table class="tableResponsive">        
        <form>
        <tr>

@@ -71,7 +71,7 @@ class FhirObservationMethod extends LitElement {
         return html `
 
         <div id ="obsMtdDiv">
-        <mwc-formfield label ="OBSERVATION METHOD:" alignEnd>
+        <mwc-formfield label ="Observation Method:" alignEnd>
         ${this.value.coding.map((i,index) => html `
         ${this.codeField !== "false" ? html `<mwc-textfield id="codeFieldID" outlined label ="code" .value = "${i.code || ""}" @input = "${e=>i.code = e.target.value}" ></mwc-textfield>`:""}
         ${this.systemField !== "false" ? html `<mwc-textfield id="systemFieldID" outlined label ="system" .value= "${i.system || ""}" @input = "${e => i.system =e.target.value}" ></mwc-textfield>`:""}

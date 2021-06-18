@@ -72,7 +72,7 @@ class FhirObservationValuequantity extends LitElement{
         }
         return html`
         <div id ="valueQty">
-        <mwc-formfield class ="valueSet" label =" OBSERVATION VALUE:" alignEnd>
+        <mwc-formfield class ="valueSet" label =" Observation Value:" alignEnd>
         ${this.valueField !== "false" ? html `<mwc-textfield id ="result" outlined label ="value" .value ="${this.value.value || ""}" @input= "${e => this.value.value = e.target.value}"></mwc-textfield>`:""}
         ${this.unitField !== "false" ? html `<mwc-textfield id ="resultUnit" outlined label ="unit" .value ="${this.value.unit|| "" }" @input= "${e => this.value.unit = e.target.value}"></mwc-textfield>`: ""}
         ${this.systemField !== "false" ? html`<mwc-textfield id ="resultSystem" outlined label ="system" .value ="${this.value.system || ""}" @input= "${e => this.value.system = e.target.value}"></mwc-textfield>`: ""}

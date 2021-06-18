@@ -64,7 +64,7 @@ class FhirObservationCategory extends LitElement {
     }
     return html `${this.value.map((i, index) => html `
     <div id ="obsDiv">
-        <mwc-formfield label= "OBSERVATION CATEGORY:" alignEnd>
+        <mwc-formfield label= "Observation Category:" alignEnd>
         ${this.obsCat !== "false" ?
         html`${i.coding.map((i, index) => html `
         <mwc-select outlined  label ="category" id ="obsClass" .value = "${i.code}" @change ="${e => this.value[index].code = e.target.value}"> 

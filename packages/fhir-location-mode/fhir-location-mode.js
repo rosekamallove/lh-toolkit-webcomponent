@@ -54,7 +54,7 @@ class FhirLocationMode extends LitElement {
     render() {
         return html`
         <div id="locMode">
-         ${this.locMode !== 'false' ? html`<mwc-formfield label= "MODE:" id="modeField" alignEnd>
+         ${this.locMode !== 'false' ? html`<mwc-formfield label= "Mode:" id="modeField" alignEnd>
           Instance:<mwc-radio value="instance"  ?checked="${this.value == 'instance' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
          Kind:<mwc-radio value="kind"  ?checked="${this.value == 'kind' ? true : false}" @click="${e => this.value = e.target.value}"></mwc-radio>
          </mwc-formfield>

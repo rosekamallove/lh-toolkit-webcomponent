@@ -63,7 +63,7 @@ class FhirLocationDescription extends LitElement {
     render() {
         return html`
    <div id="fhirLocationDescDiv"> 
-   <mwc-formfield label ="DESCRIPTION:" alignEnd>
+   <mwc-formfield label ="Description:" alignEnd>
      ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" @input="${e => this.value = e.target.value}"  label="Description"></mwc-textarea>` : ''}
     </mwc-formfield> 
    </div> 

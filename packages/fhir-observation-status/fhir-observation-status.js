@@ -71,7 +71,7 @@ class FhirObservationStatus extends LitElement {
     return html`
     <div id="obsDiv">
     ${this.obsStatus !== "false" ? html`
-      <mwc-formfield label ="OBSERVATION STATUS:" alignEnd>
+      <mwc-formfield label ="Observation Status:" alignEnd>
       <mwc-select label="Observation status" class="obsClass" .value="${this.value}" @change="${e => this.value = e.target.value}">
           <mwc-list-item></mwc-list-item>
           <mwc-list-item value="registered">Registered </mwc-list-item>

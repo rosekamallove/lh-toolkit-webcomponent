@@ -62,7 +62,7 @@ class FhirLocationOperationalstatus extends LitElement {
         return html`
    <div id="div">
    ${this.typeField !== 'false' ? html`
-     <mwc-formfield label ="OPERATIONAL STATUS:" alignEnd>
+     <mwc-formfield label ="Operational Status:" alignEnd>
      <mwc-select class="typeField" .value = "${this.value.code}" @change="${e => this.value.code = e.target.value}">
          <mwc-list-item value="C">Closed</mwc-list-item>
          <mwc-list-item value="H">Housekeeping</mwc-list-item>
