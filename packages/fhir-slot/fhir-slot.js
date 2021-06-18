@@ -1,13 +1,14 @@
 import { LitElement, html, css } from 'lit-element';
 import moment from 'moment';
 import '@material/mwc-textarea/mwc-textarea';
+import '@material/mwc-textfield/mwc-textfield';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@lh-toolkit/fhir-codeable-concept/fhir-codeable-concept.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-reference/fhir-reference.js';
 
-class FhirSchedule extends LitElement {
+class FhirSlot extends LitElement {
 
   static get styles() {
     return css`
@@ -22,36 +23,39 @@ class FhirSchedule extends LitElement {
     return {
       value: { type: Object, reflect: true },
       showComment: { type: String},
-      showActor: { type: String},
+      showSchedule: { type: String},
       showServiceCategory: { type: String},
       showServiceType: { type: String},
       showSpecialty: { type: String},
-      showPlanningHorizon: { type: String},
+      showStart: { type: String},
+      showEnd: { type: String},
       showIdentifier: { type: String},
-      showActiveStatus: { type: String}
+      showStatus: {type: String}
     }
   }
 
   constructor() {
     super();
     this.value = {
-      identifier: [{}], 
-      active: false, 
+      identifier: [{}],
+      status: '', 
       serviceCategory: [{coding: [{ system: "", code: "", display: ""}],text: ""}],
       serviceType: [{coding: [{ system: "", code: "", display: ""}],text: ""}], 
       specialty: [{coding: [{ system: "", code: "", display: ""}],text: ""}],
-      actor: [{reference: "", display: "", type: ""}],
+      schedule: {reference: "", display: "", type: ""},
       comment: '',
-      planningHorizon: {start: moment().toISOString(), end: moment().toISOString()}
+      start: moment().format('YYYY-MM-DDThh:mm:ss[Z]'),
+      end: moment().format('YYYY-MM-DDThh:mm:ss[Z]') 
     };
     this.showComment = "true";
-    this.showActor = "true",
-    this.showServiceCategory = "true",
-    this.showServiceType =  "true",
-    this.showSpecialty =  "true",
-    this.showPlanningHorizon = "true",
-    this.showIdentifier = "true",
-    this.showActiveStatus = "true"
+    this.showSchedule = "true";
+    this.showServiceCategory = "true";
+    this.showServiceType = "true";
+    this.showSpecialty = "true";
+    this.showStart = "true";
+    this.showEnd = "true";
+    this.showStatus = "true";
+    this.showIdentifier = "true"
   }
 
   // handling the input event to reflect the property change back on attribute
@@ -63,11 +67,16 @@ class FhirSchedule extends LitElement {
     this.value.active = e.target.value;
   }
 
-  setPlanningState(e) {
-    e.target.value.start = moment(e.target.value.start).format('YYYY-MM-DDThh:mm:ss[Z]')
-    e.target.value.end = moment(e.target.value.end).format('YYYY-MM-DDThh:mm:ss[Z]')
-    
-    this.value.planningHorizon = e.target.value;
+  setStartValue(e) {
+    this.value.start = moment(e.target.value).format('YYYY-MM-DDThh:mm:ss[Z]');
+  }
+
+  setEndValue(e) {
+    this.value.end = moment(e.target.value).format('YYYY-MM-DDThh:mm:ss[Z]');
+  }
+
+  setScheduleValue(e) {
+    this.value.schedule = e.target.value;
   }
 
   setIdentifierValue(e) {
@@ -86,10 +95,13 @@ class FhirSchedule extends LitElement {
     this.value.serviceType[index] = e.target.value;
   }
 
+  setStatusValue(e) {
+    this.value.status = e.target.value;
+  }
 
   // templates to render the component
   serviceCategoryTemplate() {
-    this.value.serviceCategory = this.value.serviceCategory  || [{coding: [{ system: "", code: "", display: ""}],text: ""}];
+    this.value.serviceCategory = this.value.serviceCategory || [{coding: [{ system: "", code: "", display: ""}],text: ""}];
 
     return this.showServiceCategory !== "false" ? html`
     ${this.value.serviceCategory.map((item, index) => html`
@@ -100,7 +112,7 @@ class FhirSchedule extends LitElement {
 
   serviceTypeTemplate() {
     this.value.serviceType = this.value.serviceType  || [{coding: [{ system: "", code: "", display: ""}],text: ""}];
-
+    
     return this.showServiceType !== "false" ? html`
     ${this.value.serviceType.map((item, index) => html`
       <fhir-codeable-concept label="Service-Type :" .value='${item}' @input="${e => this.setServiceTypeValue(e, index)}"></fhir-codeable-concept>
@@ -109,7 +121,7 @@ class FhirSchedule extends LitElement {
   }
 
   specialtyTemplate() {
-    this.value.specialty = this.value.specialty  || [{coding: [{ system: "", code: "", display: ""}],text: ""}];
+    this.value.specialty = this.value.specialty || [{coding: [{ system: "", code: "", display: ""}],text: ""}];
 
     return this.showSpecialty !== "false" ? html`
     ${this.value.specialty.map((item, index) => html`
@@ -118,19 +130,9 @@ class FhirSchedule extends LitElement {
   ` : "";
   }
 
-  activeStatusTemplate() {
-    this.value.active = this.value.active || false;
-
-    return this.showActiveStatus !== "false" ? html`
-    <mwc-formfield class="field">
-      <fhir-active-status .value="${this.value.active}" @click="${this.setActiveState}"></fhir-active-status>
-    </mwc-formfield>
-  `: "";
-  }
-
   identifierTemplate() {
     this.value.identifier = this.value.identifier || [{}];
-    
+
     return this.showIdentifier !== "false" ? html`
     <mwc-formfield class="field">
       <fhir-person-identifier .value="${this.value.identifier}" @input="${this.setIdentifierValue}"></fhir-person-identifier>
@@ -138,12 +140,22 @@ class FhirSchedule extends LitElement {
   ` : "";
   }
 
-  planningHorizonTemplate() {
-    this.value.planningHorizon = this.value.planningHorizon || {start: moment().toISOString(), end: moment().toISOString()};
+  startTemplate() {
+    let start = this.value.start ? moment(this.value.start).format('YYYY-MM-DDTHH:mm:ss') : "";
 
-    return this.showPlanningHorizon !== "false" ? html`
-    <mwc-formfield class="field" label="Planning-Horizon : " alignEnd>
-      <fhir-period end .value="${this.value.planningHorizon}" @input="${this.setPlanningState}"></fhir-period>
+    return this.showStart !== "false" ? html`
+    <mwc-formfield class="field" label="Start : " alignEnd>
+      <mwc-textfield type ='datetime-local' value="${start}" @input="${this.setStartValue}"></mwc-textfield>
+    </mwc-formfield>
+  `: "";
+  }
+
+  endTemplate() {
+    let end = this.value.end ? moment(this.value.end).format('YYYY-MM-DDThh:mm:ss') : "";
+
+    return this.showEnd !== "false" ? html`
+    <mwc-formfield class="field" label="End : " alignEnd>
+      <mwc-textfield type ='datetime-local' value="${end}" @input="${this.setEndValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -158,28 +170,37 @@ class FhirSchedule extends LitElement {
     ` : "";
   }
 
-  actorTemplate() {
-    this.value.actor = this.value.actor || [{reference: "", display: "", type: ""}];
+  scheduleTemplate() {
+    this.value.schedule = this.value.schedule || {reference: "", display: "", type: ""};
 
     return html`
-      ${this.value.actor.map((item) => html`
-        <fhir-reference .value="${item}" label="Actor:"></fhir-reference>
-      `)}
+      <fhir-reference .value="${this.value.schedule}" label="Schedule:" @input="${this.setScheduleValue}"></fhir-reference>
     `;
+  }
+
+  statusTemplate() {
+    this.value.status = this.value.status || "";
+
+    return this.showStatus !== "false" ? html`
+    <mwc-formfield label="Status :" class="field" alignEnd>
+      <mwc-textfield label="Text" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+    </mwc-formfield>
+    ` : "";
   }
 
   render() {
     return html`
+      ${this.statusTemplate()}
       ${this.serviceTypeTemplate()}
       ${this.specialtyTemplate()}
       ${this.serviceCategoryTemplate()}
       ${this.identifierTemplate()}
-      ${this.activeStatusTemplate()}
-      ${this.actorTemplate()}
-      ${this.planningHorizonTemplate()}
+      ${this.scheduleTemplate()}
+      ${this.startTemplate()}
+      ${this.endTemplate()}
       ${this.commentTemplate()}
     `
   }
 }
 
-customElements.define('fhir-schedule', FhirSchedule);
+customElements.define('fhir-slot', FhirSlot);
