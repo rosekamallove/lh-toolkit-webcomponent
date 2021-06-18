@@ -77,7 +77,7 @@ class FhirHumanAddress extends LitElement {
         }
         return html`${this.value.map((i, index) => html`
      <div id="addressDiv">
-     <mwc-formfield label = "ADDRESS:" alignEnd>
+     <mwc-formfield label = "Address:" alignEnd>
      ${this.useSelect !== 'false' ? html`
      <mwc-select label ="Use" class="useSelect" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
          <mwc-list-item value="home">Home</mwc-list-item>

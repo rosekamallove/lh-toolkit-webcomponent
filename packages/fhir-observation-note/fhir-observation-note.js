@@ -51,7 +51,7 @@ class FhirObservationNote extends LitElement {
         }
         return html `
          <div id= "obsNoteDiv">
-             <mwc-formfield label ="NOTE:" alignEnd>
+             <mwc-formfield label ="Note:" alignEnd>
         ${this.value.map(item => html `
         ${this.noteField !== "false" ?
         html `<mwc-textarea id="obsNoteId" outlined label ="Note" .value = "${item.text || ""}" @input = "${e => item.text = e.target.value}"></mwc-textarea>`:""}

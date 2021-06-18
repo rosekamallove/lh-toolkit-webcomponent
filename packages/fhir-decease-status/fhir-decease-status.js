@@ -59,7 +59,7 @@ class FhirDeceaseStatus extends LitElement {
     render() {
         return html`
       <div id="div">
-      ${this.deceaseStatus !== 'false' ? html`<mwc-formfield  class="deceaseStatus" alignEnd label="DECEASED STATUS:">
+      ${this.deceaseStatus !== 'false' ? html`<mwc-formfield  class="deceaseStatus" alignEnd label="Deceased Status:">
       <mwc-checkbox class ="decease" ?checked="${this.value}" @click="${e => this.value = !e.target.checked}"></mwc-checkbox>
       </mwc-formfield>` : ''}
       ${this.periodField !== 'false' ? html`<fhir-period class="periodField"></fhir-period>` : ''}  

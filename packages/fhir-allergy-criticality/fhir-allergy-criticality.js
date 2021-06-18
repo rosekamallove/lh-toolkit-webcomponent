@@ -59,7 +59,7 @@ class FhirAllergyCriticality extends LitElement {
         return html`
    <div id="allergyDiv">
    ${this.typeField !== 'false' ? html`
-     <label>CRITICAL NATURE:</label>
+     <label>Critical Nature:</label>
      <mwc-select outlined label="Critical Nature" class="typeField" .value="${this.value}" @change="${e => this.value = e.target.value}">
         <mwc-list-item ></mwc-list-item>
         <mwc-list-item value="low">Low</mwc-list-item>

@@ -72,7 +72,7 @@ class FhirHumanContact extends LitElement {
         }
         return html`${this.value.map((i, index) => html`
      <div id="humanNameDiv">
-     <mwc-formfield label ="TELECOM DETAILS" alignEnd>
+     <mwc-formfield label ="Telecom details" alignEnd>
      ${this.systemField !== 'false' ? html`
      <mwc-select label="System"  class="systemField" .value="${i.system}" @change="${e => this.value[index].system = e.target.value}">
          <mwc-list-item value="phone">Phone</mwc-list-item>

@@ -56,11 +56,11 @@ class FhirObservationReferencerange extends LitElement {
         }
         return html`
         <div id ="rangeDiv">
-        <label><b>RANGE</b></label><br>
+        <label><b>Range</b></label><br>
         ${this.value.map((item, index) =>
-            html`VALUE: <fhir-range id= "valueID" .value =${item || ""} @input= "${e => this.value[index] = e.target.value}"></fhir-range>
-         ${this.ageField !== "false" ? html` AGE:<fhir-range id ="ageFieldID" .value = "${item.age}" @input= "${e => this.value[index].age = e.target.value}"></fhir-range>` : ""}
-         ${this.textField !== "false" ? html`TEXT: <mwc-textfield id="textFieldID"  outlined .value ="${item.text}" @input= "${e => this.value[index].text = e.target.value}"></mwc-textfield>` : ""}
+            html`Value: <fhir-range id= "valueID" .value =${item || ""} @input= "${e => this.value[index] = e.target.value}"></fhir-range>
+         ${this.ageField !== "false" ? html` Age:<fhir-range id ="ageFieldID" .value = "${item.age}" @input= "${e => this.value[index].age = e.target.value}"></fhir-range>` : ""}
+         ${this.textField !== "false" ? html`Text: <mwc-textfield id="textFieldID"  outlined .value ="${item.text}" @input= "${e => this.value[index].text = e.target.value}"></mwc-textfield>` : ""}
         ${this.typeField !== "false" ?
                     html`<fhir-coding  id ="typeFieldID" labelOfDisplay ="Interpretation" .value = "${item.type.coding[0] || ""}" @input= "${e => item.type.coding[index] = e.target.value}"></fhir-coding>` : ""}
          `)}

@@ -73,7 +73,7 @@ class FhirObservationBodysite extends LitElement{
         }
         return html `${this.value.coding.map((i, index) => html `
         <div id ="obsSiteDiv">
-            <mwc-formfield label= "OBSERVATION SITE:" alignEnd>
+            <mwc-formfield label= "Observation Site:" alignEnd>
             ${this.codeField !== "false" ? html `<mwc-textfield id ="codeFieldID"  label = "code" outlined .value = "${i.code || ""}" @input ="${e => i.code = e.target.value}"></mwc-textfield>`:""}
              ${this.systemField !== "false" ? html `<mwc-textfield id="systemFieldID" label ="system" outlined  .value = "${i.system || ""}" @input = "${e => i.system = e.target.value}"></mwc-textfield>`:""}
              ${this.displayField !== "false" ? html `<mwc-textfield id="displayFieldID" label = "display" outlined .value = "${i.display || "" }" @input ="${e => i.display = e.target.value}"></mwc-textfield>`:""}

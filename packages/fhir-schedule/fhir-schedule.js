@@ -86,6 +86,9 @@ class FhirSchedule extends LitElement {
     this.value.serviceType[index] = e.target.value;
   }
 
+  setActorValue(index) {
+    this.value.actor[index] = e.target.value;
+  }
 
   // templates to render the component
   serviceCategoryTemplate() {
@@ -162,8 +165,8 @@ class FhirSchedule extends LitElement {
     this.value.actor = this.value.actor || [{reference: "", display: "", type: ""}];
 
     return html`
-      ${this.value.actor.map((item) => html`
-        <fhir-reference .value="${item}" label="Actor:"></fhir-reference>
+      ${this.value.actor.map((item, index) => html`
+        <fhir-reference .value="${item}" label="Actor:" @input="${e => this.setActorValue(e, index)}"></fhir-reference>
       `)}
     `;
   }

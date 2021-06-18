@@ -75,7 +75,7 @@ class FhirObservationCode extends LitElement{
           }
         return html `
         <div id="obsCodeDiv">
-            <mwc-formfield label= " OBSERVATION NAME:" alignEnd>
+            <mwc-formfield label= " Observation Code:" alignEnd>
             ${this.textField !== "false" ? html `<mwc-textfield id ="textFieldID" outlined label = "text" value = "${this.value.text || ""}" @input ="${e => this.value["text"]= e.target.value}"></mwc-textfield>`:""}
             ${this.value.coding.map((i,index) =>  html `
             ${this.codeField !== "false" ? html `<mwc-textfield id ="codeFieldID" outlined label ="code" value = "${i.code ||""}" @input ="${e => this.value.coding[index].code= e.target.value}"></mwc-textfield>`:""}

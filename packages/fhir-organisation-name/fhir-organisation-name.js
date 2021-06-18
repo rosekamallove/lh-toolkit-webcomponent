@@ -51,7 +51,7 @@ class FhirOrganisationName extends LitElement {
     render() {
         return html`
         <div id="nameDiv"> 
-        <mwc-formfield label ="NAME:" alignEnd>
+        <mwc-formfield label ="Name:" alignEnd>
         ${this.nameField !== 'false' ? html`<mwc-textfield outlined class="nameField" .value="${this.value}" @input="${e => this.value = e.target.value}"  label="Organization Name"></mwc-textfield>
         ` : ''}
         </mwc-formfield>  

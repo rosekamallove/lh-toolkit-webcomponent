@@ -68,7 +68,7 @@ class FhirAllergyVerificationstatus extends LitElement {
     render() {
         return html`
    <div>
-   <mwc-formfield label ="VERIFICATION STATUS:" alignEnd>
+   <mwc-formfield label ="Verification Status:" alignEnd>
    ${this.typeField !== 'false' ? html`
    <mwc-select outlined class="typeField" value="${this.value}" @change="${this.onChange}">
         <mwc-list-item value="confirmed">Confirmed</mwc-list-item>
