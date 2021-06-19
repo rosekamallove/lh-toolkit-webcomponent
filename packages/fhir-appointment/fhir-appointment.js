@@ -122,7 +122,7 @@ class FhirAppointment extends LitElement {
 
     return this.showServiceCategory !== "false" ? html`
     ${this.value.serviceCategory.map((item, index) => html`
-      <fhir-codeable-concept label="Service-Category :" .value='${item}' @input="${e => this.setServiceCategoryValue(e, index)}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="serviceCategory" label="Service-Category :" .value='${item}' @input="${e => this.setServiceCategoryValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -132,7 +132,7 @@ class FhirAppointment extends LitElement {
     
     return this.showServiceType !== "false" ? html`
     ${this.value.serviceType.map((item, index) => html`
-      <fhir-codeable-concept label="Service-Type :" .value='${item}' @input="${e => this.setServiceTypeValue(e, index)}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="serviceType" label="Service-Type :" .value='${item}' @input="${e => this.setServiceTypeValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -142,7 +142,7 @@ class FhirAppointment extends LitElement {
 
     return this.showSpecialty !== "false" ? html`
     ${this.value.specialty.map((item, index) => html`
-        <fhir-codeable-concept label="Specialty :" .value='${item}' @input="${e => this.setSpecialtyValue(e, index)}"></fhir-codeable-concept>
+        <fhir-codeable-concept class="specialty" label="Specialty :" .value='${item}' @input="${e => this.setSpecialtyValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -151,7 +151,7 @@ class FhirAppointment extends LitElement {
     this.value.appointmentType = this.value.appointmentType || {coding: [{ system: "", code: "", display: ""}],text: ""};
 
     return this.showAppointmentType !== "false" ? html`
-      <fhir-codeable-concept label="Appintment-Type :" .value='${this.value.appointmentType}' @input="${this.setAppointmentType}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="appointmentType" label="Appintment-Type :" .value='${this.value.appointmentType}' @input="${this.setAppointmentType}"></fhir-codeable-concept>
   ` : "";
   }
 
@@ -160,7 +160,7 @@ class FhirAppointment extends LitElement {
 
     return this.showIdentifier !== "false" ? html`
     <mwc-formfield class="field">
-      <fhir-person-identifier .value="${this.value.identifier}" @input="${this.setIdentifierValue}"></fhir-person-identifier>
+      <fhir-person-identifier class="identifier" .value="${this.value.identifier}" @input="${this.setIdentifierValue}"></fhir-person-identifier>
     </mwc-formfield>
   ` : "";
   }
@@ -170,7 +170,7 @@ class FhirAppointment extends LitElement {
 
     return this.showStart !== "false" ? html`
     <mwc-formfield class="field" label="Start : " alignEnd>
-      <mwc-textfield type ='datetime-local' value="${start}" @input="${this.setStartValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' class="start" value="${start}" @input="${this.setStartValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -180,7 +180,7 @@ class FhirAppointment extends LitElement {
 
     return this.showEnd !== "false" ? html`
     <mwc-formfield class="field" label="End : " alignEnd>
-      <mwc-textfield type ='datetime-local' value="${end}" @input="${this.setEndValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' class="end" value="${end}" @input="${this.setEndValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -190,7 +190,7 @@ class FhirAppointment extends LitElement {
 
     return this.showComment !== "false" ? html`
     <mwc-formfield label="Comment :" class="field" alignEnd>
-      <mwc-textarea label="Text" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
+      <mwc-textarea label="Text" class="comment" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
     </mwc-formfield>
     ` : "";
   }
@@ -200,7 +200,7 @@ class FhirAppointment extends LitElement {
 
     return this.showSlot !== "false" ? html`
       ${this.value.slot.map((item, index) => html`
-        <fhir-reference .value="${item}" label="Slot:" @input="${e => this.setSlotValue(e, index)}"></fhir-reference>
+        <fhir-reference class="slot" .value="${item}" label="Slot:" @input="${e => this.setSlotValue(e, index)}"></fhir-reference>
       `)}
     ` : "";
   }
@@ -210,7 +210,7 @@ class FhirAppointment extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
@@ -231,14 +231,14 @@ class FhirAppointment extends LitElement {
     <hr class="rule">
     ${this.value.participant.map((item, index) => html`
       ${(item.type || [{coding: [{ system: "", code: "", display: ""}],text: ""}]).map((item1, index1) => html`
-          <fhir-codeable-concept label="Type :" .value='${item1}' @input="${e => item.type[index1] = e.target.value}"></fhir-codeable-concept>
+          <fhir-codeable-concept class="partype" label="Type :" .value='${item1}' @input="${e => item.type[index1] = e.target.value}"></fhir-codeable-concept>
       `)}
 
       <mwc-formfield label="Status :" class="field" alignEnd>
-        <mwc-textfield label="Text" .value='${item.status || ""}' @input="${e => this.value.participant[index].status = e.target.value}"> </mwc-textfield>
+        <mwc-textfield class="parstatus" label="Text" .value='${item.status || ""}' @input="${e => this.value.participant[index].status = e.target.value}"> </mwc-textfield>
       </mwc-formfield>
 
-      <fhir-reference .value="${item.actor || {reference: "", display: "", type: ""}}" label="Actor:" @input="${e => this.value.participant[index].actor = e.target.value}"></fhir-reference>
+      <fhir-reference class="paractor" .value="${item.actor || {reference: "", display: "", type: ""}}" label="Actor:" @input="${e => this.value.participant[index].actor = e.target.value}"></fhir-reference>
       <hr class="rule">
     `)}
   `;

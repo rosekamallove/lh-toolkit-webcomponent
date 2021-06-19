@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-schedule</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-schedule/fhir-schedule.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-schedule></fhir-schedule>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-schedule id="fhirSchedule" value="[[schedule]]"></fhir-schedule>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import schedule from '../../test/testResources/schedule.js';
+
+    suite('fhir-schedule create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('comment property is defined', function (done) {
+        flush(function () {
+          var comment = elem.shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('activeStatus property is defined', function (done) {
+        flush(function () {
+          var activeStatus = elem.shadowRoot.querySelector('.activeStatus').value;
+          assert.equal(activeStatus, "");
+          assert.notEqual(activeStatus, true);
+          done();
+        });
+      });
+
+      test('specialty property is defined', function (done) {
+        flush(function () {
+          var specialty = elem.shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is defined', function (done) {
+        flush(function () {
+          var serviceCategory = elem.shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is defined', function (done) {
+        flush(function () {
+          var serviceType = elem.shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('planningHorizon property is defined', function (done) {
+        flush(function () {
+          var planningHorizon = elem.shadowRoot.querySelector('.planningHorizon').value;
+          assert.notEqual(planningHorizon.start, "");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('actor property is defined', function (done) {
+        flush(function () {
+          var actor = elem.shadowRoot.querySelector('.actor').value;
+          assert.equal(actor.reference, "");
+          assert.notEqual(actor, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-schedule value tests', function () {
+      document.querySelector('dom-bind').set('schedule', schedule);
+
+      test('comment property is correct', function (done) {
+        flush(function () {
+          var comment = document.getElementById('fhirSchedule').shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "The slots attached to this schedule should be specialized to cover immunizations within the clinic");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirSchedule').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('activeStatus property is correct', function (done) {
+        flush(function () {
+          var activeStatus = document.getElementById('fhirSchedule').shadowRoot.querySelector('.activeStatus').value;
+          assert.equal(activeStatus, true);
+          assert.notEqual(activeStatus, false);
+          done();
+        });
+      });
+
+      test('specialty property is correct', function (done) {
+        flush(function () {
+          var specialty = document.getElementById('fhirSchedule').shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "408480009");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is correct', function (done) {
+        flush(function () {
+          var serviceCategory = document.getElementById('fhirSchedule').shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "17");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is correct', function (done) {
+        flush(function () {
+          var serviceType = document.getElementById('fhirSchedule').shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "57");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('planningHorizon property is correct', function (done) {
+        flush(function () {
+          var planningHorizon = document.getElementById('fhirSchedule').shadowRoot.querySelector('.planningHorizon').value;
+          assert.equal(planningHorizon.start, "2013-12-25T09:15:00Z");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('actor property is correct', function (done) {
+        flush(function () {
+          var actor = document.getElementById('fhirSchedule').shadowRoot.querySelector('.actor').value;
+          assert.equal(actor.reference, "Location/1");
+          assert.notEqual(actor, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>

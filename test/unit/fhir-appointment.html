@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-appointment</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-appointment/fhir-appointment.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-appointment></fhir-appointment>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-appointment id="fhirappointment" value="[[appointment]]"></fhir-appointment>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import appointment from '../../test/testResources/appointment.js';
+
+    suite('fhir-appointment create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('comment property is defined', function (done) {
+        flush(function () {
+          var comment = elem.shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('specialty property is defined', function (done) {
+        flush(function () {
+          var specialty = elem.shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is defined', function (done) {
+        flush(function () {
+          var serviceCategory = elem.shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is defined', function (done) {
+        flush(function () {
+          var serviceType = elem.shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('appointmentType property is defined', function (done) {
+        flush(function () {
+          var appointmentType = elem.shadowRoot.querySelector('.appointmentType').value;
+          assert.equal(appointmentType.coding.length, 1);
+          assert.equal(appointmentType.coding[0].code, "");
+          assert.notEqual(appointmentType, undefined);
+          done();
+        });
+      });
+
+      test('start property is defined', function (done) {
+        flush(function () {
+          var planningHorizon = elem.shadowRoot.querySelector('.start').value;
+          assert.notEqual(planningHorizon.start, "");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('end property is defined', function (done) {
+        flush(function () {
+          var planningHorizon = elem.shadowRoot.querySelector('.end').value;
+          assert.notEqual(planningHorizon.start, "");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('slot property is defined', function (done) {
+        flush(function () {
+          var slot = elem.shadowRoot.querySelector('.slot').value;
+          assert.equal(slot.reference, "");
+          assert.notEqual(slot, undefined);
+          done();
+        });
+      });
+
+      test('participant property is defined', function (done) {
+        flush(function () {
+          var type = elem.shadowRoot.querySelector('.partype').value;
+          var status = elem.shadowRoot.querySelector('.parstatus').value;
+          var actor = elem.shadowRoot.querySelector('.paractor').value;
+          assert.equal(type.coding[0].code, "");
+          assert.equal(status, "");
+          assert.equal(actor.reference, "");
+          assert.notEqual(type, undefined);
+          assert.notEqual(status, undefined);
+          assert.notEqual(actor, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-appointment value tests', function () {
+      document.querySelector('dom-bind').set('appointment', appointment);
+
+      test('comment property is correct', function (done) {
+        flush(function () {
+          var comment = document.getElementById('fhirappointment').shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "Further expand on the results of the MRI and determine the next actions that may be appropriate.");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirappointment').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirappointment').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "proposed");
+          assert.notEqual(status, "");
+          done();
+        });
+      });
+
+      test('specialty property is correct', function (done) {
+        flush(function () {
+          var specialty = document.getElementById('fhirappointment').shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "394814009");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is correct', function (done) {
+        flush(function () {
+          var serviceCategory = document.getElementById('fhirappointment').shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "gp");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is correct', function (done) {
+        flush(function () {
+          var serviceType = document.getElementById('fhirappointment').shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('appointmentType property is correct', function (done) {
+        flush(function () {
+          var appointmentType = document.getElementById('fhirappointment').shadowRoot.querySelector('.appointmentType').value;
+          assert.equal(appointmentType.coding.length, 1);
+          assert.equal(appointmentType.coding[0].code, "WALKIN");
+          assert.notEqual(appointmentType, undefined);
+          done();
+        });
+      });
+
+
+      test('start property is correct', function (done) {
+        flush(function () {
+          var start = document.getElementById('fhirappointment').shadowRoot.querySelector('.start').value;
+          assert.equal(start, "");
+          assert.notEqual(start, "2013-12-25T14:30:00");
+          done();
+        });
+      });
+
+      test('end property is correct', function (done) {
+        flush(function () {
+          var end = document.getElementById('fhirappointment').shadowRoot.querySelector('.end').value;
+          assert.equal(end, "");
+          assert.notEqual(end, "2013-12-25T02:45:00");
+          done();
+        });
+      });
+
+      test('slot property is correct', function (done) {
+        flush(function () {
+          var slot = document.getElementById('fhirappointment').shadowRoot.querySelector('.slot').value;
+          assert.equal(slot.reference, "Slot/example");
+          assert.notEqual(slot, undefined);
+          done();
+        });
+      });
+
+      test('participant property is correct', function (done) {
+        flush(function () {
+          var type = document.getElementById('fhirappointment').shadowRoot.querySelector('.partype').value;
+          var status = document.getElementById('fhirappointment').shadowRoot.querySelector('.parstatus').value;
+          var actor = document.getElementById('fhirappointment').shadowRoot.querySelector('.paractor').value;
+          assert.equal(type.coding[0].code, "");
+          assert.equal(status, "needs-action");
+          assert.equal(actor.reference, "Patient/example");
+          assert.notEqual(type, undefined);
+          assert.notEqual(status, undefined);
+          assert.notEqual(actor, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>

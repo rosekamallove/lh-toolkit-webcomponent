@@ -96,7 +96,7 @@ class FhirSchedule extends LitElement {
 
     return this.showServiceCategory !== "false" ? html`
     ${this.value.serviceCategory.map((item, index) => html`
-      <fhir-codeable-concept label="Service-Category :" .value='${item}' @input="${e => this.setServiceCategoryValue(e, index)}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="serviceCategory" label="Service-Category :" .value='${item}' @input="${e => this.setServiceCategoryValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -106,7 +106,7 @@ class FhirSchedule extends LitElement {
 
     return this.showServiceType !== "false" ? html`
     ${this.value.serviceType.map((item, index) => html`
-      <fhir-codeable-concept label="Service-Type :" .value='${item}' @input="${e => this.setServiceTypeValue(e, index)}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="serviceType" label="Service-Type :" .value='${item}' @input="${e => this.setServiceTypeValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -116,7 +116,7 @@ class FhirSchedule extends LitElement {
 
     return this.showSpecialty !== "false" ? html`
     ${this.value.specialty.map((item, index) => html`
-        <fhir-codeable-concept label="Specialty :" .value='${item}' @input="${e => this.setSpecialtyValue(e, index)}"></fhir-codeable-concept>
+        <fhir-codeable-concept class="specialty" label="Specialty :" .value='${item}' @input="${e => this.setSpecialtyValue(e, index)}"></fhir-codeable-concept>
     `)}
   ` : "";
   }
@@ -126,7 +126,7 @@ class FhirSchedule extends LitElement {
 
     return this.showActiveStatus !== "false" ? html`
     <mwc-formfield class="field">
-      <fhir-active-status .value="${this.value.active}" @click="${this.setActiveState}"></fhir-active-status>
+      <fhir-active-status class="activeStatus" .value="${this.value.active}" @click="${this.setActiveState}"></fhir-active-status>
     </mwc-formfield>
   `: "";
   }
@@ -136,7 +136,7 @@ class FhirSchedule extends LitElement {
     
     return this.showIdentifier !== "false" ? html`
     <mwc-formfield class="field">
-      <fhir-person-identifier .value="${this.value.identifier}" @input="${this.setIdentifierValue}"></fhir-person-identifier>
+      <fhir-person-identifier class="identifier" .value="${this.value.identifier}" @input="${this.setIdentifierValue}"></fhir-person-identifier>
     </mwc-formfield>
   ` : "";
   }
@@ -146,7 +146,7 @@ class FhirSchedule extends LitElement {
 
     return this.showPlanningHorizon !== "false" ? html`
     <mwc-formfield class="field" label="Planning-Horizon : " alignEnd>
-      <fhir-period end .value="${this.value.planningHorizon}" @input="${this.setPlanningState}"></fhir-period>
+      <fhir-period end class="planningHorizon" .value="${this.value.planningHorizon}" @input="${this.setPlanningState}"></fhir-period>
     </mwc-formfield>
   `: "";
   }
@@ -156,7 +156,7 @@ class FhirSchedule extends LitElement {
 
     return this.showComment !== "false" ? html`
     <mwc-formfield label="Comment :" class="field" alignEnd>
-      <mwc-textarea label="Text" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
+      <mwc-textarea label="Text" class="comment" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
     </mwc-formfield>
     ` : "";
   }
@@ -166,7 +166,7 @@ class FhirSchedule extends LitElement {
 
     return html`
       ${this.value.actor.map((item, index) => html`
-        <fhir-reference .value="${item}" label="Actor:" @input="${e => this.setActorValue(e, index)}"></fhir-reference>
+        <fhir-reference class="actor" .value="${item}" label="Actor:" @input="${e => this.setActorValue(e, index)}"></fhir-reference>
       `)}
     `;
   }

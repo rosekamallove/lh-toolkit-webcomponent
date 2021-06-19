@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-slot</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-slot/fhir-slot.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-slot></fhir-slot>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-slot id="fhirslot" value="[[slot]]"></fhir-slot>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import slot from '../../test/testResources/slot.js';
+
+    suite('fhir-slot create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('comment property is defined', function (done) {
+        flush(function () {
+          var comment = elem.shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('specialty property is defined', function (done) {
+        flush(function () {
+          var specialty = elem.shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is defined', function (done) {
+        flush(function () {
+          var serviceCategory = elem.shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is defined', function (done) {
+        flush(function () {
+          var serviceType = elem.shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('start property is defined', function (done) {
+        flush(function () {
+          var planningHorizon = elem.shadowRoot.querySelector('.start').value;
+          assert.notEqual(planningHorizon.start, "");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('end property is defined', function (done) {
+        flush(function () {
+          var planningHorizon = elem.shadowRoot.querySelector('.end').value;
+          assert.notEqual(planningHorizon.start, "");
+          assert.notEqual(planningHorizon, undefined);
+          done();
+        });
+      });
+
+      test('schedule property is defined', function (done) {
+        flush(function () {
+          var schedule = elem.shadowRoot.querySelector('.schedule').value;
+          assert.equal(schedule.reference, "");
+          assert.notEqual(schedule, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-slot value tests', function () {
+      document.querySelector('dom-bind').set('slot', slot);
+
+      test('comment property is correct', function (done) {
+        flush(function () {
+          var comment = document.getElementById('fhirslot').shadowRoot.querySelector('.comment').value;
+          assert.equal(comment, "Assessments should be performed before requesting appointments in this slot.");
+          assert.notEqual(comment, undefined);
+          done();
+        });
+      });
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirslot').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirslot').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "busy");
+          assert.notEqual(status, "");
+          done();
+        });
+      });
+
+      test('specialty property is correct', function (done) {
+        flush(function () {
+          var specialty = document.getElementById('fhirslot').shadowRoot.querySelector('.specialty').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('serviceCategory property is correct', function (done) {
+        flush(function () {
+          var serviceCategory = document.getElementById('fhirslot').shadowRoot.querySelector('.serviceCategory').value;
+          assert.equal(serviceCategory.coding.length, 1);
+          assert.equal(serviceCategory.coding[0].code, "17");
+          assert.notEqual(serviceCategory, undefined);
+          done();
+        });
+      });
+
+      test('serviceType property is correct', function (done) {
+        flush(function () {
+          var serviceType = document.getElementById('fhirslot').shadowRoot.querySelector('.serviceType').value;
+          assert.equal(serviceType.coding.length, 1);
+          assert.equal(serviceType.coding[0].code, "");
+          assert.notEqual(serviceType, undefined);
+          done();
+        });
+      });
+
+      test('start property is correct', function (done) {
+        flush(function () {
+          var start = document.getElementById('fhirslot').shadowRoot.querySelector('.start').value;
+          assert.equal(start, "2013-12-25T14:30:00");
+          assert.notEqual(start, "");
+          done();
+        });
+      });
+
+      test('end property is correct', function (done) {
+        flush(function () {
+          var end = document.getElementById('fhirslot').shadowRoot.querySelector('.end').value;
+          assert.equal(end, "2013-12-25T02:45:00");
+          assert.notEqual(end, "");
+          done();
+        });
+      });
+
+      test('schedule property is correct', function (done) {
+        flush(function () {
+          var schedule = document.getElementById('fhirslot').shadowRoot.querySelector('.schedule').value;
+          assert.equal(schedule.reference, "Schedule/example");
+          assert.notEqual(schedule, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
