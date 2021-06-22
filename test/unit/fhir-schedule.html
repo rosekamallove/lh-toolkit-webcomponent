@@ -29,6 +29,7 @@
 
 <script type="module">
     import schedule from '../../test/testResources/schedule.js';
+    import moment from 'moment';
 
     suite('fhir-schedule create tests', function () {
       let elem = fixture('DefaultElement');
@@ -93,7 +94,7 @@
       test('planningHorizon property is defined', function (done) {
         flush(function () {
           var planningHorizon = elem.shadowRoot.querySelector('.planningHorizon').value;
-          assert.notEqual(planningHorizon.start, "");
+          assert.equal(moment(planningHorizon.start).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
           assert.notEqual(planningHorizon, undefined);
           done();
         });

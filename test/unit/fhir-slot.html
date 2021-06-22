@@ -29,6 +29,7 @@
 
 <script type="module">
     import slot from '../../test/testResources/slot.js';
+    import moment from 'moment';
 
     suite('fhir-slot create tests', function () {
       let elem = fixture('DefaultElement');
@@ -92,18 +93,20 @@
 
       test('start property is defined', function (done) {
         flush(function () {
-          var planningHorizon = elem.shadowRoot.querySelector('.start').value;
-          assert.notEqual(planningHorizon.start, "");
-          assert.notEqual(planningHorizon, undefined);
+          var start = elem.shadowRoot.querySelector('.start').value;
+          assert.equal(moment(start).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.notEqual(start, "");
+          assert.notEqual(start, undefined);
           done();
         });
       });
 
       test('end property is defined', function (done) {
         flush(function () {
-          var planningHorizon = elem.shadowRoot.querySelector('.end').value;
-          assert.notEqual(planningHorizon.start, "");
-          assert.notEqual(planningHorizon, undefined);
+          var end = elem.shadowRoot.querySelector('.end').value;
+          assert.equal(moment(end).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.notEqual(end, "");
+          assert.notEqual(end, undefined);
           done();
         });
       });

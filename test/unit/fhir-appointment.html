@@ -29,6 +29,7 @@
 
 <script type="module">
     import appointment from '../../test/testResources/appointment.js';
+    import moment from 'moment';
 
     suite('fhir-appointment create tests', function () {
       let elem = fixture('DefaultElement');
@@ -102,18 +103,20 @@
 
       test('start property is defined', function (done) {
         flush(function () {
-          var planningHorizon = elem.shadowRoot.querySelector('.start').value;
-          assert.notEqual(planningHorizon.start, "");
-          assert.notEqual(planningHorizon, undefined);
+          var start = elem.shadowRoot.querySelector('.start').value;
+          assert.equal(moment(start).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.notEqual(start, "");
+          assert.notEqual(start, undefined);
           done();
         });
       });
 
       test('end property is defined', function (done) {
         flush(function () {
-          var planningHorizon = elem.shadowRoot.querySelector('.end').value;
-          assert.notEqual(planningHorizon.start, "");
-          assert.notEqual(planningHorizon, undefined);
+          var end = elem.shadowRoot.querySelector('.end').value;
+          assert.equal(moment(end).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.notEqual(end, "");
+          assert.notEqual(end, undefined);
           done();
         });
       });
@@ -218,7 +221,7 @@
         flush(function () {
           var start = document.getElementById('fhirappointment').shadowRoot.querySelector('.start').value;
           assert.equal(start, "");
-          assert.notEqual(start, "2013-12-25T14:30:00");
+          assert.notEqual(start, undefined);
           done();
         });
       });
@@ -227,7 +230,7 @@
         flush(function () {
           var end = document.getElementById('fhirappointment').shadowRoot.querySelector('.end').value;
           assert.equal(end, "");
-          assert.notEqual(end, "2013-12-25T02:45:00");
+          assert.notEqual(end, undefined);
           done();
         });
       });

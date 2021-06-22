@@ -86,7 +86,7 @@ class FhirSchedule extends LitElement {
     this.value.serviceType[index] = e.target.value;
   }
 
-  setActorValue(index) {
+  setActorValue(e, index) {
     this.value.actor[index] = e.target.value;
   }
 
