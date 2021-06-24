@@ -166,7 +166,7 @@ class FhirAppointment extends LitElement {
   }
 
   startTemplate() {
-    let start = this.value.start ? moment(this.value.start).format('YYYY-MM-DDTHH:mm:ss') : "";
+    let start = this.value.start ? moment(this.value.start).utc().format('YYYY-MM-DDTHH:mm:ss') : "";
 
     return this.showStart !== "false" ? html`
     <mwc-formfield class="field" label="Start : " alignEnd>
@@ -176,7 +176,7 @@ class FhirAppointment extends LitElement {
   }
 
   endTemplate() {
-    let end = this.value.end ? moment(this.value.end).format('YYYY-MM-DDThh:mm:ss') : "";
+    let end = this.value.end ? moment(this.value.end).utc().format('YYYY-MM-DDThh:mm:ss') : "";
 
     return this.showEnd !== "false" ? html`
     <mwc-formfield class="field" label="End : " alignEnd>

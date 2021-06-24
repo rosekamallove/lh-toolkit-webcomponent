@@ -184,7 +184,7 @@
       test('start property is correct', function (done) {
         flush(function () {
           var start = document.getElementById('fhirslot').shadowRoot.querySelector('.start').value;
-          assert.equal(start, "2013-12-25T14:30:00");
+          assert.equal(start, "2013-12-25T09:00:00");
           assert.notEqual(start, "");
           done();
         });
@@ -193,7 +193,7 @@
       test('end property is correct', function (done) {
         flush(function () {
           var end = document.getElementById('fhirslot').shadowRoot.querySelector('.end').value;
-          assert.equal(end, "2013-12-25T02:45:00");
+          assert.equal(end, "2013-12-25T09:15:00");
           assert.notEqual(end, "");
           done();
         });
