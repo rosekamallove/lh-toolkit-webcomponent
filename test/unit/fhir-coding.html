@@ -56,7 +56,7 @@
         <fhir-coding showSystem="true" showVersion="true"
                      showCode="true" showUserSelected="true"
                      url='/schedule_url'
-                     jsonPath='serviceCategory.coding.0'></fhir-coding>
+                     jsonPath='serviceCategory.0.coding.0'></fhir-coding>
     </template>
 </test-fixture>
 
@@ -129,11 +129,11 @@
                 fhirCoding.addEventListener('iron-ajax-response', function () {
                     flush(function () {
                         assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').value,
-                            'Specialist Obstetrics & Gynaecology');
+                            'General Practice');
                         assert.equal(fhirCoding.shadowRoot.querySelector('.systemField').value,
-                            'http://hl7.org/fhir/service-category');
+                            '');
                         assert.equal(fhirCoding.shadowRoot.querySelector('.versionField').value, '');
-                        assert.equal(fhirCoding.shadowRoot.querySelector('.codeField').value, '28');
+                        assert.equal(fhirCoding.shadowRoot.querySelector('.codeField').value, '17');
                         assert.equal(fhirCoding.shadowRoot.querySelector('.userSelectedField').value, false);
                         done();
                     });
