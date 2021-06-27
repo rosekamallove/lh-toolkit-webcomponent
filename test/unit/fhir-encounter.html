@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-encounter</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-encounter/fhir-encounter.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-encounter></fhir-encounter>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-encounter id="fhirencounter" value="[[encounter]]"></fhir-encounter>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import encounter from '../../test/testResources/encounter.js';
+    import moment from 'moment';
+
+    suite('fhir-encounter create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('type property is defined', function (done) {
+        flush(function () {
+          var specialty = elem.shadowRoot.querySelector('.type').value;
+          assert.equal(specialty.coding.length, 1);
+          assert.equal(specialty.coding[0].code, "");
+          assert.notEqual(specialty, undefined);
+          done();
+        });
+      });
+
+      test('appointment property is defined', function (done) {
+        flush(function () {
+          var appointment = elem.shadowRoot.querySelector('.appointment').value;
+          assert.equal(appointment.reference, "");
+          assert.notEqual(appointment, undefined);
+          done();
+        });
+      });
+
+      test('participant property is defined', function (done) {
+        flush(function () {
+          var type = elem.shadowRoot.querySelector('.partype').value;
+          var period = elem.shadowRoot.querySelector('.parperiod').value;
+          var individual = elem.shadowRoot.querySelector('.parindividual').value;
+          assert.equal(type.coding[0].code, "");
+          assert.equal(moment(period.start).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.equal(individual.reference, "");
+          assert.notEqual(type, undefined);
+          assert.notEqual(period, undefined);
+          assert.notEqual(individual, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-encounter value tests', function () {
+      document.querySelector('dom-bind').set('encounter', encounter);
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirencounter').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirencounter').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "finished");
+          assert.notEqual(status, "");
+          done();
+        });
+      });
+
+      test('type property is correct', function (done) {
+        flush(function () {
+          var type = document.getElementById('fhirencounter').shadowRoot.querySelector('.type').value;
+          assert.equal(type.coding.length, 1);
+          assert.equal(type.coding[0].code, "11429006");
+          assert.notEqual(type, undefined);
+          done();
+        });
+      });
+
+      test('appointment property is correct', function (done) {
+        flush(function () {
+          var appointment = document.getElementById('fhirencounter').shadowRoot.querySelector('.appointment').value;
+          assert.equal(appointment.reference, "");
+          assert.notEqual(appointment, undefined);
+          done();
+        });
+      });
+
+      test('participant property is correct', function (done) {
+        flush(function () {
+          var type = document.getElementById('fhirencounter').shadowRoot.querySelector('.partype').value;
+          var period = document.getElementById('fhirencounter').shadowRoot.querySelector('.parperiod').value;
+          var individual = document.getElementById('fhirencounter').shadowRoot.querySelector('.parindividual').value;
+          assert.equal(type.coding[0].code, "");
+          assert.equal(period.start, "");
+          assert.equal(individual.reference, "Practitioner/f201");
+          assert.notEqual(type, undefined);
+          assert.notEqual(period, undefined);
+          assert.notEqual(individual, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
