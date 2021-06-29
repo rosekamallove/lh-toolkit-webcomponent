@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medicationstatement</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-medicationstatement/fhir-medicationstatement.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-medicationstatement></fhir-medicationstatement>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-medicationstatement id="fhirmedicationstatement" value="[[medicationstatement]]"></fhir-medicationstatement>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import medicationstatement from '../../test/testResources/medicationstatement.js';
+    import moment from 'moment';
+
+    suite('fhir-medicationstatement create tests', function () {
+      let elem = fixture('DefaultElement');
+
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('medicationCodeableConcept property is defined', function (done) {
+        flush(function () {
+          var medicationCodeableConcept = elem.shadowRoot.querySelector('.medicationCodeableConcept').value;
+          assert.equal(medicationCodeableConcept.coding.length, 1);
+          assert.equal(medicationCodeableConcept.coding[0].code, "");
+          assert.notEqual(medicationCodeableConcept, undefined);
+          done();
+        });
+      });
+
+      test('category property is defined', function (done) {
+        flush(function () {
+          var category = elem.shadowRoot.querySelector('.category').value;
+          assert.equal(category.coding.length, 1);
+          assert.equal(category.coding[0].code, "");
+          assert.notEqual(category, undefined);
+          done();
+        });
+      });
+
+      test('dateAsserted property is defined', function (done) {
+        flush(function () {
+          var dateAsserted = elem.shadowRoot.querySelector('.dateAsserted').value;
+          assert.equal( dateAsserted, "2021-06-28");
+          assert.notEqual(dateAsserted, "");
+          assert.notEqual(dateAsserted, undefined);
+          done();
+        });
+      });
+
+      test('subject property is defined', function (done) {
+        flush(function () {
+          var subject = elem.shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-medicationstatement value tests', function () {
+      document.querySelector('dom-bind').set('medicationstatement', medicationstatement);
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "active");
+          assert.notEqual(status, "");
+          done();
+        });
+      });
+
+      test('medicationCodeableConcept property is correct', function (done) {
+        flush(function () {
+          var medicationCodeableConcept = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.medicationCodeableConcept').value;
+          assert.equal(medicationCodeableConcept.coding.length, 1);
+          assert.equal(medicationCodeableConcept.coding[0].code, "");
+          assert.notEqual(medicationCodeableConcept, undefined);
+          done();
+        });
+      });
+
+      test('category property is correct', function (done) {
+        flush(function () {
+          var category = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.category').value;
+          assert.equal(category.coding.length, 1);
+          assert.equal(category.coding[0].code, "inpatient");
+          assert.notEqual(category, undefined);
+          done();
+        });
+      });
+
+      test('dateAsserted property is correct', function (done) {
+        flush(function () {
+          var dateAsserted = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.dateAsserted').value;
+          assert.equal(dateAsserted, "2015-02-21");
+          assert.notEqual(dateAsserted, undefined);
+          done();
+        });
+      });
+
+      test('subject property is correct', function (done) {
+        flush(function () {
+          var subject = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "Patient/pat1");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
