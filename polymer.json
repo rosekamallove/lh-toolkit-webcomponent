@@ -79,7 +79,8 @@
     "demos/fhir-observation-valuestring.html",
     "demos/fhir-range.html",
     "demos/fhir-ratio.html",
-    "demos/fhir-encounter.html"
+    "demos/fhir-encounter.html",
+    "demos/fhir-allergyintolerance.html"
   ],
   "builds": [
     {
