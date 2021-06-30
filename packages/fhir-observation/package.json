@@ -1,0 +1,23 @@
+{
+  "name": "@lh-toolkit/fhir-observation",
+  "version": "0.0.1",
+  "description": "custom element for fhir observation",
+  "license": "MPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/geforce6t/lh-toolkit-webcomponents.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "lit-element": "^2.3.1",
+    "@material/mwc-formfield": "^0.15.0",
+    "@material/mwc-textfield": "^0.15.0",
+    "@material/mwc-textarea": "0.15.0",
+    "moment": "2.18.1"
+  }
+}

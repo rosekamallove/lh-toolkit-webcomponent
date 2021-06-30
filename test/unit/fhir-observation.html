@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-observation</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-observation/fhir-observation.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-observation></fhir-observation>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-observation id="fhirobservation" value="[[observation]]"></fhir-observation>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import observation from '../../test/testResources/observation3.js';
+    import moment from 'moment';
+
+    suite('fhir-observation create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('dataAbsentReason property is defined', function (done) {
+        flush(function () {
+          var dataAbsentReason = elem.shadowRoot.querySelector('.dataAbsentReason').value;
+          assert.equal(dataAbsentReason.coding.length, 1);
+          assert.equal(dataAbsentReason.coding[0].code, "");
+          assert.notEqual(dataAbsentReason, undefined);
+          done();
+        });
+      });
+
+      test('bodySite property is defined', function (done) {
+        flush(function () {
+          var bodySite = elem.shadowRoot.querySelector('.bodySite').value;
+          assert.equal(bodySite.coding.length, 1);
+          assert.equal(bodySite.coding[0].code, "");
+          assert.notEqual(bodySite, undefined);
+          done();
+        });
+      });
+
+      test('code property is defined', function (done) {
+        flush(function () {
+          var code = elem.shadowRoot.querySelector('.code').value;
+          assert.equal(code.coding.length, 1);
+          assert.equal(code.coding[0].code, "");
+          assert.notEqual(code, undefined);
+          done();
+        });
+      });
+
+      test('effectiveDateTime property is defined', function (done) {
+        flush(function () {
+          var effectiveDateTime = elem.shadowRoot.querySelector('.effectiveDateTime').value;
+          assert.equal(moment(effectiveDateTime).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.notEqual(effectiveDateTime, "");
+          assert.notEqual(effectiveDateTime, undefined);
+          done();
+        });
+      });
+
+      test('subject property is defined', function (done) {
+        flush(function () {
+          var subject = elem.shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is defined', function (done) {
+        flush(function () {
+          var encounter = elem.shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+
+      test('valueQuantity property is defined', function (done) {
+        flush(function () {
+          var valueQuantity = elem.shadowRoot.querySelector('.valueQuantity').value;
+          assert.equal(valueQuantity.code, "");
+          assert.equal(valueQuantity.value, "");
+          assert.notEqual(valueQuantity, undefined);
+          done();
+        });
+      });
+
+      test('component property is defined', function (done) {
+        flush(function () {
+          var code = elem.shadowRoot.querySelector('.comcode').value;
+          var valueQuantity = elem.shadowRoot.querySelector('.comvalueQuantity').value;
+          assert.equal(code.coding[0].code, "");
+          assert.equal(valueQuantity.value, "");
+          assert.notEqual(code, undefined);
+          assert.notEqual(valueQuantity, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-observation value tests', function () {
+      document.querySelector('dom-bind').set('observation', observation);
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirobservation').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirobservation').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "final");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('dataAbsentReason property is defined', function (done) {
+        flush(function () {
+          var dataAbsentReason = document.getElementById('fhirobservation').shadowRoot.querySelector('.dataAbsentReason').value;
+          assert.equal(dataAbsentReason.coding.length, 1);
+          assert.equal(dataAbsentReason.coding[0].code, "");
+          assert.notEqual(dataAbsentReason, undefined);
+          done();
+        });
+      });
+
+      test('bodySite property is defined', function (done) {
+        flush(function () {
+          var bodySite = document.getElementById('fhirobservation').shadowRoot.querySelector('.bodySite').value;
+          assert.equal(bodySite.coding.length, 1);
+          assert.equal(bodySite.coding[0].code, "");
+          assert.notEqual(bodySite, undefined);
+          done();
+        });
+      });
+
+      test('code property is defined', function (done) {
+        flush(function () {
+          var code = document.getElementById('fhirobservation').shadowRoot.querySelector('.code').value;
+          assert.equal(code.coding.length, 1);
+          assert.equal(code.coding[0].code, "85353-1");
+          assert.notEqual(code, undefined);
+          done();
+        });
+      });
+
+      test('effectiveDateTime property is defined', function (done) {
+        flush(function () {
+          var effectiveDateTime = document.getElementById('fhirobservation').shadowRoot.querySelector('.effectiveDateTime').value;
+          assert.equal(moment(effectiveDateTime).utc().format('YYYY-MM-DD'), '2020-08-07');
+          assert.notEqual(effectiveDateTime, "");
+          assert.notEqual(effectiveDateTime, undefined);
+          done();
+        });
+      });
+
+      test('subject property is defined', function (done) {
+        flush(function () {
+          var subject = document.getElementById('fhirobservation').shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "Patient/1093760");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is defined', function (done) {
+        flush(function () {
+          var encounter = document.getElementById('fhirobservation').shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+
+      test('valueQuantity property is defined', function (done) {
+        flush(function () {
+          var valueQuantity = document.getElementById('fhirobservation').shadowRoot.querySelector('.valueQuantity').value;
+          assert.equal(valueQuantity.code, "");
+          assert.equal(valueQuantity.value, "");
+          assert.notEqual(valueQuantity, undefined);
+          done();
+        });
+      });
+
+      test('component property is defined', function (done) {
+        flush(function () {
+          var code = document.getElementById('fhirobservation').shadowRoot.querySelector('.comcode').value;
+          var valueQuantity = document.getElementById('fhirobservation').shadowRoot.querySelector('.comvalueQuantity').value;
+          assert.equal(code.coding[0].code, "8302-2");
+          assert.equal(valueQuantity.value, "167");
+          assert.notEqual(code, undefined);
+          assert.notEqual(valueQuantity, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
