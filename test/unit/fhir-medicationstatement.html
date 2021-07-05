@@ -76,7 +76,7 @@
       test('dateAsserted property is defined', function (done) {
         flush(function () {
           var dateAsserted = elem.shadowRoot.querySelector('.dateAsserted').value;
-          assert.equal( dateAsserted, "2021-06-28");
+          assert.equal(moment(dateAsserted).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
           assert.notEqual(dateAsserted, "");
           assert.notEqual(dateAsserted, undefined);
           done();
@@ -137,7 +137,7 @@
       test('dateAsserted property is correct', function (done) {
         flush(function () {
           var dateAsserted = document.getElementById('fhirmedicationstatement').shadowRoot.querySelector('.dateAsserted').value;
-          assert.equal(dateAsserted, "2015-02-21");
+          assert.equal(dateAsserted, "2015-02-22");
           assert.notEqual(dateAsserted, undefined);
           done();
         });

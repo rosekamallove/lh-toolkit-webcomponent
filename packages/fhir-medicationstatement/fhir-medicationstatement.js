@@ -38,7 +38,7 @@ class FhirMedicationStatement extends LitElement {
       category: {coding: [{ system: "", code: "", display: ""}],text: ""},
       medicationCodeableConcept: {coding: [{ system: "", code: "", display: ""}],text: ""}, 
       subject: {reference: "", display: "", type: ""},
-      dateAsserted: moment().format('YYYY-MM-DD'),
+      dateAsserted: moment().utc().format('YYYY-MM-DD'),
     };
     this.showCategory = "true";
     this.showSubject = "true";
@@ -101,7 +101,7 @@ class FhirMedicationStatement extends LitElement {
   }
 
   dateAssertedTemplate() {
-    let dateAsserted = this.value.dateAsserted ? moment(this.value.dateAsserted).utc().format('YYYY-MM-DD') : "";
+    let dateAsserted = this.value.dateAsserted ? moment(this.value.dateAsserted).format('YYYY-MM-DD') : "";
 
     return this.showDateAsserted !== "false" ? html`
     <mwc-formfield class="field" label="DateAsserted : " alignEnd>
