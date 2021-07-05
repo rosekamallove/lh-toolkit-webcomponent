@@ -84,7 +84,7 @@
       test('lastOccurrence property is defined', function (done) {
         flush(function () {
           var lastOccurrence = elem.shadowRoot.querySelector('.lastOccurrence').value;
-          assert.equal(moment(lastOccurrence).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+          assert.equal(moment(lastOccurrence).utc().format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
           assert.notEqual(lastOccurrence, "");
           assert.notEqual(lastOccurrence, undefined);
           done();
@@ -145,7 +145,7 @@
       test('lastOccurrence property is correct', function (done) {
         flush(function () {
           var lastOccurrence = document.getElementById('fhirallergy').shadowRoot.querySelector('.lastOccurrence').value;
-          assert.equal(moment(lastOccurrence).format('YYYY-MM-DD'), "2012-05-31");
+          assert.equal(moment(lastOccurrence).format('YYYY-MM-DD'), "2012-06-01");
           assert.notEqual(lastOccurrence, "");
           assert.notEqual(lastOccurrence, undefined);
           done();

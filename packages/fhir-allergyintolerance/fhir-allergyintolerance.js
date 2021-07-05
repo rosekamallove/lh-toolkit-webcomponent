@@ -37,7 +37,7 @@ class FhirAllergyIntolerance extends LitElement {
       criticality: '',
       clinicalStatus: {coding: [{ system: "", code: "", display: ""}],text: ""},
       verificationStatus: {coding: [{ system: "", code: "", display: ""}],text: ""}, 
-      lastOccurrence: moment().format('YYYY-MM-DDThh:mm:ss[Z]'),
+      lastOccurrence: moment().utc().format('YYYY-MM-DDThh:mm:ss[Z]'),
     };
     this.showCriticality = "true";
     this.showType = "true";
@@ -101,7 +101,7 @@ class FhirAllergyIntolerance extends LitElement {
   }
 
   lastOccurrenceTemplate() {
-    let lastOccurrence = this.value.lastOccurrence ? moment(this.value.lastOccurrence).utc().format('YYYY-MM-DDTHH:mm:ss') : "";
+    let lastOccurrence = this.value.lastOccurrence ? moment(this.value.lastOccurrence).format('YYYY-MM-DDTHH:mm:ss') : "";
 
     return this.showLastOccurrence !== "false" ? html`
     <mwc-formfield class="field" label="LastOccurrence : " alignEnd>
