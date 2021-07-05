@@ -74,7 +74,7 @@
       test('occurrenceDateTime property is defined', function (done) {
         flush(function () {
           var occurrenceDateTime = elem.shadowRoot.querySelector('.occurrenceDateTime').value;
-          assert.equal(moment(occurrenceDateTime).utc().format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.equal(moment(occurrenceDateTime).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
           assert.notEqual(occurrenceDateTime, "");
           assert.notEqual(occurrenceDateTime, undefined);
           done();
@@ -152,7 +152,7 @@
       test('occurrenceDateTime property is correct', function (done) {
         flush(function () {
           var occurrenceDateTime = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.occurrenceDateTime').value;
-          assert.equal(moment(occurrenceDateTime).utc().format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.equal(moment(occurrenceDateTime).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
           assert.notEqual(occurrenceDateTime, "");
           assert.notEqual(occurrenceDateTime, undefined);
           done();

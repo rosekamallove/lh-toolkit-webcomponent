@@ -43,7 +43,7 @@ class FhirServiceRequest extends LitElement {
       performer: [{reference: "", display: "", type: ""}],
       subject: {reference: "", display: "", type: ""},
       encounter: {reference: "", display: "", type: ""},
-      occurrenceDateTime: moment().format('YYYY-MM-DDThh:mm:ss'),
+      occurrenceDateTime: moment().utc().format('YYYY-MM-DDThh:mm:ss'),
     };
     this.showOccurrenceDateTime = "true";
     this.showEncounter = "true";
@@ -109,7 +109,7 @@ class FhirServiceRequest extends LitElement {
   }
 
   occurrenceDateTimeTemplate() {
-    let occurrenceDateTime = this.value.occurrenceDateTime ? moment(this.value.start).utc().format('YYYY-MM-DDTHH:mm:ss') : "";
+    let occurrenceDateTime = this.value.occurrenceDateTime ? moment(this.value.start).format('YYYY-MM-DDTHH:mm:ss') : "";
 
     return this.showOccurrenceDateTime !== "false" ? html`
     <mwc-formfield class="field" label="OccurrenceDateTime : " alignEnd>
