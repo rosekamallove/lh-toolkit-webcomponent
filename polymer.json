@@ -75,7 +75,9 @@
     "demos/fhir-medicationstatement.html",
     "demos/fhir-quantity.html",
     "demos/fhir-vitals.html",
-    "demos/fhir-servicerequest.html"
+    "demos/fhir-servicerequest.html",
+    "demos/fhir-medicationrequest.html",
+    "demo/fhir-dosage.html"
   ],
   "builds": [
     {

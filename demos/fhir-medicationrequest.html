@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title><fhir-medicationrequest > demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-medicationrequest/fhir-medicationrequest.js"></script>
+</head>
+<body>
+  <p>
+    <h1>Default Element</h1>
+    <fhir-medicationrequest ></fhir-medicationrequest >
+  </p>
+
+  <p>
+    <h1>Element with value</h1>
+    <fhir-medicationrequest value='{
+      "resourceType": "MedicationRequest",
+      "id": "medrx002",
+      "identifier": [
+        {
+          "use": "official",
+          "system": "http://www.bmc.nl/portal/prescriptions",
+          "value": "12345"
+        }
+      ],
+      "status": "active",
+      "intent": "order",
+      "medicationReference": {
+        "reference": "Medication/med0316",
+        "display": "prescribed medication"
+      },
+      "subject": {
+        "reference": "Patient/pat1",
+        "display": "Donald Duck"
+      },
+      "encounter": {
+        "reference": "Encounter/f001",
+        "display": "encounter that leads to this prescription"
+      },
+      "authoredOn": "2015-03-01",
+      "requester": {
+        "reference": "Practitioner/f007",
+        "display": "Patrick Pump"
+      },
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "59621000",
+              "display": "Essential hypertension (disorder)"
+            }
+          ]
+        }
+      ],
+      "dosageInstruction": [
+        {
+          "sequence": 1,
+          "text": "Take one tablet daily as directed"
+        }
+      ]
+    }' ></fhir-medicationrequest>
+  </p>
+
+</body>
+</html>
