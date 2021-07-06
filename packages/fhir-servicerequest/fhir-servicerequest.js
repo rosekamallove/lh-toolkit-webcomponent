@@ -62,7 +62,7 @@ class FhirServiceRequest extends LitElement {
   }
 
   setSubjectValue(e) {
-    this.value.appointmentType = e.target.value;
+    this.value.subject = e.target.value;
   }
 
   setEncounterValue(e) {
