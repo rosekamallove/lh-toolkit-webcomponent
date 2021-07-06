@@ -57,7 +57,7 @@ class FhirObservation extends LitElement {
       code: {coding: [{ system: "", code: "", display: ""}],text: ""},
       subject: {reference: "", display: "", type: ""},
       encounter: {reference: "", display: "", type: ""},
-      effectiveDateTime: moment().format('YYYY-MM-DDThh:mm:ss'),
+      effectiveDateTime: moment().utc().format('YYYY-MM-DDThh:mm:ss'),
       valueQuantity: {value: "", unit: "", code: ""},
       component: Array(6).fill({code : {coding: [{ system: "", code: "", display: ""}],text: ""}, valueQuantity: {value: "", unit: "", code: ""}})
     };
@@ -126,7 +126,7 @@ class FhirObservation extends LitElement {
   }
 
   effectiveDateTimeTemplate() {
-    let effectiveDateTime = this.value.effectiveDateTime ? moment(this.value.effectiveDateTime).utc().format('YYYY-MM-DDTHH:mm:ss') : "";
+    let effectiveDateTime = this.value.effectiveDateTime ? moment(this.value.effectiveDateTime).format('YYYY-MM-DDTHH:mm:ss') : "";
 
     return this.showEffectiveDateTime !== "false" ? html`
     <mwc-formfield class="field" label="EffectiveDateTime : " alignEnd>

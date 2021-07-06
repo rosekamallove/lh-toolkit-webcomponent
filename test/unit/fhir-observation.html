@@ -187,7 +187,7 @@
       test('effectiveDateTime property is defined', function (done) {
         flush(function () {
           var effectiveDateTime = document.getElementById('fhirobservation').shadowRoot.querySelector('.effectiveDateTime').value;
-          assert.equal(moment(effectiveDateTime).utc().format('YYYY-MM-DD'), '2020-08-07');
+          assert.equal(moment(effectiveDateTime).format('YYYY-MM-DD'), '2020-08-08');
           assert.notEqual(effectiveDateTime, "");
           assert.notEqual(effectiveDateTime, undefined);
           done();
