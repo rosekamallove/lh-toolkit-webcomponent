@@ -78,7 +78,8 @@
     "demos/fhir-observation-valuedatetime.html",
     "demos/fhir-observation-valuestring.html",
     "demos/fhir-range.html",
-    "demos/fhir-ratio.html"
+    "demos/fhir-ratio.html",
+    "demos/fhir-encounter.html"
   ],
   "builds": [
     {
