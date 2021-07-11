@@ -1,40 +1,115 @@
 export default {
-    "resourceType": "AllergyIntolerance",
-    "id": "1726380",
-    "meta": {
-        "versionId": "1",
-        "lastUpdated": "2018-03-26T07:48:40.027+00:00",
-        "profile": [
-            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-allergy-AllergyIntolerance"
-        ]
-    },
-    "modifierExtension": [
-        {
-            "url": "http://standardhealthrecord.org/fhir/StructureDefinition/shr-base-NonOccurrenceModifier-extension"
-        }
-    ],
-    "clinicalStatus": "active",
-    "verificationStatus": "confirmed",
-    "type": "allergy",
-    "severity": "moderate",
-    "note" : [{"text": "The patient reports that the onset of urticaria was within 15 minutes of eating cashews."}],
-    "category": [
-        "food"
-    ],
-    "criticality": "low",
-    "code": {
+  "resourceType": "AllergyIntolerance",
+  "id": "example",
+  "identifier": [
+    {
+      "system": "http://acme.com/ids/patients/risks",
+      "value": "49476534"
+    }
+  ],
+  "clinicalStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+        "code": "active",
+        "display": "Active"
+      }
+    ]
+  },
+  "verificationStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+        "code": "confirmed",
+        "display": "Confirmed"
+      }
+    ]
+  },
+  "type": "allergy",
+  "category": [
+    "food"
+  ],
+  "criticality": "high",
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "227493005",
+        "display": "Cashew nuts"
+      }
+    ]
+  },
+  "patient": {
+    "reference": "Patient/example"
+  },
+  "onsetDateTime": "2004",
+  "recordedDate": "2014-10-09T14:58:00+11:00",
+  "recorder": {
+    "reference": "Practitioner/example"
+  },
+  "asserter": {
+    "reference": "Patient/example"
+  },
+  "lastOccurrence": "2012-06",
+  "note": [
+    {
+      "text": "The criticality is high becasue of the observed anaphylactic reaction when challenged with cashew extract."
+    }
+  ],
+  "reaction": [
+    {
+      "substance": {
         "coding": [
-            {
-                "system": "http://snomed.info/sct",
-                "code": "91934008",
-                "display": "Allergy to nut"
-            }
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "1160593",
+            "display": "cashew nut allergenic extract Injectable Product"
+          }
         ]
+      },
+      "manifestation": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "39579001",
+              "display": "Anaphylactic reaction"
+            }
+          ]
+        }
+      ],
+      "description": "Challenge Protocol. Severe reaction to subcutaneous cashew extract. Epinephrine administered",
+      "onset": "2012-06-12",
+      "severity": "severe",
+      "exposureRoute": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "34206005",
+            "display": "Subcutaneous route"
+          }
+        ]
+      }
     },
-    "patient": {
-        "reference": "Patient/1726131"
-    },
-    "onsetDateTime": "2002-07-30T15:00:34",
-    "assertedDate": "2002-07-30T15:00:34",
-    "lastOccurance" : "2002-07-30T15:00:34"
+    {
+      "manifestation": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "64305001",
+              "display": "Urticaria"
+            }
+          ]
+        }
+      ],
+      "onset": "2004",
+      "severity": "moderate",
+      "note": [
+        {
+          "text": "The patient reports that the onset of urticaria was within 15 minutes of eating cashews."
+        }
+      ]
+    }
+  ]
 }

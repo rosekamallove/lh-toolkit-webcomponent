@@ -31,15 +31,6 @@
     "demos/fhir-period.html",
     "demos/fhir-person-identifier.html",
     "demos/fhir-create-patient.html",
-    "demos/fhir-allergy-clinicalstatus.html",
-    "demos/fhir-allergy-verificationstatus.html",
-    "demos/fhir-allergy-type.html",
-    "demos/fhir-allergy-category.html",
-    "demos/fhir-allergy-criticality.html",
-    "demos/fhir-allergy-onset.html",
-    "demos/fhir-allergy-assertdate.html",
-    "demos/fhir-allergy-lastoccurance.html",
-    "demos/fhir-allergy-note.html",
     "demos/fhir-search.html",
     "demos/fhir-patient-get.html",
     "demos/fhir-practitioner-get.html",
@@ -79,7 +70,8 @@
     "demos/fhir-observation-valuestring.html",
     "demos/fhir-range.html",
     "demos/fhir-ratio.html",
-    "demos/fhir-encounter.html"
+    "demos/fhir-encounter.html",
+    "demos/fhir-allergyintolerance.html"
   ],
   "builds": [
     {

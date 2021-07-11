@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-allergyintolerance</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-allergyintolerance/fhir-allergyintolerance.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-allergyintolerance></fhir-allergyintolerance>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-allergyintolerance id="fhirallergy" value="[[allergy]]"></fhir-allergyintolerance>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import allergy from '../../test/testResources/allergy.js';
+    import moment from 'moment';
+
+    suite('fhir-allergyintolerance create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('type property is defined', function (done) {
+        flush(function () {
+          var type = elem.shadowRoot.querySelector('.type').value;
+          assert.equal(type, "");
+          assert.notEqual(type, undefined);
+          done();
+        });
+      });
+
+      test('criticality property is defined', function (done) {
+        flush(function () {
+          var criticality = elem.shadowRoot.querySelector('.criticality').value;
+          assert.equal(criticality, "");
+          assert.notEqual(criticality, undefined);
+          done();
+        });
+      });
+
+      test('clinicalStatus property is defined', function (done) {
+        flush(function () {
+          var clinicalStatus = elem.shadowRoot.querySelector('.clinicalStatus').value;
+          assert.equal(clinicalStatus.coding.length, 1);
+          assert.equal(clinicalStatus.coding[0].code, "");
+          assert.notEqual(clinicalStatus, undefined);
+          done();
+        });
+      });
+
+      test('verificationStatus property is defined', function (done) {
+        flush(function () {
+          var verificationStatus = elem.shadowRoot.querySelector('.verificationStatus').value;
+          assert.equal(verificationStatus.coding.length, 1);
+          assert.equal(verificationStatus.coding[0].code, "");
+          assert.notEqual(verificationStatus, undefined);
+          done();
+        });
+      });
+
+      test('lastOccurrence property is defined', function (done) {
+        flush(function () {
+          var lastOccurrence = elem.shadowRoot.querySelector('.lastOccurrence').value;
+          assert.equal(moment(lastOccurrence).utc().format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.notEqual(lastOccurrence, "");
+          assert.notEqual(lastOccurrence, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-allergyintolerance value tests', function () {
+      document.querySelector('dom-bind').set('allergy', allergy);
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirallergy').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('type property is correct', function (done) {
+        flush(function () {
+          var type = document.getElementById('fhirallergy').shadowRoot.querySelector('.type').value;
+          assert.equal(type, "allergy");
+          assert.notEqual(type, undefined);
+          done();
+        });
+      });
+
+      test('criticality property is correct', function (done) {
+        flush(function () {
+          var criticality = document.getElementById('fhirallergy').shadowRoot.querySelector('.criticality').value;
+          assert.equal(criticality, "high");
+          assert.notEqual(criticality, undefined);
+          done();
+        });
+      });
+
+      test('clinicalStatus property is correct', function (done) {
+        flush(function () {
+          var clinicalStatus = document.getElementById('fhirallergy').shadowRoot.querySelector('.clinicalStatus').value;
+          assert.equal(clinicalStatus.coding.length, 1);
+          assert.equal(clinicalStatus.coding[0].code, "active");
+          assert.notEqual(clinicalStatus, undefined);
+          done();
+        });
+      });
+
+      test('verificationStatus property is correct', function (done) {
+        flush(function () {
+          var verificationStatus = document.getElementById('fhirallergy').shadowRoot.querySelector('.verificationStatus').value;
+          assert.equal(verificationStatus.coding.length, 1);
+          assert.equal(verificationStatus.coding[0].code, "confirmed");
+          assert.notEqual(verificationStatus, undefined);
+          done();
+        });
+      });
+
+      test('lastOccurrence property is correct', function (done) {
+        flush(function () {
+          var lastOccurrence = document.getElementById('fhirallergy').shadowRoot.querySelector('.lastOccurrence').value;
+          assert.equal(moment(lastOccurrence).format('YYYY-MM-DD'), "2012-06-01");
+          assert.notEqual(lastOccurrence, "");
+          assert.notEqual(lastOccurrence, undefined);
+          done();
+        });
+      });
+
+    });
+
+</script>
+</body>
+</html>
