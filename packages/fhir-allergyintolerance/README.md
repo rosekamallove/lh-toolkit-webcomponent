@@ -15,6 +15,8 @@ This element is used to represent allergyintolerance resource value. This compon
       identifier: [{}],
       type: '', 
       criticality: '',
+      encounter: {reference: "", display: "", type: ""},
+      patient: {reference: "", display: "", type: ""},
       clinicalStatus: {coding: [{ system: "", code: "", display: ""}],text: ""},
       verificationStatus: {coding: [{ system: "", code: "", display: ""}],text: ""}, 
       lastOccurrence: moment().format('YYYY-MM-DDThh:mm:ss[Z]'),
@@ -27,6 +29,8 @@ This element is used to represent allergyintolerance resource value. This compon
 - `showClinicalStatus`:`String` - Used to decide if the ClinicalStatus value will be visible, This will be used as an attribute. default value: `'true'`
 - `showLastOccurrence`:`String` - Used to decide if the LastOccurrence value will be visible, This will be used as an attribute. default value: `'true'`
 - `showIdentifier`:`String` - Used to decide if the identifier value will be visible, This will be used as an attribute. default value: `'true'`
+- `showPatient`:`String` - Used to decide if the patient value will be visible, This will be used as an attribute. default value: `'true'`
+- `showEncounter`:`String` - Used to decide if the encounter value will be visible, This will be used as an attribute. default value: `'true'`
 
 ---
 
