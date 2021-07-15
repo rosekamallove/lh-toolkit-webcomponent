@@ -9,7 +9,7 @@ import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
 import '@lh-toolkit/fhir-reference/fhir-reference.js';
 import '@lh-toolkit/fhir-quantity/fhir-quantity.js';
 
-class FhirObservation extends LitElement {
+class FhirVitals extends LitElement {
 
   static get styles() {
     return css`
@@ -208,4 +208,4 @@ class FhirObservation extends LitElement {
   }
 }
 
-customElements.define('fhir-observation', FhirObservation);
+customElements.define('fhir-vitals', FhirVitals);

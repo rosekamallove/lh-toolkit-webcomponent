@@ -1,21 +1,21 @@
 <!doctype html>
 <html>
 <head>
-    <title><fhir-observation> demo</title>
+    <title><fhir-vitals> demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script type="module" src="../node_modules/@lh-toolkit/fhir-observation/fhir-observation.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-vitals/fhir-vitals.js"></script>
 </head>
 <body>
 
 <p>
   <h1>default element</h1>
-  <fhir-observation></fhir-observation>
+  <fhir-vitals></fhir-vitals>
 </p>
 
 <p>
   <h1>Element with value</h1>
-  <fhir-observation value='{
+  <fhir-vitals value='{
     "resourceType":"Observation",
     "id":"1730440",
     "meta":{
@@ -89,7 +89,7 @@
           ]
        }
     ]
- }'></fhir-observation>
+ }'></fhir-vitals>
 </p>
 
 </body>

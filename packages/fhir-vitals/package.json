@@ -1,7 +1,7 @@
 {
-  "name": "@lh-toolkit/fhir-observation",
+  "name": "@lh-toolkit/fhir-vitals",
   "version": "0.0.1",
-  "description": "custom element for fhir observation",
+  "description": "custom element for fhir vital signs",
   "license": "MPL-2.0",
   "publishConfig": {
     "access": "public"

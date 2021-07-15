@@ -59,7 +59,6 @@
     "demos/fhir-medication-form.html",
     "demos/fhir-medication-ingredient.html",
     "demos/fhir-medication-status.html",
-    "demos/fhir-observation.html",
     "demos/fhir-observation-absent.html",
     "demos/fhir-observation-bodysite.html",
     "demos/fhir-observation-code.html",
@@ -74,7 +73,8 @@
     "demos/fhir-encounter.html",
     "demos/fhir-allergyintolerance.html",
     "demos/fhir-medicationstatement.html",
-    "demos/fhir-quantity.html"
+    "demos/fhir-quantity.html",
+    "demos/fhir-vitals.html"
   ],
   "builds": [
     {
