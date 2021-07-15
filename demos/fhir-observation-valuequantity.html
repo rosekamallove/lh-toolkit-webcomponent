@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        <fhir-allergy-category>demo
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-observation-valuequantity/fhir-observation-valuequantity.js"></script>
+</head>
+<body>
+<p>
+<h1>Default element without passing url</h1>
+<fhir-observation-valuequantity></fhir-observation-valuequantity>
+</p>
+<p>
+<h1>Default element without passing url but with JSON</h1>
+<fhir-observation-valuequantity value = '{
+    "value": 6.3,
+    "unit": "mmol/l",
+    "system": "http://unitsofmeasure.org",
+    "code": "mmol/L"
+  }'></fhir-observation-valuequantity>
+</p>
+<p>
+<p>
+<h1>Default element when url is passed</h1>
+<fhir-observation-valuequantity url="http://hapi.fhir.org/baseR4/Observation/1195421"></fhir-observation-valuequantityy>
+</p>
+</body>
+</html>

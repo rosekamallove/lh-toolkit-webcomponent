@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-observation-status test</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+
+    <script type="module" src="../../packages/fhir-observation-valuequantity/fhir-observation-valuequantity.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="DefaultElement">
+      <template>
+        <fhir-observation-valuequantity url="/load_patient_data"></fhir-observation-valuequantity>
+      </template>
+    </test-fixture>
+<dom-bind>
+  <test-fixture id="SetValue">
+    <template>
+      <fhir-observation-valuequantity id="fhirobsvalue" value = "[[values]]"></fhir-observation-valuequantity>
+    </template>
+  </test-fixture>
+</dom-bind>
+    
+
+    <script type="module">
+
+    import observation from '../../test/testResources/observation.js';
+
+    suite('<iron-ajax>', function () {
+            var ajax;
+            var request;
+            var server;
+            var quantity;
+            var responseHeaders = {
+                json: {'Content-Type': 'application/json'}
+            };
+            setup(function () {
+                server = sinon.fakeServer.create();
+                server.respondImmediately = true;
+                server.respondWith('GET', /\/load_patient_data.*/,
+                    [200,
+                        {'Content-Type': 'application/json'},
+                        JSON.stringify(observation)                    ]
+                );
+            });
+            teardown(function () {
+                server.restore();
+            });
+
+      suite('fhir-observation-valuequantity tests', function()  {
+        test("Value should be loaded in the appropriate field", function(done){
+          let quantity = fixture('DefaultElement');
+          quantity.addEventListener('iron-ajax-response', function (){
+            flush(function(){
+              let result = quantity.shadowRoot.getElementById("result").value;
+              console.log(result)
+              assert.equal(result,82.5);
+              assert.notEqual(result, 80);
+              done();
+            })
+          })
+
+        });
+
+        test("Value should be loaded in the appropriate field", function(done){
+          let quantity = fixture('DefaultElement');
+          quantity.addEventListener('iron-ajax-response', function (){
+            flush(function(){
+              let result = quantity.shadowRoot.getElementById("resultUnit").value;
+              assert.equal(result,'kg');
+              assert.notEqual(result, "ml");
+              done();
+            })
+          })
+
+        });
+
+        test("To check if the value sets correctly to its field", function(done){
+          document.querySelector("dom-bind").set("values",JSON.stringify(observation.valueQuantity));
+          flush(function(){
+            let valueset = document.getElementById("fhirobsvalue").shadowRoot.getElementById("result").value;
+            assert.equal(valueset,82.5)
+            assert.notEqual(valueset, 50)
+            done();
+          });
+        });
+
+        test("To check if the unit sets correctly to its field", function(done){
+          document.querySelector("dom-bind").set("values",JSON.stringify(observation.valueQuantity));
+          flush(function(){
+            let unit = document.getElementById("fhirobsvalue").shadowRoot.getElementById("resultUnit").value;
+            assert.equal(unit,"kg")
+            assert.notEqual(unit, "ml")
+            done();
+          });
+        });
+
+        // test("To check if the system sets correctly to its field", function(done){
+        //   document.querySelector("dom-bind").set("values",JSON.stringify(observation.valueQuantity));
+        //   flush(function(){
+        //     let system = document.getElementById("fhirobsvalue").shadowRoot.getElementById("resultSystem").value;
+        //     assert.equal(system,"http://unitsofmeasure.org")
+        //     assert.notEqual(system, "loinc")
+        //     done();
+        //   });
+        // });
+
+        //  test("To check if the code sets correctly to its field", function(done){
+        //   document.querySelector("dom-bind").set("values",JSON.stringify(observation.valueQuantity));
+        //   flush(function(){
+        //     let code = document.getElementById("fhirobsvalue").shadowRoot.getElementById("resultCode").value;
+        //     assert.equal(code,"kg")
+        //     assert.notEqual(code, "ml")
+        //     done();
+        //   });
+        // });
+      
+
+      });
+    });
+    </script>
+
+    </body>
+    
+    
+</html>
