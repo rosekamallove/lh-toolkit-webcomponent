@@ -71,7 +71,8 @@
     "demos/fhir-range.html",
     "demos/fhir-ratio.html",
     "demos/fhir-encounter.html",
-    "demos/fhir-allergyintolerance.html"
+    "demos/fhir-allergyintolerance.html",
+    "demos/fhir-medicationstatement.html"
   ],
   "builds": [
     {
