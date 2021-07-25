@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-servicerequest</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-servicerequest/fhir-servicerequest.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-servicerequest></fhir-servicerequest>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-servicerequest id="fhirservicerequest" value="[[servicerequest]]"></fhir-servicerequest>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import servicerequest from '../../test/testResources/servicerequest.js';
+    import moment from 'moment';
+
+    suite('fhir-servicerequest create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('intent property is defined', function (done) {
+        flush(function () {
+          var intent = elem.shadowRoot.querySelector('.intent').value;
+          assert.equal(intent, "");
+          assert.notEqual(intent, undefined);
+          done();
+        });
+      });
+
+      test('code property is defined', function (done) {
+        flush(function () {
+          var code = elem.shadowRoot.querySelector('.code').value;
+          assert.equal(code.coding.length, 1);
+          assert.equal(code.coding[0].code, "");
+          assert.notEqual(code, undefined);
+          done();
+        });
+      });
+
+      test('occurrenceDateTime property is defined', function (done) {
+        flush(function () {
+          var occurrenceDateTime = elem.shadowRoot.querySelector('.occurrenceDateTime').value;
+          assert.equal(moment(occurrenceDateTime).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.notEqual(occurrenceDateTime, "");
+          assert.notEqual(occurrenceDateTime, undefined);
+          done();
+        });
+      });
+
+      test('performer property is defined', function (done) {
+        flush(function () {
+          var performer = elem.shadowRoot.querySelector('.performer').value;
+          assert.equal(performer.reference, "");
+          assert.notEqual(performer, undefined);
+          done();
+        });
+      });
+
+      test('subject property is defined', function (done) {
+        flush(function () {
+          var subject = elem.shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is defined', function (done) {
+        flush(function () {
+          var encounter = elem.shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+    });
+
+    suite('fhir-servicerequest value tests', function () {
+      document.querySelector('dom-bind').set('servicerequest', servicerequest);
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "active");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('intent property is correct', function (done) {
+        flush(function () {
+          var intent = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.intent').value;
+          assert.equal(intent, "original-order");
+          assert.notEqual(intent, undefined);
+          done();
+        });
+      });
+
+      test('code property is correct', function (done) {
+        flush(function () {
+          var code = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.code').value;
+          assert.equal(code.coding.length, 1);
+          assert.equal(code.coding[0].code, "LIPID");
+          assert.notEqual(code, undefined);
+          done();
+        });
+      });
+
+      test('occurrenceDateTime property is correct', function (done) {
+        flush(function () {
+          var occurrenceDateTime = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.occurrenceDateTime').value;
+          assert.equal(moment(occurrenceDateTime).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.notEqual(occurrenceDateTime, "");
+          assert.notEqual(occurrenceDateTime, undefined);
+          done();
+        });
+      });
+
+      test('performer property is correct', function (done) {
+        flush(function () {
+          var performer = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.performer').value;
+          assert.equal(performer.reference, "Practitioner/f202");
+          assert.notEqual(performer, undefined);
+          done();
+        });
+      });
+
+      test('subject property is correct', function (done) {
+        flush(function () {
+          var subject = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.subject').value;
+          assert.equal(subject.reference, "Patient/example");
+          assert.notEqual(subject, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is correct', function (done) {
+        flush(function () {
+          var encounter = document.getElementById('fhirservicerequest').shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "Encounter/example");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
