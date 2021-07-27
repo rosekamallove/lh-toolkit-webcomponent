@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <title><fhir-dosage> demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@lh-toolkit/fhir-dosage/fhir-dosage.js"></script>
+</head>
+<body>
+  <p>
+    <h1>Default Element</h1>
+    <fhir-dosage></fhir-dosage>
+  </p>
+
+
+  <p>
+    <h1>Element with value</h1>
+    <fhir-dosage value='{
+      "sequence": 1,
+      "text": "Two tablets at once",
+      "additionalInstruction": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "311504000",
+              "display": "With or after food"
+            }
+          ]
+        }
+      ],
+      "timing": {
+        "repeat": {
+          "frequency": 1,
+          "period": 1,
+          "periodUnit": "d"
+        }
+      },
+      "route": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "26643006",
+            "display": "Oral Route"
+          }
+        ]
+      }
+    }' ></fhir-dosage>
+  </p>
+
+</body>
+</html>

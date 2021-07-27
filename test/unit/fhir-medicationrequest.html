@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>fhir-medicationrequest</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../packages/fhir-medicationrequest/fhir-medicationrequest.js"></script>
+</head>
+<body>
+<test-fixture id="DefaultElement">
+    <template>
+        <fhir-medicationrequest></fhir-medicationrequest>
+    </template>
+</test-fixture>
+<dom-bind>
+    <test-fixture id="SetValue">
+        <template>
+            <fhir-medicationrequest id="fhirmedicationrequest" value="[[medicationrequest]]"></fhir-medicationrequest>
+        </template>
+    </test-fixture>
+</dom-bind>
+
+
+<script type="module">
+    import medicationrequest from '../../test/testResources/medicationrequest.js';
+    import moment from 'moment';
+
+    suite('fhir-medicationrequest create tests', function () {
+      let elem = fixture('DefaultElement');
+
+      test('identifier property is defined', function (done) {
+        flush(function () {
+          var identifier = elem.shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('intent property is defined', function (done) {
+        flush(function () {
+          var intent = elem.shadowRoot.querySelector('.intent').value;
+          assert.equal(intent, "");
+          assert.notEqual(intent, undefined);
+          done();
+        });
+      });
+
+      test('status property is defined', function (done) {
+        flush(function () {
+          var status = elem.shadowRoot.querySelector('.status').value;
+          assert.equal(status, "");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('subject property is defined', function (done) {
+        flush(function () {
+          var slot = elem.shadowRoot.querySelector('.subject').value;
+          assert.equal(slot.reference, "");
+          assert.notEqual(slot, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is defined', function (done) {
+        flush(function () {
+          var encounter = elem.shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+
+      test('medicationreference property is defined', function (done) {
+        flush(function () {
+          var medicationreference = elem.shadowRoot.querySelector('.medicationreference').value;
+          assert.equal(medicationreference.reference, "");
+          assert.notEqual(medicationreference, undefined);
+          done();
+        });
+      });
+
+      test('authoredon property is defined', function (done) {
+        flush(function () {
+          var authoredon = elem.shadowRoot.querySelector('.authoredon').value;
+          assert.equal(moment(authoredon).format('YYYY-MM-DD'), moment().utc().format('YYYY-MM-DD'));
+          assert.notEqual(authoredon, "");
+          assert.notEqual(authoredon, undefined);
+          done();
+        });
+      });
+
+      test('dosageinstruction property is defined', function (done) {
+        flush(function () {
+          var dosageinstruction = elem.shadowRoot.querySelector('.dosageinstruction').value;
+          assert.equal(dosageinstruction.sequence, 0);
+          assert.equal(dosageinstruction.text, '');
+          assert.notEqual(dosageinstruction, undefined);
+          done();
+        });
+      });
+
+    });
+
+    suite('fhir-medicationrequest value tests', function () {
+      document.querySelector('dom-bind').set('medicationrequest', medicationrequest);
+
+      test('identifier property is correct', function (done) {
+        flush(function () {
+          var identifier = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.identifier').value;
+          assert.equal(identifier.length, 1);
+          assert.notEqual(identifier, undefined);
+          done();
+        });
+      });
+
+      test('intent property is correct', function (done) {
+        flush(function () {
+          var intent = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.intent').value;
+          assert.equal(intent, "order");
+          assert.notEqual(intent, undefined);
+          done();
+        });
+      });
+
+      test('status property is correct', function (done) {
+        flush(function () {
+          var status = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.status').value;
+          assert.equal(status, "active");
+          assert.notEqual(status, undefined);
+          done();
+        });
+      });
+
+      test('subject property is correct', function (done) {
+        flush(function () {
+          var slot = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.subject').value;
+          assert.equal(slot.reference, "Patient/pat1");
+          assert.notEqual(slot, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is correct', function (done) {
+        flush(function () {
+          var encounter = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "Encounter/f001");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
+
+      test('medicationreference property is correct', function (done) {
+        flush(function () {
+          var medicationreference = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.medicationreference').value;
+          assert.equal(medicationreference.reference, "Medication/med0316");
+          assert.notEqual(medicationreference, undefined);
+          done();
+        });
+      });
+
+      test('authoredon property is correct', function (done) {
+        flush(function () {
+          var authoredon = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.authoredon').value;
+          assert.equal(moment(authoredon).format('YYYY-MM-DD'), '2015-03-01');
+          assert.notEqual(authoredon, "");
+          assert.notEqual(authoredon, undefined);
+          done();
+        });
+      });
+
+      test('dosageinstruction property is correct', function (done) {
+        flush(function () {
+          var dosageinstruction = document.getElementById('fhirmedicationrequest').shadowRoot.querySelector('.dosageinstruction').value;
+          assert.equal(dosageinstruction.sequence, 1);
+          assert.equal(dosageinstruction.text, 'Take one tablet daily as directed');
+          assert.notEqual(dosageinstruction, undefined);
+          done();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>
