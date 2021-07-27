@@ -90,6 +90,24 @@
           done();
         });
       });
+
+      test('patient property is defined', function (done) {
+        flush(function () {
+          var patient = elem.shadowRoot.querySelector('.patient').value;
+          assert.equal(patient.reference, "");
+          assert.notEqual(patient, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is defined', function (done) {
+        flush(function () {
+          var encounter = elem.shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
+          done();
+        });
+      });
     });
 
     suite('fhir-allergyintolerance value tests', function () {
@@ -148,6 +166,24 @@
           assert.equal(moment(lastOccurrence).format('YYYY-MM-DD'), "2012-06-01");
           assert.notEqual(lastOccurrence, "");
           assert.notEqual(lastOccurrence, undefined);
+          done();
+        });
+      });
+
+      test('patient property is correct', function (done) {
+        flush(function () {
+          var patient = document.getElementById('fhirallergy').shadowRoot.querySelector('.patient').value;
+          assert.equal(patient.reference, "Patient/example");
+          assert.notEqual(patient, undefined);
+          done();
+        });
+      });
+
+      test('encounter property is correct', function (done) {
+        flush(function () {
+          var encounter = document.getElementById('fhirallergy').shadowRoot.querySelector('.encounter').value;
+          assert.equal(encounter.reference, "");
+          assert.notEqual(encounter, undefined);
           done();
         });
       });

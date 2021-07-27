@@ -5,6 +5,7 @@ import '@material/mwc-textfield/mwc-textfield';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@lh-toolkit/fhir-codeable-concept/fhir-codeable-concept.js';
 import '@lh-toolkit/fhir-person-identifier/fhir-person-identifier.js';
+import '@lh-toolkit/fhir-reference/fhir-reference.js';
 
 class FhirAllergyIntolerance extends LitElement {
 
@@ -26,6 +27,8 @@ class FhirAllergyIntolerance extends LitElement {
       showClinicalStatus: { type: String},
       showLastOccurrence: { type: String},
       showIdentifier: { type: String},
+      showPatient: { type: String},
+      showEncounter: { type: String}
     }
   }
 
@@ -35,6 +38,8 @@ class FhirAllergyIntolerance extends LitElement {
       identifier: [{}],
       type: '', 
       criticality: '',
+      encounter: {reference: "", display: "", type: ""},
+      patient: {reference: "", display: "", type: ""},
       clinicalStatus: {coding: [{ system: "", code: "", display: ""}],text: ""},
       verificationStatus: {coding: [{ system: "", code: "", display: ""}],text: ""}, 
       lastOccurrence: moment().utc().format('YYYY-MM-DDThh:mm:ss[Z]'),
@@ -44,7 +49,9 @@ class FhirAllergyIntolerance extends LitElement {
     this.showVerficationStatus = "true";
     this.showClinicalStatus = "true";
     this.showLastOccurrence = "true";
-    this.showIdentifier = "true"
+    this.showIdentifier = "true";
+    this.showPatient = "true";
+    this.showEncounter = "true";
   }
 
   // handling the input event to reflect the property change back on attribute
@@ -120,6 +127,22 @@ class FhirAllergyIntolerance extends LitElement {
     ` : "";
   }
 
+  patientTemplate() {
+    this.value.patient = this.value.patient || {reference: "", display: "", type: ""};
+
+    return this.showPatient !== "false" ? html`
+        <fhir-reference class="patient" .value="${this.value.patient}" label="Patient:" @input="${e => this.value.patient = e.target.value}"></fhir-reference>
+    ` : "";
+  }
+
+  encounterTemplate() {
+    this.value.encounter = this.value.encounter || {reference: "", display: "", type: ""};
+
+    return this.showEncounter !== "false" ? html`
+        <fhir-reference class="encounter" .value="${this.value.encounter}" label="Encounter:" @input="${e => this.value.encounter = e.target.value}"></fhir-reference>
+    ` : "";
+  }
+
   typeTemplate() {
     this.value.type = this.value.type || "";
 
@@ -138,6 +161,8 @@ class FhirAllergyIntolerance extends LitElement {
       ${this.identifierTemplate()}
       ${this.criticalityTemplate()}
       ${this.lastOccurrenceTemplate()}
+      ${this.patientTemplate()}
+      ${this.encounterTemplate()}
     `
   }
 }
