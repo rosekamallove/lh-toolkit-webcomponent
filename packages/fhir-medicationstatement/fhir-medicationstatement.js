@@ -105,7 +105,7 @@ class FhirMedicationStatement extends LitElement {
 
     return this.showDateAsserted !== "false" ? html`
     <mwc-formfield class="field" label="DateAsserted : " alignEnd>
-      <mwc-textfield type ='date' class="dateAsserted" value="${dateAsserted}" @input="${this.setDateAssertedValue}"></mwc-textfield>
+      <mwc-textfield type ='date' class="dateAsserted" outlined value="${dateAsserted}" @input="${this.setDateAssertedValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -123,7 +123,7 @@ class FhirMedicationStatement extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="status" outlined .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

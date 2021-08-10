@@ -75,7 +75,7 @@ class FhirObservationAbsent extends LitElement{
             <mwc-formfield label= "Value Absence Reason:" alignEnd>
             ${this.codeField !== "false" ? html `<mwc-textfield id ="codeFieldID" label = "code" outlined .value = "${i.code || ""}" @input ="${e => i.code = e.target.value}"></mwc-textfield>`:""}
              ${this.systemField !== "false" ? html `<mwc-textfield id="systemFieldID" label ="system" outlined  .value = "${i.system || ""}" @input = "${e => i.system = e.target.value}"></mwc-textfield>`:""}
-             ${this.displayField !== "false" ? html `<mwc-textfield id="displayFieldID" label = "Reason for absence"  .value = "${i.display || "" }" @input ="${e => i.display = e.target.value}"></mwc-textfield>`:""}
+             ${this.displayField !== "false" ? html `<mwc-textfield id="displayFieldID" label = "Reason for absence" outlined  .value = "${i.display || "" }" @input ="${e => i.display = e.target.value}"></mwc-textfield>`:""}
             </mwc-formfield>
       </div>
             <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

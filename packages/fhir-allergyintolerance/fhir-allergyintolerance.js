@@ -112,7 +112,7 @@ class FhirAllergyIntolerance extends LitElement {
 
     return this.showLastOccurrence !== "false" ? html`
     <mwc-formfield class="field" label="LastOccurrence : " alignEnd>
-      <mwc-textfield type ='datetime-local' class="lastOccurrence" value="${lastOccurrence}" @input="${this.setLastOccurrenceValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' outlined class="lastOccurrence" value="${lastOccurrence}" @input="${this.setLastOccurrenceValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -122,7 +122,7 @@ class FhirAllergyIntolerance extends LitElement {
 
     return this.showCriticality !== "false" ? html`
     <mwc-formfield label="Criticality :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="criticality" .value='${this.value.criticality}' @input="${this.setCriticalityValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" outlined class="criticality" .value='${this.value.criticality}' @input="${this.setCriticalityValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
@@ -148,7 +148,7 @@ class FhirAllergyIntolerance extends LitElement {
 
     return this.showType !== "false" ? html`
     <mwc-formfield label="Type :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="type" .value='${this.value.type}' @input="${this.setTypeValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" outlined class="type" .value='${this.value.type}' @input="${this.setTypeValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

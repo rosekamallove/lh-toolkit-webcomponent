@@ -64,7 +64,7 @@ class FhirLocationDescription extends LitElement {
         return html`
    <div id="fhirLocationDescDiv"> 
    <mwc-formfield label ="Description:" alignEnd>
-     ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" @input="${e => this.value = e.target.value}"  label="Description"></mwc-textarea>` : ''}
+     ${this.describeField !== 'false' ? html`<mwc-textarea  .value="${this.value}" class="describeField" outlined @input="${e => this.value = e.target.value}"  label="Description"></mwc-textarea>` : ''}
     </mwc-formfield> 
    </div> 
    <iron-ajax id="ajax" bubbles auto handle-as="json" .url="${this.url}"></iron-ajax>

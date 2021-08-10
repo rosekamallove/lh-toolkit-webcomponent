@@ -78,7 +78,7 @@ class FhirMedicationRequest extends LitElement {
 
     return this.showAuthoredOn  !== "false" ? html`
     <mwc-formfield class="field" label="AuthoredOn  : " alignEnd>
-      <mwc-textfield type ='date' class="authoredon" value="${authoredOn}" @input="${this.setAuthoredOnValue}"></mwc-textfield>
+      <mwc-textfield type ='date' class="authoredon" outlined value="${authoredOn}" @input="${this.setAuthoredOnValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -112,7 +112,7 @@ class FhirMedicationRequest extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${e => this.value.status = e.target.value}"> </mwc-textfield>
+      <mwc-textfield label="Text" outlined class="status" .value='${this.value.status}' @input="${e => this.value.status = e.target.value}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
@@ -122,7 +122,7 @@ class FhirMedicationRequest extends LitElement {
 
     return this.showIntent !== "false" ? html`
     <mwc-formfield label="Intent :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="intent" .value='${this.value.intent}' @input="${e => this.value.intent = e.target.value}"> </mwc-textfield>
+      <mwc-textfield label="Text" outlined class="intent" .value='${this.value.intent}' @input="${e => this.value.intent = e.target.value}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

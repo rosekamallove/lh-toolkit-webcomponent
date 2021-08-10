@@ -61,7 +61,7 @@ class FhirOrganisationType extends LitElement {
         <div id="div">
         <mwc-formfield>
         ${this.typeField !== 'false' ? html`
-        <mwc-select label ="Category" class="typeField" .value="${i.coding[0].code}"  @change="${e => this.value[index].coding[0].code = e.target.value}">
+        <mwc-select label ="Category" class="typeField" outlined .value="${i.coding[0].code}"  @change="${e => this.value[index].coding[0].code = e.target.value}">
              <mwc-list-item value="prov">Healthcare provider</mwc-list-item>
              <mwc-list-item value="dpt">Hospital Department</mwc-list-item>
              <mwc-list-item value="team">Organization team</mwc-list-item>

@@ -52,7 +52,7 @@ class FhirDosage extends LitElement {
 
     return html`
     <mwc-formfield label="Sequence :" class="field" alignEnd>
-      <mwc-textfield label="Number" type="Number" class="sequence" .value='${this.value.sequence}' @input="${e => this.value.sequence = e.target.value}"> </mwc-textfield>
+      <mwc-textfield label="Number" type="Number" outlined class="sequence" .value='${this.value.sequence}' @input="${e => this.value.sequence = e.target.value}"> </mwc-textfield>
     </mwc-formfield>
     `;
   }
@@ -62,7 +62,7 @@ class FhirDosage extends LitElement {
 
     return html`
     <mwc-formfield label="Text :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="text" .value='${this.value.text}' @input="${e => this.value.text = e.target.value}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="text" outlined .value='${this.value.text}' @input="${e => this.value.text = e.target.value}"> </mwc-textfield>
     </mwc-formfield>
     `;
   }

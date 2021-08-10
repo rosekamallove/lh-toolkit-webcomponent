@@ -113,7 +113,7 @@ class FhirServiceRequest extends LitElement {
 
     return this.showOccurrenceDateTime !== "false" ? html`
     <mwc-formfield class="field" label="OccurrenceDateTime : " alignEnd>
-      <mwc-textfield type ='datetime-local' class="occurrenceDateTime" value="${occurrenceDateTime}" @input="${this.setOccurrenceDateTimeValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' outlined class="occurrenceDateTime" value="${occurrenceDateTime}" @input="${this.setOccurrenceDateTimeValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -149,7 +149,7 @@ class FhirServiceRequest extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="status" outlined .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
@@ -159,7 +159,7 @@ class FhirServiceRequest extends LitElement {
 
     return this.showIntent !== "false" ? html`
     <mwc-formfield label="Intent :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="intent" .value='${this.value.intent}' @input="${this.setIntentValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="intent" outlined .value='${this.value.intent}' @input="${this.setIntentValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
