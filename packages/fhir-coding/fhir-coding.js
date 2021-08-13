@@ -29,7 +29,7 @@ class FhirCoding extends LitElement {
             /** Whether to show the display input field. Default: true */
             showDisplay: { type: String },
             /** Label for the display input field. Default: display */
-            labelOfDisplay: { type: String },
+            label: { type: String },
             /** Whether to show the system input field. Default: false */
             showSystem: { type: String },
             /** Whether to show the version input field. Default: false */
@@ -37,7 +37,7 @@ class FhirCoding extends LitElement {
             /** Whether to show the code input field. Default: false */
             showCode: { type: String },
             /** Whether to show the userSelected input field. Default: false */
-            showUserSelected: { type: String }
+            showUserSelected: { type: String },
         }
     }
 
@@ -46,7 +46,7 @@ class FhirCoding extends LitElement {
         this.value = {};
         this.ajaxRelated = {};
         this.showDisplay = "true";
-        this.labelOfDisplay = "Display";
+        this.label = "";
         this.showSystem = "false";
         this.showVersion = "false";
         this.showCode = "false";
@@ -74,8 +74,9 @@ class FhirCoding extends LitElement {
         } 
         return html`
             ${this.showDisplay == "true" ? html`<mwc-textfield outlined class="displayField"
-                label=${this.labelOfDisplay}
+                label="${this.label} display"
                 value=${this.value.display || ""}
+                helper="Representation defined by the system"
                 @blur=${e => this.value["display"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showSystem == "true" ? html`<mwc-textfield outlined class="systemField"
                 label="System"
@@ -86,8 +87,10 @@ class FhirCoding extends LitElement {
                 value=${this.value.version || ""}
                 @blur=${e => this.value["version"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showCode == "true" ? html`<mwc-textfield outlined class="codeField"
-                label="Code"
+                label="${this.label} code"
                 value=${this.value.code || ""}
+                placeholder="55423"
+                helper="Symbol in syntax defined by the system"
                 @blur=${e => this.value["code"] = e.target.value}></mwc-textfield>` : ''}
             ${this.showUserSelected == "true" ? html`<mwc-textfield outlined class="userSelectedField"
                 label="User Selected"

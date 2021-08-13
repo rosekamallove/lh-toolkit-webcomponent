@@ -40,8 +40,8 @@ class FhirCodeableConcept extends LitElement {
   codingTemplate() {
     return html`
     ${this.value.coding.map((item) => html`
-      <mwc-formfield class="field" label="${this.label}" alignEnd>
-        <fhir-coding showCode="true" .value='${item}'></fhir-coding>
+      <mwc-formfield class="field" alignEnd>
+        <fhir-coding showCode="true" label="${this.label}" .value='${item}'></fhir-coding>
       </mwc-formfield>
     `)}
   `;

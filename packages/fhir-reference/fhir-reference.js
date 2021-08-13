@@ -67,7 +67,7 @@ class FhirReference extends LitElement {
 
   render() {
     return html`
-    <mwc-formfield label="${this.label}" class="field" alignEnd>
+    <mwc-formfield class="field" alignEnd>
       ${this.referenceTemplate()}
       ${this.displayTemplate()}
       ${this.typeTemplate()}
