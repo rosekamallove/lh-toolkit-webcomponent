@@ -130,7 +130,7 @@ class FhirVitals extends LitElement {
 
     return this.showEffectiveDateTime !== "false" ? html`
     <mwc-formfield class="field" label="EffectiveDateTime : " alignEnd>
-      <mwc-textfield type ='datetime-local' class="effectiveDateTime" value="${effectiveDateTime}" @input="${e => this.value.effectiveDateTime = moment(e.target.value).format('YYYY-MM-DDThh:mm:ss')}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' outlined class="effectiveDateTime" value="${effectiveDateTime}" @input="${e => this.value.effectiveDateTime = moment(e.target.value).format('YYYY-MM-DDThh:mm:ss')}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -164,7 +164,7 @@ class FhirVitals extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${e => this.value.status = e.target.value}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="status" outlined .value='${this.value.status}' @input="${e => this.value.status = e.target.value}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

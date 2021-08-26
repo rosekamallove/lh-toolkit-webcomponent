@@ -52,7 +52,7 @@ class FhirCodeableConcept extends LitElement {
     ${this.showText !== "false" ? (
       html`
         <mwc-formfield class="field">
-          <mwc-textfield size=40 label="Text" type="text" .value='${this.value.text || ""}' @input="${this.setInput}"> </mwc-textfield>
+          <mwc-textfield size=40 label="Text" type="text" outlined .value='${this.value.text || ""}' @input="${this.setInput}"> </mwc-textfield>
         </mwc-formfield>
       `) : ""}
     `

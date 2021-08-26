@@ -58,7 +58,7 @@ class FhirLocationStatus extends LitElement {
    <div id="div">
    ${this.statusField !== 'false' ? html`
    <label>Status:</label>
-        <mwc-select class="statusField" .value="${this.value}" @change="${e => this.value = e.target.value}">
+        <mwc-select class="statusField" outlined .value="${this.value}" @change="${e => this.value = e.target.value}">
          <mwc-list-item value="inactive">Inactive</mwc-list-item>
          <mwc-list-item value="suspended">Suspended</mwc-list-item>
          <mwc-list-item value="active">Active</mwc-list-item>

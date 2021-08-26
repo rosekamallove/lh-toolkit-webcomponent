@@ -38,31 +38,31 @@ class FhirQuantity extends LitElement {
   // templates to render the component
   valueTemplate() {
     return html`
-      <mwc-textfield size=20 label="Value" class="textfield" type="text" .value='${this.value.value || ""}' @input="${e => this.value.value = e.target.value}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Value" class="textfield" outlined type="text" .value='${this.value.value || ""}' @input="${e => this.value.value = e.target.value}"> </mwc-textfield>
   `;
   }
 
   comparatorTemplate() {
     return this.showComparator !== "false" ? html`
-      <mwc-textfield size=20 label="Comparator" class="textfield" type="text" .value='${this.value.comparator || ""}' @input="${e => this.value.comparator = e.target.value}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Comparator" class="textfield" outlined type="text" .value='${this.value.comparator || ""}' @input="${e => this.value.comparator = e.target.value}"> </mwc-textfield>
   `: "";
   }
 
   unitTemplate() {
     return html`
-      <mwc-textfield size=20 label="Unit" class="textfield" type="text" .value='${this.value.unit || ""}' @input="${e => this.value.unit = e.target.value}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Unit" class="textfield" outlined type="text" .value='${this.value.unit || ""}' @input="${e => this.value.unit = e.target.value}"> </mwc-textfield>
   `;
   }
 
   systemTemplate() {
     return this.showSystem !== "false" ? html`
-      <mwc-textfield size=20 label="System" class="textfield" type="text" .value='${this.value.system || ""}' @input="${e => this.value.system = e.target.value}"> </mwc-textfield>
+      <mwc-textfield size=20 label="System" class="textfield" outlined type="text" .value='${this.value.system || ""}' @input="${e => this.value.system = e.target.value}"> </mwc-textfield>
   ` : "";
   }
 
   codeTemplate() {
     return html`
-      <mwc-textfield size=20 label="Code" class="textfield" type="text" .value='${this.value.code || ""}' @input="${e => this.value.code = e.target.value}"> </mwc-textfield>
+      <mwc-textfield size=20 label="Code" class="textfield" outlined type="text" .value='${this.value.code || ""}' @input="${e => this.value.code = e.target.value}"> </mwc-textfield>
   `;
   }
 

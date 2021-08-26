@@ -78,7 +78,7 @@ class FhirHumanRelation extends LitElement {
     <div id="relationDiv">
     <mwc-formfield label = "Contact Person Details:"></mwc-formfield><br><br>
     ${this.relationType !== 'false' ? html`${i.relationship.map((i2, index2) => html`
-     <mwc-select label = "Relation" class="relationType" value="${i2.coding[0].code}" @change="${e => this.value[index].relationship[index2].coding[0].code = e.target.value}">
+     <mwc-select label = "Relation" outlined class="relationType" value="${i2.coding[0].code}" @change="${e => this.value[index].relationship[index2].coding[0].code = e.target.value}">
             <mwc-list-item value="BP">Billing Contact Person</mwc-list-item>
             <mwc-list-item value="C">Emergency Contact</mwc-list-item>
             <mwc-list-item value="CP">Contact Person</mwc-list-item>

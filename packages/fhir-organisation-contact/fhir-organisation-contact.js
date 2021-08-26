@@ -72,7 +72,7 @@ class FhirOrganisationContact extends LitElement {
     <div id="div">
     ${this.purposeField !== 'false' ? html`
     <mwc-formfield label ="Identifier:" alignEnd>
-    <mwc-select label="Use" class="purposeField" .value="${i.purpose.coding[0].code || ""}" @change="${e => this.value[index].purpose.coding[0].code = e.target.value}">
+    <mwc-select label="Use" class="purposeField" .value="${i.purpose.coding[0].code || ""}" outlined @change="${e => this.value[index].purpose.coding[0].code = e.target.value}">
         <mwc-list-item value="BILL">Billing</mwc-list-item>
         <mwc-list-item value="ADMIN">Administrative</mwc-list-item>
         <mwc-list-item value="HR">Human Resource</mwc-list-item>

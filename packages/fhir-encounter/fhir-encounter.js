@@ -123,7 +123,7 @@ class FhirEncounter extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" class="status" outlined .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

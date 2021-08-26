@@ -145,7 +145,7 @@ class FhirSlot extends LitElement {
 
     return this.showStart !== "false" ? html`
     <mwc-formfield class="field" label="Start : " alignEnd>
-      <mwc-textfield type ='datetime-local' class="start" value="${start}" @input="${this.setStartValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' outlined class="start" value="${start}" @input="${this.setStartValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -155,7 +155,7 @@ class FhirSlot extends LitElement {
 
     return this.showEnd !== "false" ? html`
     <mwc-formfield class="field" label="End : " alignEnd>
-      <mwc-textfield type ='datetime-local' class="end" value="${end}" @input="${this.setEndValue}"></mwc-textfield>
+      <mwc-textfield type ='datetime-local' outlined class="end" value="${end}" @input="${this.setEndValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -165,7 +165,7 @@ class FhirSlot extends LitElement {
 
     return this.showComment !== "false" ? html`
     <mwc-formfield label="Comment :" class="field" alignEnd>
-      <mwc-textarea label="Text" class="comment" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
+      <mwc-textarea label="Text" outlined class="comment" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
     </mwc-formfield>
     ` : "";
   }
@@ -183,7 +183,7 @@ class FhirSlot extends LitElement {
 
     return this.showStatus !== "false" ? html`
     <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+      <mwc-textfield label="Text" outlined class="status" .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }

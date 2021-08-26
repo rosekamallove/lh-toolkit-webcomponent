@@ -76,7 +76,7 @@ class FhirHumanCertification extends LitElement {
    <div id="humanNameDiv">
      <mwc-formfield label ="Qualification:" alignEnd>
      ${this.qualificationSelect !== 'false' ? html`
-     <mwc-select   label ="Use" class="qualificationSelect" value="${i.code.coding[0].code}"  @change="${e => this.value[index].code.coding[0].code = e.target.value}">
+     <mwc-select outlined label ="Use" class="qualificationSelect" value="${i.code.coding[0].code}"  @change="${e => this.value[index].code.coding[0].code = e.target.value}">
          <mwc-list-item ></mwc-list-item>
          <mwc-list-item value="AA">Associate of Arts</mwc-list-item>
          <mwc-list-item value="ABS">Associate of Applied Science</mwc-list-item>

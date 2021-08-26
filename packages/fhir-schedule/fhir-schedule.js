@@ -156,7 +156,7 @@ class FhirSchedule extends LitElement {
 
     return this.showComment !== "false" ? html`
     <mwc-formfield label="Comment :" class="field" alignEnd>
-      <mwc-textarea label="Text" class="comment" rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
+      <mwc-textarea label="Text" class="comment" outlined rows="5" columns="5" .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
     </mwc-formfield>
     ` : "";
   }

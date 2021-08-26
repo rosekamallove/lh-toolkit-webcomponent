@@ -74,7 +74,7 @@ class FhirHumanContact extends LitElement {
      <div id="humanNameDiv">
      <mwc-formfield label ="Telecom details" alignEnd>
      ${this.systemField !== 'false' ? html`
-     <mwc-select label="System"  class="systemField" .value="${i.system}" @change="${e => this.value[index].system = e.target.value}">
+     <mwc-select label="System"  class="systemField" outlined .value="${i.system}" @change="${e => this.value[index].system = e.target.value}">
          <mwc-list-item value="phone">Phone</mwc-list-item>
          <mwc-list-item value="fax">Fax</mwc-list-item>
          <mwc-list-item value="email">Email</mwc-list-item>
@@ -85,7 +85,7 @@ class FhirHumanContact extends LitElement {
     </mwc-select>` : ''}
 
      ${this.useField !== 'false' ? html`
-     <mwc-select label = "Use" class="useField" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+     <mwc-select label = "Use" class="useField" outlined .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
          <mwc-list-item value="home">Home</mwc-list-item>
          <mwc-list-item value="work">Work</mwc-list-item>
          <mwc-list-item value="temp">Temp</mwc-list-item>

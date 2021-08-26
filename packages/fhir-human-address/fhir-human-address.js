@@ -79,14 +79,14 @@ class FhirHumanAddress extends LitElement {
      <div id="addressDiv">
      <mwc-formfield label = "Address:" alignEnd>
      ${this.useSelect !== 'false' ? html`
-     <mwc-select label ="Use" class="useSelect" .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+     <mwc-select label ="Use" class="useSelect" outlined .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
          <mwc-list-item value="home">Home</mwc-list-item>
          <mwc-list-item value="work">Work</mwc-list-item>
          <mwc-list-item value="temp">Temporary</mwc-list-item>
          <mwc-list-item value="old">Old</mwc-list-item>
      </mwc-select>` : ''}
      ${this.typeSelect !== 'false' ? html`
-     <mwc-select label ="Type" class="typeSelect" .value="${i.type}" @change="${e => this.value[index].type = e.target.value}">
+     <mwc-select label ="Type" class="typeSelect" outlined .value="${i.type}" @change="${e => this.value[index].type = e.target.value}">
          <mwc-list-item value="postal">Postal</mwc-list-item>
          <mwc-list-item value="physical">Physical</mwc-list-item>
          <mwc-list-item value="both">Both</mwc-list-item>
