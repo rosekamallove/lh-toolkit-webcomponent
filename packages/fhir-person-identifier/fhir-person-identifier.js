@@ -12,7 +12,7 @@
  * @demo https://librehealth.gitlab.io/toolkit/lh-toolkit-webcomponents/demos/fhir-person-identifier.html
  *
  */
-import {LitElement, html} from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 import '@material/mwc-textfield/mwc-textfield.js';
 import '@material/mwc-select';
 import '@material/mwc-list/mwc-list-item';
@@ -36,6 +36,14 @@ class FhirPersonIdentifier extends LitElement {
             /**value is used to take the input value of each field*/
             value: {type: Array, reflect: true}
         }
+    }
+    
+    static get styles() {
+      return css`
+        .field{
+          margin: 1%;
+        }
+      `;
     }
    
     constructor() {
@@ -69,7 +77,7 @@ class FhirPersonIdentifier extends LitElement {
         }
         return html`${this.value.map((i, index) => html`
         <div id="div">
-         <mwc-formfield label = "Identifier:" alignEnd>
+         <mwc-formfield alignEnd>
         ${this.useField !== 'false' ? html`
         <mwc-select class="useField" label="Use" outlined .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
         <mwc-list-item value="usual">Usual</mwc-list-item>

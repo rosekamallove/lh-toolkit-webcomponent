@@ -151,7 +151,7 @@ class FhirAppointment extends LitElement {
     this.value.appointmentType = this.value.appointmentType || {coding: [{ system: "", code: "", display: ""}],text: ""};
 
     return this.showAppointmentType !== "false" ? html`
-      <fhir-codeable-concept class="appointmentType" label="Appintment-Type :" .value='${this.value.appointmentType}' @input="${this.setAppointmentType}"></fhir-codeable-concept>
+      <fhir-codeable-concept class="appointmentType" label="Appointment-Type :" .value='${this.value.appointmentType}' @input="${this.setAppointmentType}"></fhir-codeable-concept>
   ` : "";
   }
 
@@ -200,7 +200,7 @@ class FhirAppointment extends LitElement {
 
     return this.showSlot !== "false" ? html`
       ${this.value.slot.map((item, index) => html`
-        <fhir-reference class="slot" .value="${item}" label="Slot:" @input="${e => this.setSlotValue(e, index)}"></fhir-reference>
+        <fhir-reference class="slot" .value="${item}" label="Slot" @input="${e => this.setSlotValue(e, index)}"></fhir-reference>
       `)}
     ` : "";
   }
@@ -238,7 +238,7 @@ class FhirAppointment extends LitElement {
         <mwc-textfield class="parstatus" outlined label="Text" .value='${item.status || ""}' @input="${e => this.value.participant[index].status = e.target.value}"> </mwc-textfield>
       </mwc-formfield>
 
-      <fhir-reference class="paractor" .value="${item.actor || {reference: "", display: "", type: ""}}" label="Actor:" @input="${e => this.value.participant[index].actor = e.target.value}"></fhir-reference>
+      <fhir-reference class="paractor" .value="${item.actor || {reference: "", display: "", type: ""}}" label="Actor" @input="${e => this.value.participant[index].actor = e.target.value}"></fhir-reference>
       <hr class="rule">
     `)}
   `;
