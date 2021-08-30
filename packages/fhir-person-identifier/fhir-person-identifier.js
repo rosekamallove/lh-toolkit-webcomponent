@@ -79,14 +79,14 @@ class FhirPersonIdentifier extends LitElement {
         <div id="div">
          <mwc-formfield alignEnd>
         ${this.useField !== 'false' ? html`
-        <mwc-select class="useField" label="Use" outlined .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
+        <mwc-select class="useField field" label="Identifier-Use" outlined .value="${i.use}" @change="${e => this.value[index].use = e.target.value}">
         <mwc-list-item value="usual">Usual</mwc-list-item>
         <mwc-list-item value="official">Official</mwc-list-item>
         <mwc-list-item value="temp">Temporary</mwc-list-item>
         <mwc-list-item value="secondary">Secondary</mwc-list-item>
         </mwc-select>` : ''}
-        ${this.systemIdentifier !== 'false' ? html`<mwc-textfield outlined .value="${i.system || ""}" @input="${e => this.value[index].system = e.target.value}" class="systemIdentifier" label="System:"></mwc-textfield>` : ''}
-        ${this.identifierField !== 'false' ? html`<mwc-textfield outlined .value="${i.value || ""}" @input="${e => this.value[index].value = e.target.value}" class="identifierField" label="Identifier:"></mwc-textfield>` : ''}
+        ${this.systemIdentifier !== 'false' ? html`<mwc-textfield outlined .value="${i.system || ""}" @input="${e => this.value[index].system = e.target.value}" class="systemIdentifier field" label="Identifier-System"></mwc-textfield>` : ''}
+        ${this.identifierField !== 'false' ? html`<mwc-textfield outlined .value="${i.value || ""}" @input="${e => this.value[index].value = e.target.value}" class="identifierField field" label="Identifier-Value"></mwc-textfield>` : ''}
         ${this.periodField !== 'false' ? html`<fhir-period class="periodField" outlined .value="${i.period}" @input="${e => this.value[index].period = e.target.value}"></fhir-period>` : ''}
        
         </mwc-formfield>

@@ -49,19 +49,19 @@ class FhirReference extends LitElement {
   // templates to render the component
   referenceTemplate() {
     return html`
-      <mwc-textfield size=20 label="Reference" class="textfield" outlined type="text" .value='${this.value.reference || ""}' @input="${this.setReferenceInput}"> </mwc-textfield>
+      <mwc-textfield label="Reference" helper="Literal reference" placeholder='${this.label}/123' class="textfield" outlined type="text" .value='${this.value.reference || ""}' @input="${this.setReferenceInput}"> </mwc-textfield>
   `;
   }
 
   displayTemplate() {
     return html`
-      <mwc-textfield size=20 label="Display" class="textfield" outlined type="text" .value='${this.value.display || ""}' @input="${this.setDisplayInput}"> </mwc-textfield>
+      <mwc-textfield label="Display" class="textfield" outlined helper="Literal Text alternative" type="text" .value='${this.value.display || ""}' @input="${this.setDisplayInput}"> </mwc-textfield>
   `;
   }
 
   typeTemplate() {
     return this.showType !== "false" ? html`
-      <mwc-textfield size=20 label="Type" class="textfield" outlined type="text" .value='${this.value.type || ""}' @input="${this.setTypeInput}"> </mwc-textfield>
+      <mwc-textfield label="Type" class="textfield" outlined type="text" .value='${this.value.type || ""}' @input="${this.setTypeInput}"> </mwc-textfield>
   ` : "";
   }
 

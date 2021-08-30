@@ -109,11 +109,6 @@
                 // Not checking the remaining fields as they are NOT rendered by default (already checked)
             });
 
-            test('display label view should show the correct label for display', async () => {
-                let fhirCoding = await fixture('DisplayLabelView');
-                assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').label, 'Service Type');
-            });
-
             test('all fields with data view should show the data correctly in the relevant fields', async () => {
                 let fhirCoding = await fixture('AllFieldsWithDataView');
                 assert.equal(fhirCoding.shadowRoot.querySelector('.displayField').value, 'Paediatric Cardiology');

@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import moment from 'moment';
 import '@material/mwc-textarea/mwc-textarea';
 import '@material/mwc-textfield/mwc-textfield';
+import '@material/mwc-button/mwc-button';
 import '@material/mwc-formfield/mwc-formfield.js';
 import '@lh-toolkit/fhir-codeable-concept/fhir-codeable-concept.js';
 import '@lh-toolkit/fhir-active-status/fhir-active-status.js';
@@ -13,17 +14,21 @@ class FhirAppointment extends LitElement {
   static get styles() {
     return css`
       .field{
-        margin-top: 1%;
+        margin-top: 0.5%;
         display: table;
       }
       .rule{
         border: 0;
         height: 1px;
         background-image: linear-gradient(to right, #0000, #b3a7a7bf, #0000);
-        margin: 2%;
+        margin: 1%;
       }
-      .participant{
-        margin: 1%
+      .addparticipant{
+        padding: 1%;
+        border: transparent;
+        border-radius: 10%;
+        background: var(--mdc-theme-on-surface);
+        color: var(--mdc-theme-surface);
       }
     `;
   }
@@ -169,8 +174,8 @@ class FhirAppointment extends LitElement {
     let start = this.value.start ? moment(this.value.start).utc().format('YYYY-MM-DDTHH:mm:ss') : "";
 
     return this.showStart !== "false" ? html`
-    <mwc-formfield class="field" label="Start : " alignEnd>
-      <mwc-textfield type ='datetime-local' outlined class="start" value="${start}" @input="${this.setStartValue}"></mwc-textfield>
+    <mwc-formfield class="field" alignEnd>
+      <mwc-textfield type ='datetime-local' outlined helper="Date that the appointment is to start." label="Start" class="start" value="${start}" @input="${this.setStartValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -179,8 +184,8 @@ class FhirAppointment extends LitElement {
     let end = this.value.end ? moment(this.value.end).utc().format('YYYY-MM-DDThh:mm:ss') : "";
 
     return this.showEnd !== "false" ? html`
-    <mwc-formfield class="field" label="End : " alignEnd>
-      <mwc-textfield type ='datetime-local' outlined class="end" value="${end}" @input="${this.setEndValue}"></mwc-textfield>
+    <mwc-formfield class="field" alignEnd>
+      <mwc-textfield type ='datetime-local' helper="Date that the appointment is to conclude." label="End" outlined class="end" value="${end}" @input="${this.setEndValue}"></mwc-textfield>
     </mwc-formfield>
   `: "";
   }
@@ -189,8 +194,8 @@ class FhirAppointment extends LitElement {
     this.value.comment = this.value.comment || "";
 
     return this.showComment !== "false" ? html`
-    <mwc-formfield label="Comment :" class="field" alignEnd>
-      <mwc-textarea label="Text" class="comment" rows="5" columns="5" outlined .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
+    <mwc-formfield class="field" alignEnd>
+      <mwc-textarea label="Comment" class="comment" rows="5" columns="5" outlined .value='${this.value.comment}' @input="${this.setCommentValue}"> </mwc-textarea>
     </mwc-formfield>
     ` : "";
   }
@@ -209,8 +214,8 @@ class FhirAppointment extends LitElement {
     this.value.status = this.value.status || "";
 
     return this.showStatus !== "false" ? html`
-    <mwc-formfield label="Status :" class="field" alignEnd>
-      <mwc-textfield label="Text" class="status" outlined .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
+    <mwc-formfield class="field" alignEnd>
+      <mwc-textfield label="Status" class="status" helper="The overall status of the Appointment" placeholder="proposed" outlined .value='${this.value.status}' @input="${this.setStatusValue}"> </mwc-textfield>
     </mwc-formfield>
     ` : "";
   }
@@ -234,8 +239,8 @@ class FhirAppointment extends LitElement {
           <fhir-codeable-concept class="partype" label="Type :" .value='${item1}' @input="${e => item.type[index1] = e.target.value}"></fhir-codeable-concept>
       `)}
 
-      <mwc-formfield label="Status :" class="field" alignEnd>
-        <mwc-textfield class="parstatus" outlined label="Text" .value='${item.status || ""}' @input="${e => this.value.participant[index].status = e.target.value}"> </mwc-textfield>
+      <mwc-formfield class="field" alignEnd>
+        <mwc-textfield label="Status" class="parstatus" helper="Participation status of the actor." placeholder="accepted" outlined .value='${item.status || ""}' @input="${e => this.value.participant[index].status = e.target.value}"> </mwc-textfield>
       </mwc-formfield>
 
       <fhir-reference class="paractor" .value="${item.actor || {reference: "", display: "", type: ""}}" label="Actor" @input="${e => this.value.participant[index].actor = e.target.value}"></fhir-reference>
@@ -256,11 +261,17 @@ class FhirAppointment extends LitElement {
       ${this.startTemplate()}
       ${this.endTemplate()}
       ${this.commentTemplate()}
-      <div class="participant">
-        Participant : ${this.participantTemplate()}
-      </div> 
+      
+      <center><mwc-button outlined label="add participant" @click="${this.addParticipant}"></mwc-button></center>
+      ${this.participantTemplate()}    
     `
   }
+
+  addParticipant(e) {
+    this.value.participant.push({type: [{coding: [{ system: "", code: "", display: ""}],text: ""}], status: '', actor: {reference: "", display: "", type: ""}});
+    this.requestUpdate()
+  }
 }
+
 
 customElements.define('fhir-appointment', FhirAppointment);
