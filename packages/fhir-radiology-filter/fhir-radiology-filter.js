@@ -14,10 +14,9 @@
  */
 import { LitElement, html } from "lit-element";
 import "@material/mwc-textfield/mwc-textfield.js";
-import "@lh-toolkit/fhir-period/fhir-period.js";
-import "@material/mwc-formfield";
 import "@material/mwc-list/mwc-list-item";
 import "@material/mwc-select";
+import "@lh-toolkit/fhir-period/fhir-period.js";
 import "@polymer/iron-ajax/iron-ajax.js";
 
 class FhirRadiologyFilter extends LitElement {
@@ -31,6 +30,8 @@ class FhirRadiologyFilter extends LitElement {
       patientId: { type: String },
       /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
       periodField: { type: String },
+      /**urgency is to have the urgency of the radiology order. Use this property to show/hide. Default: false */
+      urgency: { type: String },
       /**url is used to make AJAX call to FHIR resource. Default: null */
       url: { type: String },
       /**value is used to take the input value of each field*/
@@ -45,7 +46,8 @@ class FhirRadiologyFilter extends LitElement {
     this.patientName = "true";
     this.patientId = "true";
     this.periodField = "true";
-    this.value = [{ given: [] }];
+    this.urgency = "true";
+    this.value = [{}];
   }
 
   /**updated() delivers only after render*/
@@ -68,17 +70,60 @@ class FhirRadiologyFilter extends LitElement {
     if (typeof this.value == "string") {
       this.value = JSON.parse(this.value);
     }
-    return html` <div className="radiolgyFilterDiv">
+    return html` <div
+        className="radiolgyFilterDiv"
+        style="display: flex; flex-wrap: wrap; gap: 12px;"
+      >
         ${this.accessionNumber !== "false"
           ? html`<mwc-textfield
               outlined
               class="accessionNumber"
-              @input="${(e) =>
-                (this.value[index].accessionNumber = e.target.value)}"
+              @input="${(e) => (this.value.accessionNumber = e.target.value)}"
               id="accessionNumber"
               label="Accession Number"
               <mwc-textfield
             />`
+          : ""}
+        ${this.patientName !== "false"
+          ? html`<mwc-textfield
+              outlined
+              class="patientName"
+              @input="${(e) => (this.value.patientName = e.target.value)}"
+              id="patientName"
+              label="Patient Name"
+              <mwc-textfield
+            />`
+          : ""}
+        ${this.patientId !== "false"
+          ? html`<mwc-textfield
+              outlined
+              type="number"
+              class="patientId"
+              @input="${(e) => (this.value.patientId = e.target.value)}"
+              id="patientId"
+              label="Patient ID"
+              <mwc-textfield
+            />`
+          : ""}
+        ${this.periodField !== "false"
+          ? html`<fhir-period end class="periodField"></fhir-period>`
+          : ""}
+        ${this.urgency !== "false"
+          ? html`
+              <mwc-select
+                label="Urgencies"
+                outlined
+                class="urgency"
+                @change="${(e) => (this.value.urgency = e.target.value)}"
+              >
+                <mwc-list-item value="all">All Urgencies</mwc-list-item>
+                <mwc-list-item value="emergency">Emergency</mwc-list-item>
+                <mwc-list-item value="routine">Routine</mwc-list-item>
+                <mwc-list-item value="scheduleDate"
+                  >On Schedule Date</mwc-list-item
+                >
+              </mwc-select>
+            `
           : ""}
       </div>
 
