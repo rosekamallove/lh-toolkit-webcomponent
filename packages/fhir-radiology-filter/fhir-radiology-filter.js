@@ -27,7 +27,7 @@ class FhirRadiologyFilter extends LitElement {
       /**patientName is to search patient throught name. Use this property to show/hide. Default: false */
       patientName: { type: String },
       /**patientId is to search patient throught id. Use this property to show/hide. Default: false */
-      patientId: { type: String },
+      patientId: { type: Number },
       /**periodField is to have start and end dates. Use this property to show/hide. Default: false */
       periodField: { type: String },
       /**urgency is to have the urgency of the radiology order. Use this property to show/hide. Default: false */
