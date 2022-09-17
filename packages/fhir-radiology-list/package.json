@@ -1,0 +1,23 @@
+{
+  "name": "@lh-toolkit/fhir-radiology-list",
+  "version": "0.0.1",
+  "description": "The custom element for  search of Patient/Practitioner/Organization/Location",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/librehealth/toolkit/lh-toolkit-webcomponents.git"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "lit-element": "^2.3.1",
+    "@material/mwc-textfield": "0.15.0",
+    "@vaadin/vaadin-grid": "5.1.0-alpha2",
+    "@polymer/iron-ajax": "^3.0.0-pre.19",
+    "@polymer/iron-icons": "^3.0.0-pre.19"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
