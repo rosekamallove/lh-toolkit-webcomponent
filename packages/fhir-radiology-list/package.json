@@ -1,7 +1,7 @@
 {
   "name": "@lh-toolkit/fhir-radiology-list",
   "version": "0.0.1",
-  "description": "The custom element for  search of Patient/Practitioner/Organization/Location",
+  "description": "The custom element for Listing Radiolology Orders",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,11 +11,12 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "lit-element": "^2.3.1",
     "@material/mwc-textfield": "0.15.0",
-    "@vaadin/vaadin-grid": "5.1.0-alpha2",
     "@polymer/iron-ajax": "^3.0.0-pre.19",
-    "@polymer/iron-icons": "^3.0.0-pre.19"
+    "@polymer/iron-icons": "^3.0.0-pre.19",
+    "@vaadin/vaadin-details": "^23.2.1",
+    "@vaadin/vaadin-grid": "5.1.0-alpha2",
+    "lit-element": "^2.3.1"
   },
   "publishConfig": {
     "access": "public"
